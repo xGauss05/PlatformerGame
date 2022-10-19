@@ -19,6 +19,7 @@ class Scene;
 class EntityManager;
 class Map;
 class Physics;
+class FadeToBlack;
 
 class App
 {
@@ -89,6 +90,7 @@ public:
 	EntityManager* entityManager;
 	Physics* physics;
 	Map* map;
+	FadeToBlack* ftb;
 
 private:
 
