@@ -22,9 +22,6 @@
     <ClCompile Include="Source\Scene.cpp">
       <Filter>Modules\Gameplay\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Player.cpp">
-      <Filter>Modules\Gameplay</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Audio.cpp">
       <Filter>Modules\Core</Filter>
     </ClCompile>
@@ -48,6 +45,15 @@
     </ClCompile>
     <ClCompile Include="Source\Physics.cpp">
       <Filter>Modules\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Fonts.cpp">
+      <Filter>Modules\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Debug.cpp">
+      <Filter>Modules\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -96,9 +102,6 @@
     <ClInclude Include="Source\Scene.h">
       <Filter>Modules\Gameplay\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Player.h">
-      <Filter>Modules\Gameplay</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Audio.h">
       <Filter>Modules\Core</Filter>
     </ClInclude>
@@ -122,6 +125,15 @@
     </ClInclude>
     <ClInclude Include="Source\Physics.h">
       <Filter>Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Fonts.h">
+      <Filter>Modules\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Debug.h">
+      <Filter>Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player.h">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

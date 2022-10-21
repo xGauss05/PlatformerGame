@@ -20,6 +20,8 @@ class EntityManager;
 class Map;
 class Physics;
 class FadeToBlack;
+class Fonts;
+class Debug;
 
 class App
 {
@@ -91,6 +93,8 @@ public:
 	Physics* physics;
 	Map* map;
 	FadeToBlack* ftb;
+	Fonts* font;
+	Debug* debug;
 
 private:
 

@@ -9,6 +9,8 @@
 #include "Map.h"
 #include "Physics.h"
 #include "FadeToBlack.h"
+#include "Fonts.h"
+#include "Debug.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -25,12 +27,14 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	win = new Window();
 	render = new Render();
 	tex = new Textures();
+	font = new Fonts();
 	audio = new Audio();
 	scene = new Scene();
 	entityManager = new EntityManager();
 	map = new Map();
 	physics = new Physics();
 	ftb = new FadeToBlack();
+	debug = new Debug();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -38,6 +42,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(physics);
 	AddModule(tex);
+	AddModule(font);
+	AddModule(debug);
 	AddModule(audio);
 	AddModule(scene);
 	AddModule(entityManager);

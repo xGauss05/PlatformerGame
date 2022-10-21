@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "EntityManager.h"
 #include "Map.h"
+#include "Fonts.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -26,6 +27,10 @@ bool Scene::Awake(pugi::xml_node& config)
 	LOG("Loading Scene");
 	bool ret = true;
 
+	//L02: DONE 3: Instantiate the player using the entity manager
+	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
+	player->parameters = config.child("player");
+
 	// iterate all objects in the scene
 	// Check https://pugixml.org/docs/quickstart.html#access
 	for (pugi::xml_node itemNode = config.child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
@@ -33,10 +38,6 @@ bool Scene::Awake(pugi::xml_node& config)
 		Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
 		item->parameters = itemNode;
 	}
-
-	//L02: DONE 3: Instantiate the player using the entity manager
-	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
-	player->parameters = config.child("player");
 
 	return ret;
 }
@@ -47,6 +48,8 @@ bool Scene::Start()
 	//img = app->tex->Load("Assets/Textures/test.png");
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
 	
+	font = app->font->Load("Assets/Textures/font.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.@'&-                       ", 8);
+
 	// L03: DONE: Load map
 	app->map->Load();
 
@@ -106,6 +109,8 @@ bool Scene::PostUpdate()
 
 	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
+
+	//app->font->BlitText(20, 20, 0, "HOLA");
 
 	return ret;
 }

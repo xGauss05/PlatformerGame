@@ -32,6 +32,9 @@ public:
 	bool UnLoad(SDL_Texture* texture);
 	void GetSize(const SDL_Texture* texture, uint& width, uint& height) const;
 
+	// Retrieve size of a texture by modifying parameters with and height
+	void GetTextureSize(const SDL_Texture* texture, uint& width, uint& height) const;
+
 public:
 
 	List<SDL_Texture*> textures;

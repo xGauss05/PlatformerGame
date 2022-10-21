@@ -41,6 +41,7 @@ public:
 
 private:
 	SDL_Texture* img;
+	int font = 0;
 
 };
 
