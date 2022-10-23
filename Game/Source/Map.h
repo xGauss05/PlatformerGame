@@ -125,6 +125,7 @@ private:
 	// L05
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadAllLayers(pugi::xml_node mapNode);
+	bool Map::LoadColliders(pugi::xml_node mapFile);
 
 	// L06: TODO 
 	TileSet* GetTilesetFromTileId(int gid) const;

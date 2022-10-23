@@ -5,14 +5,25 @@
 #define GRAVITY_X 0.0f
 #define GRAVITY_Y -7.0f
 
-#define PIXELS_PER_METER 50.0f // if touched change METER_PER_PIXEL too
-#define METER_PER_PIXEL 0.02f // this is 1 / PIXELS_PER_METER !
+#define PIXELS_PER_METER 32.0f // if touched change METER_PER_PIXEL too
+#define METER_PER_PIXEL 0.03125f // this is 1 / PIXELS_PER_METER !
 
 #define METERS_TO_PIXELS(m) ((int) floor(PIXELS_PER_METER * m))
 #define PIXEL_TO_METERS(p)  ((float) METER_PER_PIXEL * p)
 
+#define RAD_PER_DEG ((float)180/b2_pi)
+#define DEG_PER_RAD ((float)b2_pi/180)
+#define RAD_TO_DEG(r) ((float) RAD_PER_DEG * r)
+#define DEG_TO_RAD(r) ((float) DEG_PER_RAD * r)
 #define DEGTORAD 0.0174532925199432957f
 #define RADTODEG 57.295779513082320876f
+
+// types of bodies
+enum bodyType {
+	DYNAMIC,
+	STATIC,
+	KINEMATIC
+};
 
 // Small class to return to other modules to track position and rotation of physics bodies
 class PhysBody
@@ -45,18 +56,22 @@ public:
 	bool PostUpdate();
 	bool CleanUp();
 
-	PhysBody* CreateCircle(int x, int y, int radius);
-	PhysBody* CreateRectangle(int x, int y, int width, int height);
-	PhysBody* CreateRectangleSensor(int x, int y, int width, int height);
-	PhysBody* CreateChain(int x, int y, int* points, int size);
+	PhysBody* CreateCircle(int x, int y, int radious, bodyType type);
+	PhysBody* CreateRectangle(int x, int y, int width, int height, bodyType type);
+	PhysBody* CreateRectangleSensor(int x, int y, int width, int height, bodyType type);
+	PhysBody* CreateChain(int x, int y, int* points, int size, bodyType type);
+	b2RevoluteJoint* CreateRevoluteJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, float angle, bool collideConnected, bool enableLimit);
+	b2PrismaticJoint* CreatePrismaticJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, b2Vec2 axys, float maxHeight, bool collideConnected, bool enableLimit);
+	b2WeldJoint* CreateWeldJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, float angle, bool collideConnected, bool enableLimit);
 
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
 
+	bool debug = false;
+	b2World* world;
+
 private:
 
-	bool debug;
-	b2World* world;
 	b2MouseJoint* mouse_joint;
 	b2Body* ground;
 };

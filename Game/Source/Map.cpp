@@ -3,6 +3,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Map.h"
+#include "Physics.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -191,6 +192,11 @@ bool Map::Load()
         ret = LoadAllLayers(mapFileXML.child("map"));
     }
 
+    if (ret == true)
+    {
+        ret = LoadColliders(mapFileXML);
+    }
+
     if(ret == true)
     {
         // L04: DONE 5: LOG all the data loaded iterate all tilesets and LOG everything
@@ -329,6 +335,39 @@ bool Map::LoadAllLayers(pugi::xml_node mapNode) {
 
     return ret;
 }
+
+bool Map::LoadColliders(pugi::xml_node mapFile)
+{
+    bool ret = true;
+
+    //app->physics->CreateRectangle(64 + 480 / 2, 704 + 64 / 2, 480, 64, STATIC);
+    
+    //Iterate over all the colliders and assign the values
+    pugi::xml_node collider;
+    for (collider = mapFile.child("map").child("objectgroup"); collider && ret; collider = collider.next_sibling("objectgroup"))
+    {
+        app->physics->CreateRectangle(collider.attribute("x").as_int() - collider.attribute("width").as_int() / 2,
+                                      collider.attribute("y").as_int() - collider.attribute("height").as_int() / 2,
+                                      collider.attribute("width").as_int(), 
+                                      collider.attribute("height").as_int(), STATIC);
+    }
+    return ret;
+}
+
+//bool Map::LoadAllColliders(pugi::xml_node mapNode)
+//{
+//    bool ret = true;
+//
+//    //app->physics->CreateRectangle(64 + 480 / 2, 704 + 64 / 2, 480, 64, STATIC);
+//
+//    //Iterate over all the colliders and assign the values
+//    for (pugi::xml_node collider = mapNode.child("objectgroup").child("object"); collider && ret; collider = collider.next_sibling("object"))
+//    {
+//        app->physics->CreateRectangle(64 + 480 / 2, 704 + 64 / 2, 480, 64, STATIC);
+//    }
+//
+//    return ret;
+//}
 
 // L06: TODO 6: Load a group of properties from a node and fill a list with it
 bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)

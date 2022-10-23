@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "Log.h"
 #include "Point.h"
+#include "Physics.h"
 
 Item::Item() : Entity(EntityType::ITEM)
 {
@@ -28,11 +29,14 @@ bool Item::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
+	pbody = app->physics->CreateCircle(150, 500, 10, DYNAMIC);
 	return true;
 }
 
 bool Item::Update()
 {
+	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x - (32 / 2));
+	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y - (32 / 2));
 	app->render->DrawTexture(texture, position.x, position.y);
 	return true;
 }

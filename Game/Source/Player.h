@@ -31,6 +31,8 @@ private:
 	SDL_Texture* texture;
 	const char* texturePath;
 	int speed = 1;
+	int width = 32, height = 32;
+	PhysBody* pbody;
 
 };
 

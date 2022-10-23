@@ -23,27 +23,9 @@ bool Physics::Start()
 	world = new b2World(b2Vec2(GRAVITY_X, -GRAVITY_Y));
 	world->SetContactListener(this);
 
-	// needed to create joints like mouse joint
-	b2BodyDef bd;
-	ground = world->CreateBody(&bd);
-
-	// big static circle as "ground" in the middle of the screen
-	int x = 1080 / 2;
-	int y = 720 / 1.5f;
-	int diameter = 1080 / 2;
-
-	b2BodyDef body;
-	body.type = b2_staticBody;
-	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
-
-	b2Body* big_ball = world->CreateBody(&body);
-
-	b2CircleShape shape;
-	shape.m_radius = PIXEL_TO_METERS(diameter) * 0.5f;
-
-	b2FixtureDef fixture;
-	fixture.shape = &shape;
-	big_ball->CreateFixture(&fixture);
+	//// needed to create joints like mouse joint
+	//b2BodyDef bd;
+	//ground = world->CreateBody(&bd);
 
 	return true;
 }
@@ -67,10 +49,14 @@ bool Physics::PreUpdate()
 	return true;
 }
 
-PhysBody* Physics::CreateCircle(int x, int y, int radius)
+PhysBody* Physics::CreateCircle(int x, int y, int radius, bodyType type)
 {
 	b2BodyDef body;
-	body.type = b2_dynamicBody;
+
+	if (type == DYNAMIC) body.type = b2_dynamicBody;
+	if (type == STATIC) body.type = b2_staticBody;
+	if (type == KINEMATIC) body.type = b2_kinematicBody;
+
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
 	b2Body* b = world->CreateBody(&body);
@@ -80,6 +66,7 @@ PhysBody* Physics::CreateCircle(int x, int y, int radius)
 	b2FixtureDef fixture;
 	fixture.shape = &shape;
 	fixture.density = 1.0f;
+	b->ResetMassData();
 
 	b->CreateFixture(&fixture);
 
@@ -91,10 +78,14 @@ PhysBody* Physics::CreateCircle(int x, int y, int radius)
 	return pbody;
 }
 
-PhysBody* Physics::CreateRectangle(int x, int y, int width, int height)
+PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType type)
 {
 	b2BodyDef body;
-	body.type = b2_dynamicBody;
+	
+	if (type == DYNAMIC) body.type = b2_dynamicBody;
+	if (type == STATIC) body.type = b2_staticBody;
+	if (type == KINEMATIC) body.type = b2_kinematicBody;
+
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
 	b2Body* b = world->CreateBody(&body);
@@ -104,6 +95,7 @@ PhysBody* Physics::CreateRectangle(int x, int y, int width, int height)
 	b2FixtureDef fixture;
 	fixture.shape = &box;
 	fixture.density = 1.0f;
+	b->ResetMassData();
 
 	b->CreateFixture(&fixture);
 
@@ -116,10 +108,14 @@ PhysBody* Physics::CreateRectangle(int x, int y, int width, int height)
 	return pbody;
 }
 
-PhysBody* Physics::CreateRectangleSensor(int x, int y, int width, int height)
+PhysBody* Physics::CreateRectangleSensor(int x, int y, int width, int height, bodyType type)
 {
 	b2BodyDef body;
-	body.type = b2_staticBody;
+	
+	if (type == DYNAMIC) body.type = b2_dynamicBody;
+	if (type == STATIC) body.type = b2_staticBody;
+	if (type == KINEMATIC) body.type = b2_kinematicBody;
+
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
 	b2Body* b = world->CreateBody(&body);
@@ -143,10 +139,14 @@ PhysBody* Physics::CreateRectangleSensor(int x, int y, int width, int height)
 	return pbody;
 }
 
-PhysBody* Physics::CreateChain(int x, int y, int* points, int size)
+PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType type)
 {
 	b2BodyDef body;
-	body.type = b2_dynamicBody;
+	
+	if (type == DYNAMIC) body.type = b2_dynamicBody;
+	if (type == STATIC) body.type = b2_staticBody;
+	if (type == KINEMATIC) body.type = b2_kinematicBody;
+
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
 	b2Body* b = world->CreateBody(&body);
@@ -177,30 +177,10 @@ PhysBody* Physics::CreateChain(int x, int y, int* points, int size)
 	return pbody;
 }
 
-// 
 bool Physics::PostUpdate()
 {
 	if(app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
-	if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-	{
-		b2BodyDef body;
-		body.type = b2_dynamicBody;
-		float radius = PIXEL_TO_METERS(25);
-		int x;
-		int y;
-		app->input->GetMousePosition(x, y);
-		body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
-
-		b2Body* b = world->CreateBody(&body);
-
-		b2CircleShape shape;
-		shape.m_radius = radius;
-		b2FixtureDef fixture;
-		fixture.shape = &shape;
-
-		b->CreateFixture(&fixture);
-	}
 
 	if(!debug)
 		return true;
@@ -275,27 +255,11 @@ bool Physics::PostUpdate()
 				}
 				break;
 			}
-
-			// TODO 1: If mouse button 1 is pressed ...
-			// App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN
-			// test if the current body contains mouse position
 		}
 	}
 
-	// If a body was selected we will attach a mouse joint to it
-	// so we can pull it around
-	// TODO 2: If a body was selected, create a mouse joint
-	// using mouse_joint class property
-
-
-	// TODO 3: If the player keeps pressing the mouse button, update
-	// target position and draw a red line between both anchor points
-
-	// TODO 4: If the player releases the mouse button, destroy the joint
-
 	return true;
 }
-
 
 // Called before quitting
 bool Physics::CleanUp()
@@ -380,4 +344,49 @@ void Physics::BeginContact(b2Contact* contact)
 
 	if(physB && physB->listener != NULL)
 		physB->listener->OnCollision(physB, physA);
+}
+
+b2RevoluteJoint* Physics::CreateRevoluteJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, float angle, bool collideConnected, bool enableLimit)
+{
+	b2RevoluteJointDef revoluteJointDef;
+	revoluteJointDef.bodyA = A->body;
+	revoluteJointDef.bodyB = B->body;
+	revoluteJointDef.collideConnected = collideConnected;
+	revoluteJointDef.localAnchorA.Set(anchorA.x, anchorA.y);
+	revoluteJointDef.localAnchorB.Set(anchorB.x, anchorB.y);
+	revoluteJointDef.referenceAngle = 0;
+	revoluteJointDef.enableLimit = enableLimit;
+	revoluteJointDef.lowerAngle = -DEG_TO_RAD(angle);
+	revoluteJointDef.upperAngle = DEG_TO_RAD(angle);
+
+	return (b2RevoluteJoint*)world->CreateJoint(&revoluteJointDef);
+}
+b2PrismaticJoint* Physics::CreatePrismaticJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, b2Vec2 axys, float maxHeight, bool collideConnected, bool enableLimit)
+{
+	b2PrismaticJointDef prismaticJointDef;
+	prismaticJointDef.bodyA = A->body;
+	prismaticJointDef.bodyB = B->body;
+	prismaticJointDef.collideConnected = collideConnected;
+	prismaticJointDef.localAxisA.Set(axys.x, axys.y);
+	prismaticJointDef.localAnchorA.Set(anchorA.x, anchorA.y);
+	prismaticJointDef.localAnchorB.Set(anchorB.x, anchorB.y);
+	prismaticJointDef.referenceAngle = 0;
+	prismaticJointDef.enableLimit = enableLimit;
+	prismaticJointDef.lowerTranslation = -0.01;
+	prismaticJointDef.upperTranslation = maxHeight;
+
+	return (b2PrismaticJoint*)world->CreateJoint(&prismaticJointDef);
+}
+
+b2WeldJoint* Physics::CreateWeldJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, float angle, bool collideConnected, bool enableLimit)
+{
+	b2WeldJointDef weldJointDef;
+	weldJointDef.bodyA = A->body;
+	weldJointDef.bodyB = B->body;
+	weldJointDef.collideConnected = collideConnected;
+	weldJointDef.localAnchorA.Set(anchorA.x, anchorA.y);
+	weldJointDef.localAnchorB.Set(anchorB.x, anchorB.y);
+	weldJointDef.referenceAngle = 0;
+
+	return (b2WeldJoint*)world->CreateJoint(&weldJointDef);
 }
