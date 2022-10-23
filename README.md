@@ -17,10 +17,8 @@
 
 ## Developers
 
- - {Dev01} - {Role(s)}
- - {Dev02} - {Role(s)}
- - {Dev03} - {Role(s)}
- - {Dev04} - {Role(s)}
+- Jonathan Cacay - [xGauss05](https://github.com/xGauss05)
+- Ethan Martín - [Ethanm-0371](https://github.com/Ethanm-0371)
 
 ## License
 
