@@ -40,7 +40,7 @@ bool Player::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 
-	pbody = app->physics->CreateRectangle(200, 650, 20, 20, DYNAMIC);
+	pbody = app->physics->CreateRectangle(200, 540, 20, 20, DYNAMIC);
 	return true;
 }
 
