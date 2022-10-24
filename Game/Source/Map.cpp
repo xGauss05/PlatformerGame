@@ -194,7 +194,7 @@ bool Map::Load()
 
     if (ret == true)
     {
-        ret = LoadColliders(mapFileXML);
+        ret = LoadColliders(mapFileXML.child("map"));
     }
 
     if(ret == true)
@@ -340,15 +340,13 @@ bool Map::LoadColliders(pugi::xml_node mapFile)
 {
     bool ret = true;
 
-    //app->physics->CreateRectangle(64 + 480 / 2, 704 + 64 / 2, 480, 64, STATIC);
-    
     //Iterate over all the colliders and assign the values
-    pugi::xml_node collider;
-    for (collider = mapFile.child("map").child("objectgroup"); collider && ret; collider = collider.next_sibling("objectgroup"))
+    pugi::xml_node parent = mapFile.child("objectgroup");
+    for (pugi::xml_node collider = parent.child("object"); collider && ret; collider = collider.next_sibling("object"))
     {
-        app->physics->CreateRectangle(collider.attribute("x").as_int() - collider.attribute("width").as_int() / 2,
-                                      collider.attribute("y").as_int() - collider.attribute("height").as_int() / 2,
-                                      collider.attribute("width").as_int(), 
+        app->physics->CreateRectangle(collider.attribute("x").as_int() + collider.attribute("width").as_int() / 2,
+                                      collider.attribute("y").as_int() + collider.attribute("height").as_int() / 2,
+                                      collider.attribute("width").as_int(),
                                       collider.attribute("height").as_int(), STATIC);
     }
     return ret;
