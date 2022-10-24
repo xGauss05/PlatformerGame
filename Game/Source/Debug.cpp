@@ -80,6 +80,7 @@ void Debug::DebugDraw() {
 		app->font->BlitText(80, varBox + 80, 0, std::to_string(app->render->camera.y).c_str());
 	}
 
+	app->font->BlitText(10, 40, 0, "PRESS C TO MOVE THE CAMERA FREELY");
 	if (debugCamera)
 	{
 		if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
@@ -95,7 +96,7 @@ void Debug::DebugDraw() {
 			app->render->camera.x -= 1;
 	}
 
-	app->font->BlitText(10, + 40, 0, "PRESS H FOR HITBOXES");
+	app->font->BlitText(10, 30, 0, "PRESS H FOR HITBOXES");
 	if (hitboxes)
 	{
 		// Bonus code: this will iterate all objects in the world and draw the circles

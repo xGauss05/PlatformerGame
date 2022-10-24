@@ -799,7 +799,7 @@
  </layer>
  <objectgroup id="3" name="Colliders">
   <object id="6" x="0" y="0" width="5" height="576"/>
-  <object id="7" x="0" y="0" width="1600" height="5"/>
+  <object id="7" x="0" y="0" width="1029" height="5"/>
   <object id="8" x="0" y="576" width="512" height="256"/>
   <object id="9" x="768" y="576" width="256" height="256"/>
   <object id="10" x="384" y="384" width="448" height="48"/>
