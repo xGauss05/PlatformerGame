@@ -53,7 +53,6 @@ public:
 
 	bool Start();
 	bool PreUpdate();
-	bool PostUpdate();
 	bool CleanUp();
 
 	PhysBody* CreateCircle(int x, int y, int radious, bodyType type);

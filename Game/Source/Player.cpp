@@ -49,7 +49,6 @@ bool Player::Update()
 	//L02: DONE 4: modify the position of the player using arrow keys and render the texture
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
-		cout << "Hola\n";
 		pbody->body->ApplyForce(b2Vec2(0, -200), pbody->body->GetWorldCenter(), true);
 	}
 
@@ -69,12 +68,12 @@ bool Player::Update()
 	//Controlling jump stuff
 	if (pbody->body->GetLinearVelocity().y < 0.5f && pbody->body->GetLinearVelocity().y > -0.5f)
 	{
-		cout << "Ground\n";
+		//cout << "Ground\n"; //(Debug)
 		pbody->body->SetLinearDamping(2);
 	}
 	else
 	{
-		cout << "Air\n";
+		//cout << "Air\n"; //(Debug)
 		pbody->body->SetLinearDamping(0);
 	}
 

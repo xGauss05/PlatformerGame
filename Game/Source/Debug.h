@@ -34,6 +34,8 @@ private:
 	int varBox = 50;
 
 	bool variables = false;
+	bool hitboxes = false;
+	bool debugCamera = false;
 };
 
 #endif // __MODULE_DEBUG_H__

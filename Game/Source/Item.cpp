@@ -29,7 +29,7 @@ bool Item::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
-	pbody = app->physics->CreateCircle(150, 500, 10, DYNAMIC);
+	pbody = app->physics->CreateCircle(position.x, position.y, 10, DYNAMIC);
 	return true;
 }
 
