@@ -1,5 +1,5 @@
-#ifndef __SCENE_H__
-#define __SCENE_H__
+#ifndef __SCENE_LEVEL1_H__
+#define __SCENE_LEVEL1_H__
 
 #include "Module.h"
 #include "Player.h"
@@ -7,14 +7,14 @@
 
 struct SDL_Texture;
 
-class Scene : public Module
+class Scene_Level1 : public Module
 {
 public:
 
-	Scene();
+	Scene_Level1(bool startEnabled);
 
 	// Destructor
-	virtual ~Scene();
+	virtual ~Scene_Level1();
 
 	// Called before render is available
 	bool Awake(pugi::xml_node& config);
@@ -36,7 +36,6 @@ public:
 
 public:
 
-	//L02: DONE 3: Declare a Player attribute 
 	Player* player;
 
 private:
@@ -45,4 +44,4 @@ private:
 
 };
 
-#endif // __SCENE_H__
+#endif __SCENE_LEVEL1_H__

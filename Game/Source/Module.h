@@ -12,13 +12,11 @@ class Module
 {
 public:
 
-	Module() : active(false)
+	Module(bool startEnabled) : active(startEnabled)
 	{}
 
 	void Init()
-	{
-		active = true;
-	}
+	{}
 
 	// Called before render is available
 	virtual bool Awake(pugi::xml_node&)
@@ -56,7 +54,6 @@ public:
 		return true;
 	}
 
-	// L03: DONE 2: Create new virtual methods to LoadState / SaveState
 	virtual bool LoadState(pugi::xml_node&)
 	{
 		return true;
@@ -73,30 +70,30 @@ public:
 
 	// Switches isEnabled and calls Start() method
 	virtual void Enable() {
-		if (!isEnabled) {
-			isEnabled = true;
+		if (!active) {
+			active = true;
 			Start();
 		}
 	}
 
 	// Switches isEnabled and calls CleanUp() method
 	virtual void Disable() {
-		if (isEnabled) {
-			isEnabled = false;
+		if (active) {
+			active = false;
 			CleanUp();
 		}
 	}
 
 	inline bool IsEnabled() const {
-		return isEnabled;
+		return active;
 	}
 
 public:
 
 	SString name;
-	bool active;
+	bool active = true;
 private:
-	bool isEnabled = true;
+
 };
 
 #endif // __MODULE_H__

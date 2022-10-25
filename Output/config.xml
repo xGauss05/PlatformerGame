@@ -22,14 +22,14 @@
   </audio>
 
   <!-- L02: DONE: Add an element for the entity manager and add the player parameters -->
-  <scene>
+  <scene_level1>
     <player x="150" y="500" texturepath="Assets/Textures/player1.png"/>
     <item x="256" y="515" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="416" y="512" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="720" y="189" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="200" y="245" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="500" y="127" texturepath="Assets/Textures/goldCoin.png"/>
-  </scene>
+  </scene_level1>
 
   <map>
     <mapfolder path="Assets/Maps/"/>

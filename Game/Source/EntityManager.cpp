@@ -3,12 +3,12 @@
 #include "Item.h"
 #include "App.h"
 #include "Textures.h"
-#include "Scene.h"
+#include "Scene_Level1.h"
 
 #include "Defs.h"
 #include "Log.h"
 
-EntityManager::EntityManager() : Module()
+EntityManager::EntityManager(bool startEnabled) : Module(startEnabled)
 {
 	name.Create("entitymanager");
 }
@@ -34,6 +34,7 @@ bool EntityManager::Awake(pugi::xml_node& config)
 		if (pEntity->active == false) continue;
 		ret = item->data->Awake();
 	}
+
 
 	return ret;
 
@@ -79,8 +80,6 @@ bool EntityManager::CleanUp()
 Entity* EntityManager::CreateEntity(EntityType type)
 {
 	Entity* entity = nullptr; 
-
-	//L02: DONE 2: Instantiate entity according to the type and add the new entoty it to the list of Entities
 
 	switch (type)
 	{

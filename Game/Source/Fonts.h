@@ -26,7 +26,7 @@ class Fonts : public Module {
 public:
 
 	// Constructor
-	Fonts();
+	Fonts(bool startEnabled);
 
 	// Destructor
 	~Fonts();

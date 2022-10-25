@@ -4,7 +4,8 @@
 #include "Audio.h"
 #include "Render.h"
 #include "Window.h"
-#include "Scene.h"
+#include "Physics.h"
+#include "Scene_Level1.h"
 #include "EntityManager.h"
 #include "Map.h"
 #include "Fonts.h"
@@ -12,19 +13,21 @@
 #include "Defs.h"
 #include "Log.h"
 
-Scene::Scene() : Module()
+Scene_Level1::Scene_Level1(bool startEnabled) : Module(startEnabled)
 {
-	name.Create("scene");
+	name.Create("scene_level1");
+	active = startEnabled;
+	
 }
 
 // Destructor
-Scene::~Scene()
+Scene_Level1::~Scene_Level1()
 {}
 
 // Called before render is available
-bool Scene::Awake(pugi::xml_node& config)
+bool Scene_Level1::Awake(pugi::xml_node& config)
 {
-	LOG("Loading Scene");
+	LOG("Loading Scene_Level1");
 	bool ret = true;
 
 	//L02: DONE 3: Instantiate the player using the entity manager
@@ -38,16 +41,18 @@ bool Scene::Awake(pugi::xml_node& config)
 		Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
 		item->parameters = itemNode;
 	}
+	this->active = false;
 
 	return ret;
 }
 
 // Called before the first frame
-bool Scene::Start()
+bool Scene_Level1::Start()
 {
 	//img = app->tex->Load("Assets/Textures/test.png");
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
-	
+	app->physics->Enable();
+	app->entityManager->Enable();
 	font = app->font->Load("Assets/Textures/font.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.@'&-                       ", 8);
 
 	// L03: DONE: Load map
@@ -62,18 +67,18 @@ bool Scene::Start()
 		app->map->mapData.tilesets.Count());
 
 	app->win->SetTitle(title.GetString());
-
+	
 	return true;
 }
 
 // Called each loop iteration
-bool Scene::PreUpdate()
+bool Scene_Level1::PreUpdate()
 {
 	return true;
 }
 
 // Called each loop iteration
-bool Scene::Update(float dt)
+bool Scene_Level1::Update(float dt)
 {
 	// L03: DONE 3: Request App to Load / Save when pressing the keys F5 (save) / F6 (load)
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
@@ -89,7 +94,7 @@ bool Scene::Update(float dt)
 }
 
 // Called each loop iteration
-bool Scene::PostUpdate()
+bool Scene_Level1::PostUpdate()
 {
 	bool ret = true;
 
@@ -100,9 +105,9 @@ bool Scene::PostUpdate()
 }
 
 // Called before quitting
-bool Scene::CleanUp()
+bool Scene_Level1::CleanUp()
 {
-	LOG("Freeing scene");
+	LOG("Freeing Scene_Level1");
 
 	return true;
 }

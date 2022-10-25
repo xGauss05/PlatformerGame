@@ -4,11 +4,16 @@
 #include "Physics.h"
 #include "math.h"
 
-Physics::Physics() : Module()
+#include "Defs.h"
+#include "Log.h"
+
+Physics::Physics(bool startEnabled) : Module(startEnabled)
 {
+	name.Create("physics");
 	world = NULL;
 	mouse_joint = NULL;
 	debug = true;
+	active = startEnabled;
 }
 
 // Destructor
@@ -16,9 +21,17 @@ Physics::~Physics()
 {
 }
 
+bool Physics::Awake(pugi::xml_node& config) {
+	LOG("Loading Physics");
+	bool ret = true;
+	this->active = false;
+	return ret;
+}
+
 bool Physics::Start()
 {
-	//LOG("Creating Physics 2D environment");
+
+	LOG("Creating Physics 2D environment");
 
 	world = new b2World(b2Vec2(GRAVITY_X, -GRAVITY_Y));
 	world->SetContactListener(this);
@@ -32,15 +45,17 @@ bool Physics::Start()
 
 bool Physics::PreUpdate()
 {
+	//this->active = true;
+
 	world->Step(1.0f / 60.0f, 6, 2);
 
-	for(b2Contact* c = world->GetContactList(); c; c = c->GetNext())
+	for (b2Contact* c = world->GetContactList(); c; c = c->GetNext())
 	{
-		if(c->GetFixtureA()->IsSensor() && c->IsTouching())
+		if (c->GetFixtureA()->IsSensor() && c->IsTouching())
 		{
 			PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
 			PhysBody* pb2 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
-			if(pb1 && pb2 && pb1->listener)
+			if (pb1 && pb2 && pb1->listener)
 				pb1->listener->OnCollision(pb1, pb2);
 		}
 	}
@@ -80,7 +95,7 @@ PhysBody* Physics::CreateCircle(int x, int y, int radius, bodyType type)
 PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType type)
 {
 	b2BodyDef body;
-	
+
 	if (type == DYNAMIC) body.type = b2_dynamicBody;
 	if (type == STATIC) body.type = b2_staticBody;
 	if (type == KINEMATIC) body.type = b2_kinematicBody;
@@ -110,7 +125,7 @@ PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType
 PhysBody* Physics::CreateRectangleSensor(int x, int y, int width, int height, bodyType type)
 {
 	b2BodyDef body;
-	
+
 	if (type == DYNAMIC) body.type = b2_dynamicBody;
 	if (type == STATIC) body.type = b2_staticBody;
 	if (type == KINEMATIC) body.type = b2_kinematicBody;
@@ -141,7 +156,7 @@ PhysBody* Physics::CreateRectangleSensor(int x, int y, int width, int height, bo
 PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType type)
 {
 	b2BodyDef body;
-	
+
 	if (type == DYNAMIC) body.type = b2_dynamicBody;
 	if (type == STATIC) body.type = b2_staticBody;
 	if (type == KINEMATIC) body.type = b2_kinematicBody;
@@ -153,7 +168,7 @@ PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType typ
 	b2ChainShape shape;
 	b2Vec2* p = new b2Vec2[size / 2];
 
-	for(uint i = 0; i < size / 2; ++i)
+	for (uint i = 0; i < size / 2; ++i)
 	{
 		p[i].x = PIXEL_TO_METERS(points[i * 2 + 0]);
 		p[i].y = PIXEL_TO_METERS(points[i * 2 + 1]);
@@ -187,7 +202,7 @@ bool Physics::CleanUp()
 	return true;
 }
 
-void PhysBody::GetPosition(int& x, int &y) const
+void PhysBody::GetPosition(int& x, int& y) const
 {
 	b2Vec2 pos = body->GetPosition();
 	x = METERS_TO_PIXELS(pos.x) - (width);
@@ -205,9 +220,9 @@ bool PhysBody::Contains(int x, int y) const
 
 	const b2Fixture* fixture = body->GetFixtureList();
 
-	while(fixture != NULL)
+	while (fixture != NULL)
 	{
-		if(fixture->GetShape()->TestPoint(body->GetTransform(), p) == true)
+		if (fixture->GetShape()->TestPoint(body->GetTransform(), p) == true)
 			return true;
 		fixture = fixture->GetNext();
 	}
@@ -228,15 +243,15 @@ int PhysBody::RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& no
 
 	const b2Fixture* fixture = body->GetFixtureList();
 
-	while(fixture != NULL)
+	while (fixture != NULL)
 	{
-		if(fixture->GetShape()->RayCast(&output, input, body->GetTransform(), 0) == true)
+		if (fixture->GetShape()->RayCast(&output, input, body->GetTransform(), 0) == true)
 		{
 			// do we want the normal ?
 
 			float fx = x2 - x1;
 			float fy = y2 - y1;
-			float dist = sqrtf((fx*fx) + (fy*fy));
+			float dist = sqrtf((fx * fx) + (fy * fy));
 
 			normal_x = output.normal.x;
 			normal_y = output.normal.y;
@@ -254,10 +269,10 @@ void Physics::BeginContact(b2Contact* contact)
 	PhysBody* physA = (PhysBody*)contact->GetFixtureA()->GetBody()->GetUserData();
 	PhysBody* physB = (PhysBody*)contact->GetFixtureB()->GetBody()->GetUserData();
 
-	if(physA && physA->listener != NULL)
+	if (physA && physA->listener != NULL)
 		physA->listener->OnCollision(physA, physB);
 
-	if(physB && physB->listener != NULL)
+	if (physB && physB->listener != NULL)
 		physB->listener->OnCollision(physB, physA);
 }
 
@@ -276,6 +291,7 @@ b2RevoluteJoint* Physics::CreateRevoluteJoint(PhysBody* A, b2Vec2 anchorA, PhysB
 
 	return (b2RevoluteJoint*)world->CreateJoint(&revoluteJointDef);
 }
+
 b2PrismaticJoint* Physics::CreatePrismaticJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, b2Vec2 axys, float maxHeight, bool collideConnected, bool enableLimit)
 {
 	b2PrismaticJointDef prismaticJointDef;

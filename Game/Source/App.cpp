@@ -4,7 +4,8 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Audio.h"
-#include "Scene.h"
+#include "Scene_Menu.h"
+#include "Scene_Level1.h"
 #include "EntityManager.h"
 #include "Map.h"
 #include "Physics.h"
@@ -23,29 +24,31 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 {
 	frames = 0;
 
-	input = new Input();
-	win = new Window();
-	render = new Render();
-	tex = new Textures();
-	font = new Fonts();
-	audio = new Audio();
-	scene = new Scene();
-	entityManager = new EntityManager();
-	map = new Map();
-	physics = new Physics();
-	ftb = new FadeToBlack();
-	debug = new Debug();
+	input = new Input(true);
+	win = new Window(true);
+	render = new Render(true);
+	tex = new Textures(true);
+	font = new Fonts(true);
+	audio = new Audio(true);
+	scene_menu = new Scene_Menu(true);
+	scene = new Scene_Level1(false);
+	entityManager = new EntityManager(false);
+	map = new Map(false);
+	physics = new Physics(false);
+	ftb = new FadeToBlack(true);
+	debug = new Debug(true);
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
-	AddModule(input);
 	AddModule(win);
+	AddModule(input);
+	AddModule(scene_menu);
 	AddModule(physics);
+	AddModule(scene);
 	AddModule(tex);
 	AddModule(font);
 	AddModule(debug);
 	AddModule(audio);
-	AddModule(scene);
 	AddModule(entityManager);
 	AddModule(map);
 	AddModule(ftb);
@@ -80,7 +83,6 @@ bool App::Awake()
 {
 	bool ret = false;
 
-	// L01: DONE 3: Load config from XML
 	ret = LoadConfig();
 
 	if (ret == true)
@@ -92,10 +94,6 @@ bool App::Awake()
 
 		while (item != NULL && ret == true)
 		{
-			// L01: DONE 5: Add a new argument to the Awake method to receive a pointer to an xml node.
-			// If the section with the module name exists in config.xml, fill the pointer with the valid xml_node
-			// that can be used to read all variables for that module.
-			// Send nullptr if the node does not exist in config.xml
 			pugi::xml_node node = configNode.child(item->data->name.GetString());
 			ret = item->data->Awake(node);
 			item = item->next;
@@ -113,8 +111,9 @@ bool App::Start()
 	item = modules.start;
 
 	while (item != NULL && ret == true)
+
 	{
-		ret = item->data->Start();
+		ret = item->data->IsEnabled() ? item->data->Start() : true;
 		item = item->next;
 	}
 
@@ -148,10 +147,8 @@ bool App::LoadConfig()
 {
 	bool ret = false;
 
-	// L01: DONE 3: Load config.xml file using load_file() method from the xml_document class
 	pugi::xml_parse_result parseResult = configFile.load_file("config.xml");
 
-	// L01: DONE 3: Check result for loading errors
 	if (parseResult) {
 		ret = true;
 		configNode = configFile.child("config");
@@ -171,7 +168,6 @@ void App::PrepareUpdate()
 // ---------------------------------------------
 void App::FinishUpdate()
 {
-	// L03: DONE 1: This is a good place to call Load / Save methods
 	if (loadGameRequested == true) LoadFromFile();
 	if (saveGameRequested == true) SaveToFile();
 }
@@ -284,8 +280,6 @@ const char* App::GetOrganization() const
 	return organization.GetString();
 }
 
-// L02: DONE 1: Implement methods to request load / save and methods 
-// for the real execution of load / save (to be implemented in TODO 5 and 7)
 void App::LoadGameRequest()
 {
 	// NOTE: We should check if SAVE_STATE_FILENAME actually exist

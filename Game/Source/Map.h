@@ -95,7 +95,7 @@ class Map : public Module
 {
 public:
 
-    Map();
+    Map(bool startEnabled);
 
     // Destructor
     virtual ~Map();
@@ -112,30 +112,24 @@ public:
     // Load new map
     bool Load();
 
-	// L05: DONE 8: Create a method that translates x,y coordinates from map positions to world positions
 	iPoint MapToWorld(int x, int y) const;
 
 private:
 
 	bool LoadMap(pugi::xml_node mapFile);
 
-	// L04: DONE 4: Create and call a private function to load a tileset
 	bool LoadTileSet(pugi::xml_node mapFile);
 
-	// L05
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadAllLayers(pugi::xml_node mapNode);
 	bool Map::LoadColliders(pugi::xml_node mapFile);
 
-	// L06: TODO 
 	TileSet* GetTilesetFromTileId(int gid) const;
 
-	// L06: TODO 6: Load a group of properties 
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 
 public: 
 
-	// L04: DONE 1: Declare a variable data of the struct MapData
 	MapData mapData;
 
 private:

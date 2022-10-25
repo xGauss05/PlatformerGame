@@ -10,11 +10,13 @@
 #include "EntityManager.h"
 #include "Physics.h"
 #include <string>
+
 using namespace std;
 
-Debug::Debug() : Module() {
+Debug::Debug(bool startEnabled) : Module(startEnabled) {
 	debug = false;
 }
+
 Debug::~Debug() {
 }
 

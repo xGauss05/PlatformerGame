@@ -15,7 +15,8 @@ class Input;
 class Render;
 class Textures;
 class Audio;
-class Scene;
+class Scene_Menu;
+class Scene_Level1;
 class EntityManager;
 class Map;
 class Physics;
@@ -54,7 +55,6 @@ public:
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
 
-	// L03: DONE 1: Create methods to control that the real Load and Save happens at the end of the frame
 	void LoadGameRequest();
 	void SaveGameRequest() ;
 	bool LoadFromFile();
@@ -88,7 +88,8 @@ public:
 	Render* render;
 	Textures* tex;
 	Audio* audio;
-	Scene* scene;
+	Scene_Menu* scene_menu;
+	Scene_Level1* scene;
 	EntityManager* entityManager;
 	Physics* physics;
 	Map* map;
@@ -105,7 +106,6 @@ private:
 
 	List<Module*> modules;
 
-	// L01: DONE 2: Create new variables from pugui namespace:
 	// xml_document to store the config file and
 	// xml_node(s) to read specific branches of the xml
 	pugi::xml_document configFile;
@@ -114,7 +114,6 @@ private:
 	uint frames;
 	float dt;
 
-	// L03: DONE 1: Create control variables to control that the real Load and Save happens at the end of the frame
     bool saveGameRequested;
 	bool loadGameRequested;
 };

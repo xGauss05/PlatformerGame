@@ -12,7 +12,7 @@ class Audio : public Module
 {
 public:
 
-	Audio();
+	Audio(bool startEnabled);
 
 	// Destructor
 	virtual ~Audio();
@@ -35,7 +35,7 @@ public:
 private:
 
 	_Mix_Music* music;
-	List<Mix_Chunk *>	fx;
+	List<Mix_Chunk*>	fx;
 };
 
 #endif // __AUDIO_H__

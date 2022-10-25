@@ -44,13 +44,13 @@ public:
 };
 
 // Module --------------------------------------
-class Physics : public Module, public b2ContactListener // TODO
+class Physics : public Module, public b2ContactListener 
 {
 public:
-	Physics();
+	Physics(bool startEnabled);
 	virtual ~Physics();
 
-
+	bool Awake(pugi::xml_node& config);
 	bool Start();
 	bool PreUpdate();
 	bool CleanUp();
