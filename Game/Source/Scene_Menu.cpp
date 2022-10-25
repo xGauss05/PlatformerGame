@@ -21,8 +21,7 @@ Scene_Menu::Scene_Menu(bool startEnabled) : Module(startEnabled)
 }
 
 // Destructor
-Scene_Menu::~Scene_Menu()
-{}
+Scene_Menu::~Scene_Menu() {}
 
 // Called before render is available
 bool Scene_Menu::Awake(pugi::xml_node& config)
@@ -36,8 +35,10 @@ bool Scene_Menu::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool Scene_Menu::Start()
 {
-	app->physics->Disable();
 	img = app->tex->Load("Assets/Textures/menu.png");
+	arrow = app->tex->Load("Assets/Textures/arrow.png");
+	choice = 0;
+	
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
 
 	//font = app->font->Load("Assets/Textures/font.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.@'&-                       ", 8);
@@ -56,9 +57,50 @@ bool Scene_Menu::PreUpdate()
 // Called each loop iteration
 bool Scene_Menu::Update(float dt)
 {
-	app->render->DrawTexture(img, 0, 0, NULL);
-	if (app->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
-		app->ftb->SceneFadeToBlack(this, app->scene, 0.0f);
+
+	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected) {
+		if (choice == 1) {
+			choice = 0;
+		}
+		else {
+			choice++;
+		}
+		if (!hasSelected) {
+			//app->audio->PlayFx(selectHover);
+		}
+	}
+	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && !hasSelected) {
+		if (choice == 0) {
+			choice = 1;
+		}
+		else {
+			choice--;
+		}
+		if (!hasSelected) {
+			//app->audio->PlayFx(selectHover);
+		}
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+
+		if (!hasSelected) {
+			hasSelected = !hasSelected;
+			//app->audio->PlayFx(selected);
+		}
+
+		switch (choice) {
+		case 0:
+			app->ftb->SceneFadeToBlack(this, app->scene, 90);
+			break;
+		case 1:
+			return false;
+		default:
+			break;
+		}
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		return false;
 
 	return true;
 }
@@ -68,9 +110,22 @@ bool Scene_Menu::PostUpdate()
 {
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	app->render->DrawTexture(img, 0, 0, NULL);
 
+	
+	int x = 400;
+	int y;
+	switch (choice) {
+	case 0:
+		y = 400;
+		break;
+	case 1:
+		y = 580;
+		break;
+	default:
+		break;
+	}
+ 	app->render->DrawTexture(arrow, x, y, NULL);
 	return ret;
 }
 

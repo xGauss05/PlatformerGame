@@ -15,9 +15,7 @@ Window::Window(bool startEnabled) : Module(startEnabled)
 }
 
 // Destructor
-Window::~Window()
-{
-}
+Window::~Window() {}
 
 // Called before render is available
 bool Window::Awake(pugi::xml_node& config)

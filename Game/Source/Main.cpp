@@ -3,18 +3,7 @@
 #include "Defs.h"
 #include "Log.h"
 
-// NOTE: SDL redefines main function
 #include "SDL/include/SDL.h"
-
-// NOTE: Library linkage is configured in Linker Options
-//#pragma comment(lib, "../Game/Source/External/SDL/libx86/SDL2.lib")
-//#pragma comment(lib, "../Game/Source/External/SDL/libx86/SDL2main.lib")
-
-//#ifdef _DEBUG
-//#pragma comment(lib, "../Game/Source/External/Box2D/libx86/Debug/Box2D.lib")
-//#else
-//#pragma comment(lib, "../Game/Source/External/Box2D/libx86/Release/Box2D.lib")
-//#endif
 
 #include <stdlib.h>
 

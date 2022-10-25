@@ -4,29 +4,28 @@
 #include "Render.h"
 #include "Fonts.h"
 
+#include "Defs.h"
+#include "Log.h"
+
 #include<string.h>
 
-Fonts::Fonts(bool startEnabled) : Module(startEnabled) {
+Fonts::Fonts(bool startEnabled) : Module(startEnabled) {}
 
-}
-
-Fonts::~Fonts() {
-
-}
+Fonts::~Fonts() {}
 
 // Load new texture from file path
 int Fonts::Load(const char* texture_path, const char* characters, uint rows) {
 	int id = -1;
 
 	if (texture_path == nullptr || characters == nullptr || rows == 0) {
-		//LOG("Could not load font");
+		LOG("Could not load font");
 		return id;
 	}
 
 	SDL_Texture* tex = app->tex->Load(texture_path);
 
 	if (tex == nullptr || strlen(characters) >= MAX_FONT_CHARS) {
-		//LOG("Could not load font at %s with characters '%s'", texture_path, characters);
+		LOG("Could not load font at %s with characters '%s'", texture_path, characters);
 		return id;
 	}
 
@@ -36,7 +35,7 @@ int Fonts::Load(const char* texture_path, const char* characters, uint rows) {
 			break;
 
 	if (id == MAX_FONTS) {
-		//LOG("Cannot load font %s. Array is full (max %d).", texture_path, MAX_FONTS);
+		LOG("Cannot load font %s. Array is full (max %d).", texture_path, MAX_FONTS);
 		return id;
 	}
 
@@ -44,8 +43,6 @@ int Fonts::Load(const char* texture_path, const char* characters, uint rows) {
 
 	font.texture = tex;
 	font.rows = rows;
-
-	// TODO 1: Finish storing font data
 
 	// totalLength ---	length of the lookup table
 	// table ---------  All characters displayed in the same order as the texture
@@ -62,7 +59,7 @@ int Fonts::Load(const char* texture_path, const char* characters, uint rows) {
 	font.char_w = tex_w / font.columns;
 	font.char_h = tex_h / font.rows;
 
-	//LOG("Successfully loaded BMP font from %s", texture_path);
+	LOG("Successfully loaded BMP font from %s", texture_path);
 
 	return id;
 }
@@ -71,13 +68,13 @@ void Fonts::UnLoad(int font_id) {
 	if (font_id >= 0 && font_id < MAX_FONTS && fonts[font_id].texture != nullptr) {
 		app->tex->UnLoad(fonts[font_id].texture);
 		fonts[font_id].texture = nullptr;
-		//LOG("Successfully Unloaded BMP font_id %d", font_id);
+		LOG("Successfully Unloaded BMP font_id %d", font_id);
 	}
 }
 
 void Fonts::BlitText(int x, int y, int font_id, const char* text) const {
 	if (text == nullptr || font_id < 0 || font_id >= MAX_FONTS || fonts[font_id].texture == nullptr) {
-		//LOG("Unable to render text with bmp font id %d", font_id);
+		LOG("Unable to render text with bmp font id %d", font_id);
 		return;
 	}
 

@@ -37,8 +37,10 @@ public:
 
 private:
 	SDL_Texture* img;
+	SDL_Texture* arrow;
 	//int font = 0;
-
+	int choice = 0;
+	bool hasSelected = false;
 };
 
 #endif __SCENE_MENU_H__

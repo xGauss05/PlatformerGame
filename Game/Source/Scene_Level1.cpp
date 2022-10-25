@@ -17,12 +17,10 @@ Scene_Level1::Scene_Level1(bool startEnabled) : Module(startEnabled)
 {
 	name.Create("scene_level1");
 	active = startEnabled;
-	
 }
 
 // Destructor
-Scene_Level1::~Scene_Level1()
-{}
+Scene_Level1::~Scene_Level1() {}
 
 // Called before render is available
 bool Scene_Level1::Awake(pugi::xml_node& config)
@@ -30,12 +28,10 @@ bool Scene_Level1::Awake(pugi::xml_node& config)
 	LOG("Loading Scene_Level1");
 	bool ret = true;
 
-	//L02: DONE 3: Instantiate the player using the entity manager
 	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 	player->parameters = config.child("player");
 
 	// iterate all objects in the scene
-	// Check https://pugixml.org/docs/quickstart.html#access
 	for (pugi::xml_node itemNode = config.child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
 	{
 		Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
@@ -55,10 +51,8 @@ bool Scene_Level1::Start()
 	app->entityManager->Enable();
 	font = app->font->Load("Assets/Textures/font.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.@'&-                       ", 8);
 
-	// L03: DONE: Load map
 	app->map->Load();
 
-	// L04: DONE 7: Set the window title with map/tileset info
 	SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
 		app->map->mapData.width,
 		app->map->mapData.height,
@@ -67,7 +61,7 @@ bool Scene_Level1::Start()
 		app->map->mapData.tilesets.Count());
 
 	app->win->SetTitle(title.GetString());
-	
+
 	return true;
 }
 
@@ -80,7 +74,6 @@ bool Scene_Level1::PreUpdate()
 // Called each loop iteration
 bool Scene_Level1::Update(float dt)
 {
-	// L03: DONE 3: Request App to Load / Save when pressing the keys F5 (save) / F6 (load)
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		app->SaveGameRequest();
 
@@ -98,7 +91,7 @@ bool Scene_Level1::PostUpdate()
 {
 	bool ret = true;
 
-	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
 	return ret;
