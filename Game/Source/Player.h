@@ -30,10 +30,15 @@ private:
 	//L02: DONE 1: Declare player parameters
 	SDL_Texture* texture;
 	const char* texturePath;
-	int speed = 1;
 	int width = 32, height = 32;
 	PhysBody* pbody;
 
+	//Movement variables
+	float movementForce = 5.0f;
+	float jumpForce = 170.0f;
+	float movementDampen = 20.0f;
+	float speedCap = 15.0f;
+	float idleDampenMultiplier = 3.0f;
 };
 
 #endif // __PLAYER_H__

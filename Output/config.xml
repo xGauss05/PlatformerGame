@@ -34,7 +34,6 @@
   <map>
     <mapfolder path="Assets/Maps/"/>
     <mapfile path="Assets/Maps/MapPlaceholder.tmx"/>
-    <!--mapfile path="Assets/Maps/MapTemplate.tmx"/-->
   </map>
   
 </config>

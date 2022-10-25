@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "Fonts.h"
 
 #include<iostream>
 using namespace std;
@@ -41,45 +42,65 @@ bool Player::Start() {
 	texture = app->tex->Load(texturePath);
 
 	pbody = app->physics->CreateRectangle(200, 540, 20, 20, DYNAMIC);
+	pbody->body->SetFixedRotation(true);
 	return true;
 }
 
 bool Player::Update()
 {
-	//L02: DONE 4: modify the position of the player using arrow keys and render the texture
+	//Jump
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
-		pbody->body->ApplyForce(b2Vec2(0, -200), pbody->body->GetWorldCenter(), true);
+		pbody->body->SetLinearVelocity(b2Vec2(pbody->body->GetLinearVelocity().x, 0.0f));
+		pbody->body->ApplyForce(b2Vec2(0, -jumpForce), pbody->body->GetWorldCenter(), true);
 	}
 
-	/*if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-		position.y += speed;*/
-
+	//Left
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		pbody->body->ApplyForce(b2Vec2(-10.0f, 0.0f), pbody->body->GetWorldCenter(), true);
+		if (pbody->body->GetLinearVelocity().x > 0.5f)
+		{
+			//Opposite direction dampening
+			pbody->body->ApplyForce(b2Vec2(-movementDampen, 0.0f), pbody->body->GetWorldCenter(), true);
+		}
+		else
+		{
+			if (pbody->body->GetLinearVelocity().x > -speedCap)
+				pbody->body->ApplyForce(b2Vec2(-movementForce, 0.0f), pbody->body->GetWorldCenter(), true);
+		}
 	}
 
+	//Right
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		pbody->body->ApplyForce(b2Vec2(10.0f, 0.0f), pbody->body->GetWorldCenter(), true);
+		if (pbody->body->GetLinearVelocity().x < -0.5f)
+		{
+			//Opposite direction dampening
+			pbody->body->ApplyForce(b2Vec2(movementDampen, 0.0f), pbody->body->GetWorldCenter(), true);
+		}
+		else
+		{
+			if (pbody->body->GetLinearVelocity().x < speedCap)
+				pbody->body->ApplyForce(b2Vec2(movementForce, 0.0f), pbody->body->GetWorldCenter(), true);
+		}
 	}
 
-	//Controlling jump stuff
-	if (pbody->body->GetLinearVelocity().y < 0.5f && pbody->body->GetLinearVelocity().y > -0.5f)
+	//General dampening
+	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && app->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE)
 	{
-		//cout << "Ground\n"; //(Debug)
-		pbody->body->SetLinearDamping(2);
-	}
-	else
-	{
-		//cout << "Air\n"; //(Debug)
-		pbody->body->SetLinearDamping(0);
+		if (pbody->body->GetLinearVelocity().x > 0.5f)
+			pbody->body->ApplyForce(b2Vec2(-pbody->body->GetLinearVelocity().x * idleDampenMultiplier, 0.0f), pbody->body->GetWorldCenter(), true);
+		if (pbody->body->GetLinearVelocity().x < -0.5f)
+			pbody->body->ApplyForce(b2Vec2(-pbody->body->GetLinearVelocity().x * idleDampenMultiplier, 0.0f), pbody->body->GetWorldCenter(), true);
 	}
 
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x - (width / 2));
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y - (height / 2));
 	app->render->DrawTexture(texture, position.x, position.y);
+
+	//(This should be in the debug, pending to move)
+	//app->font->BlitText(10, 110, 0, "X SPEED");
+	//app->font->BlitText(100, 110, 0, std::to_string(pbody->body->GetLinearVelocity().x).c_str());
 
 	return true;
 }
