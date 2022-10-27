@@ -33,11 +33,11 @@ private:
 	PhysBody* pbody;
 
 	//Movement variables
-	float movementForce = 5.0f;
-	float jumpForce = 170.0f;
+	float movementForce = 10.0f;
+	float jumpForce = 300.f;
 	float movementDampen = 20.0f;
-	float speedCap = 15.0f;
-	float idleDampenMultiplier = 2.0f;
+	float speedCap = 12.0;
+	float idleDampenMultiplier = 3.0f;
 };
 
 #endif // __PLAYER_H__
