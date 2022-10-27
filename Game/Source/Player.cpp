@@ -102,6 +102,15 @@ bool Player::Update()
 	//app->font->BlitText(10, 110, 0, "X SPEED");
 	//app->font->BlitText(100, 110, 0, std::to_string(pbody->body->GetLinearVelocity().x).c_str());
 
+	//OnCollision with boxes in the Trigger layer
+	for (b2Contact* contact = app->physics->world->GetContactList(); contact; contact = contact->GetNext()) {
+		if (contact->GetFixtureB()->IsSensor())
+		{
+			app->font->BlitText(20, 20, 0, "TOUCHING");
+			this->pbody->body->SetLinearVelocity(b2Vec2(pbody->body->GetLinearVelocity().x, -5.0f));
+		}
+	}
+
 	return true;
 }
 

@@ -11,6 +11,8 @@
 #include <math.h>
 #include "SDL_image/include/SDL_image.h"
 
+#include "Fonts.h"
+
 Map::Map(bool startEnabled) : Module(startEnabled), mapLoaded(false)
 {
     name.Create("map");
@@ -307,14 +309,31 @@ bool Map::LoadColliders(pugi::xml_node mapFile)
     bool ret = true;
 
     //Iterate over all the colliders and assign the values
-    pugi::xml_node parent = mapFile.child("objectgroup");
-    for (pugi::xml_node collider = parent.child("object"); collider && ret; collider = collider.next_sibling("object"))
+    //pugi::xml_node parent = mapFile.child("objectgroup");
+    for (pugi::xml_node parent = mapFile.child("objectgroup"); parent && ret; parent = parent.next_sibling("objectgroup"))
     {
-        app->physics->CreateRectangle(collider.attribute("x").as_int() + collider.attribute("width").as_int() / 2,
-                                      collider.attribute("y").as_int() + collider.attribute("height").as_int() / 2,
-                                      collider.attribute("width").as_int(),
-                                      collider.attribute("height").as_int(), STATIC);
+        if ((SString)parent.attribute("name").as_string() == "Colliders")
+        {
+            for (pugi::xml_node collider = parent.child("object"); collider && ret; collider = collider.next_sibling("object"))
+            {
+                app->physics->CreateRectangle(collider.attribute("x").as_int() + collider.attribute("width").as_int() / 2,
+                    collider.attribute("y").as_int() + collider.attribute("height").as_int() / 2,
+                    collider.attribute("width").as_int(),
+                    collider.attribute("height").as_int(), STATIC);
+            }
+        }
+        else if ((SString)parent.attribute("name").as_string() == "Triggers")
+        {
+            for (pugi::xml_node collider = parent.child("object"); collider && ret; collider = collider.next_sibling("object"))
+            {
+                app->physics->CreateRectangleSensor(collider.attribute("x").as_int() + collider.attribute("width").as_int() / 2,
+                    collider.attribute("y").as_int() + collider.attribute("height").as_int() / 2,
+                    collider.attribute("width").as_int(),
+                    collider.attribute("height").as_int(), STATIC);
+            }
+        }
     }
+
     return ret;
 }
 
