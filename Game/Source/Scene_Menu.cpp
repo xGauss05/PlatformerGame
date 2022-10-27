@@ -38,7 +38,7 @@ bool Scene_Menu::Start()
 	img = app->tex->Load("Assets/Textures/menu.png");
 	arrow = app->tex->Load("Assets/Textures/arrow.png");
 	choice = 0;
-	
+
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
 
 	//font = app->font->Load("Assets/Textures/font.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.@'&-                       ", 8);
@@ -81,7 +81,8 @@ bool Scene_Menu::Update(float dt)
 		}
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN ||
+		app->input->GetMouseButtonDown(SDL_BUTTON_LEFT)) {
 
 		if (!hasSelected) {
 			hasSelected = !hasSelected;
@@ -99,6 +100,12 @@ bool Scene_Menu::Update(float dt)
 		}
 	}
 
+	int x, y;
+	app->input->GetMousePosition(x, y);
+	if (y >= 400 && y <= 580) choice = 0;
+
+	if (y > 580) choice = 1;
+
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		return false;
 
@@ -112,7 +119,7 @@ bool Scene_Menu::PostUpdate()
 
 	app->render->DrawTexture(img, 0, 0, NULL);
 
-	
+
 	int x = 400;
 	int y;
 	switch (choice) {
@@ -125,7 +132,7 @@ bool Scene_Menu::PostUpdate()
 	default:
 		break;
 	}
- 	app->render->DrawTexture(arrow, x, y, NULL);
+	app->render->DrawTexture(arrow, x, y, NULL);
 	return ret;
 }
 

@@ -37,7 +37,7 @@ private:
 	float jumpForce = 170.0f;
 	float movementDampen = 20.0f;
 	float speedCap = 15.0f;
-	float idleDampenMultiplier = 3.0f;
+	float idleDampenMultiplier = 2.0f;
 };
 
 #endif // __PLAYER_H__
