@@ -141,6 +141,9 @@
     <ClInclude Include="Source\Scene_Menu.h">
       <Filter>Modules\Gameplay\Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
