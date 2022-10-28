@@ -14,3 +14,6 @@ https://opengameart.org/content/sci-fi-platform-tiles
 https://opengameart.org/content/sci-fi-user-interface-elements
 https://opengameart.org/content/190-pixel-art-assets-sci-fi-forest
 https://opengameart.org/content/bw-ornamental-cursor-19x19
+https://opengameart.org/content/robot-sprite-brawlbot
+https://opengameart.org/content/robot-run-cycle-idle-additionnal-sprites
+https://opengameart.org/content/robot-for-skeletalrig-animation
