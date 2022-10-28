@@ -20,9 +20,15 @@ Scene_Menu::Scene_Menu(bool startEnabled) : Module(startEnabled)
 	name.Create("scene_menu");
 	anim.PushBack({ 0, 0, 120, 38 });
 	anim.PushBack({ 124, 0, 120, 38 });
-	
+
 	anim.speed = 0.01f;
 	currentAnim = &anim;
+
+	pointerArrow.PushBack({ 0, 0, 18, 18 });
+	pointerArrow.PushBack({ 25, 0, 18, 18 });
+
+	pointerArrow.speed = 0.01f;
+	currentPointerAnim = &pointerArrow;
 
 }
 
@@ -43,6 +49,7 @@ bool Scene_Menu::Start()
 {
 	img = app->tex->Load("Assets/Textures/menu.png");
 	arrow = app->tex->Load("Assets/Textures/arrowAnim.png");
+	pointer = app->tex->Load("Assets/Textures/pointer.png");
 	choice = 0;
 
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
@@ -141,7 +148,11 @@ bool Scene_Menu::PostUpdate()
 	default:
 		break;
 	}
-	
+	int a, b;
+	app->input->GetMousePosition(a, b);
+	rect = currentPointerAnim->GetCurrentFrame();
+	currentPointerAnim->Update();
+	app->render->DrawTexture(pointer, a, b, &rect);
 	rect = currentAnim->GetCurrentFrame();
 	currentAnim->Update();
 	app->render->DrawTexture(arrow, x, y, &rect);
