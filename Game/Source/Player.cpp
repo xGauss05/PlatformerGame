@@ -33,6 +33,7 @@ bool Player::Awake() {
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 
+	dieFx = app->audio->LoadFx("Assets/Audio/Fx/hurt.wav");
 	return true;
 }
 
@@ -40,7 +41,8 @@ bool Player::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
-
+	isDead = false;
+	lifes = 0;
 	pbody = app->physics->CreateRectangle(200, 540, 20, 20, DYNAMIC);
 	pbody->body->SetFixedRotation(true);
 	return true;
@@ -119,3 +121,19 @@ bool Player::CleanUp()
 
 	return true;
 }
+
+void Player::deathAnimation() {
+
+	app->audio->PlayFx(dieFx);
+
+	/*if (healthPoints <= 0) {
+
+		App->particles->AddParticle(App->particles->cardDeath, position.x, position.y);
+
+		App->player->lifePlayer++;
+
+		SetToDelete();
+	}*/
+}
+
+

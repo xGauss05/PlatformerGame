@@ -42,7 +42,7 @@ bool EntityManager::Awake(pugi::xml_node& config)
 
 bool EntityManager::Start() {
 
-	bool ret = true; 
+	bool ret = true;
 
 	//Iterates over the entities and calls Start
 	ListItem<Entity*>* item;
@@ -79,7 +79,7 @@ bool EntityManager::CleanUp()
 
 Entity* EntityManager::CreateEntity(EntityType type)
 {
-	Entity* entity = nullptr; 
+	Entity* entity = nullptr;
 
 	switch (type)
 	{
@@ -107,13 +107,17 @@ void EntityManager::DestroyEntity(Entity* entity)
 
 	for (item = entities.start; item != NULL; item = item->next)
 	{
-		if (item->data == entity) entities.Del(item);
+		if (item->data == entity) {
+			item->data->deathAnimation();
+			entities.Del(item);
+		}
+		
 	}
 }
 
 void EntityManager::AddEntity(Entity* entity)
 {
-	if ( entity != nullptr) entities.Add(entity);
+	if (entity != nullptr) entities.Add(entity);
 }
 
 bool EntityManager::Update(float dt)

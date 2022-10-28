@@ -17,6 +17,7 @@ class Textures;
 class Audio;
 class Scene_Menu;
 class Scene_Level1;
+class Scene_Die;
 class EntityManager;
 class Map;
 class Physics;
@@ -90,13 +91,14 @@ public:
 	Audio* audio;
 	Scene_Menu* scene_menu;
 	Scene_Level1* scene;
+	Scene_Die* scene_die;
 	EntityManager* entityManager;
 	Physics* physics;
 	Map* map;
 	FadeToBlack* ftb;
 	Fonts* font;
 	Debug* debug;
-
+	
 private:
 
 	int argc;

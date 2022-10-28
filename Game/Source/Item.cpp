@@ -21,7 +21,7 @@ bool Item::Awake() {
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
-
+	pickUpFx = app->audio->LoadFx("Assets/Audio/Fx/hurt.wav");
 	return true;
 }
 
@@ -30,6 +30,7 @@ bool Item::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateCircle(position.x, position.y, 10, DYNAMIC);
+	
 	return true;
 }
 
@@ -38,10 +39,22 @@ bool Item::Update()
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x - (32 / 2));
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y - (32 / 2));
 	app->render->DrawTexture(texture, position.x, position.y);
+	for (b2Contact* contact = app->physics->world->GetContactList(); contact; contact = contact->GetNext()) {
+		if (contact->GetFixtureB()->GetUserData() != NULL)
+		{
+			//app->font->BlitText(20, 20, 0, "TOUCHING");
+			this->pbody->body->SetLinearVelocity(b2Vec2(pbody->body->GetLinearVelocity().x, -5.0f));
+		}
+	}
 	return true;
 }
 
 bool Item::CleanUp()
 {
 	return true;
+}
+
+void Item::deathAnimation() {
+	app->audio->PlayFx(pickUpFx);
+	// sfx? delete entity?
 }

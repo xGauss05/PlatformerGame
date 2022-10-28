@@ -73,6 +73,8 @@ public:
 	
 	};
 
+	virtual void deathAnimation() = 0;
+
 public:
 
 	SString name;

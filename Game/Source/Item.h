@@ -22,12 +22,15 @@ public:
 
 	bool CleanUp();
 
+	void deathAnimation();
+
 public:
 
 	bool isPicked = false;
 
 private:
 
+	int pickUpFx;
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;

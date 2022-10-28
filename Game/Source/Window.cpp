@@ -12,6 +12,7 @@ Window::Window(bool startEnabled) : Module(startEnabled)
 	window = NULL;
 	screenSurface = NULL;
 	name.Create("window");
+	
 }
 
 // Destructor

@@ -58,6 +58,9 @@
     <ClCompile Include="Source\Scene_Menu.cpp">
       <Filter>Modules\Gameplay\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene_Die.cpp">
+      <Filter>Modules\Gameplay\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -143,6 +146,9 @@
     </ClInclude>
     <ClInclude Include="Source\Animation.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene_Die.h">
+      <Filter>Modules\Gameplay\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
