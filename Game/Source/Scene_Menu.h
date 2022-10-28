@@ -39,11 +39,14 @@ public:
 private:
 	SDL_Texture* img;
 	SDL_Texture* arrow;
+	SDL_Texture* pointer;
 	//int font = 0;
 	int choice = 0;
 	bool hasSelected = false;
 	Animation anim;
 	Animation* currentAnim = nullptr;
+	Animation pointerArrow;
+	Animation* currentPointerAnim = nullptr;
 
 };
 
