@@ -45,6 +45,7 @@ bool Player::Start() {
 	lifes = 0;
 	pbody = app->physics->CreateRectangle(200, 540, 20, 20, DYNAMIC);
 	pbody->body->SetFixedRotation(true);
+	pbody->listener = (Module*)app->entityManager;
 	return true;
 }
 
