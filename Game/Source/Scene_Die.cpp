@@ -4,7 +4,7 @@
 #include "Audio.h"
 #include "Render.h"
 #include "Window.h"
-#include "Scene_Menu.h"
+#include "Scene_Die.h"
 #include "Scene_Level1.h"
 #include "EntityManager.h"
 #include "Map.h"
@@ -15,9 +15,9 @@
 #include "Defs.h"
 #include "Log.h"
 
-Scene_Menu::Scene_Menu(bool startEnabled) : Module(startEnabled)
+Scene_Die::Scene_Die(bool startEnabled) : Module(startEnabled)
 {
-	name.Create("scene_menu");
+	name.Create("scene_die");
 	anim.PushBack({ 0, 0, 120, 38 });
 	anim.PushBack({ 124, 0, 120, 38 });
 
@@ -33,26 +33,26 @@ Scene_Menu::Scene_Menu(bool startEnabled) : Module(startEnabled)
 }
 
 // Destructor
-Scene_Menu::~Scene_Menu() {}
+Scene_Die::~Scene_Die() {}
 
 // Called before render is available
-bool Scene_Menu::Awake(pugi::xml_node& config)
+bool Scene_Die::Awake(pugi::xml_node& config)
 {
-	LOG("Loading Scene_Menu");
+	LOG("Loading Scene_Die");
 	bool ret = true;
 
 	return ret;
 }
 
 // Called before the first frame
-bool Scene_Menu::Start()
+bool Scene_Die::Start()
 {
-	img = app->tex->Load("Assets/Textures/menu.png");
+	img = app->tex->Load("Assets/Textures/die.png");
 	arrow = app->tex->Load("Assets/Textures/arrowAnim.png");
 	pointer = app->tex->Load("Assets/Textures/pointer.png");
 	choice = 0;
-	SDL_ShowCursor(SDL_DISABLE);
-	//app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
+	//SDL_ShowCursor(SDL_DISABLE);
+	app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
 
 	//font = app->font->Load("Assets/Textures/font.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.@'&-                       ", 8);
 
@@ -62,13 +62,13 @@ bool Scene_Menu::Start()
 }
 
 // Called each loop iteration
-bool Scene_Menu::PreUpdate()
+bool Scene_Die::PreUpdate()
 {
 	return true;
 }
 
 // Called each loop iteration
-bool Scene_Menu::Update(float dt)
+bool Scene_Die::Update(float dt)
 {
 
 	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected) {
@@ -126,7 +126,7 @@ bool Scene_Menu::Update(float dt)
 }
 
 // Called each loop iteration
-bool Scene_Menu::PostUpdate()
+bool Scene_Die::PostUpdate()
 {
 	bool ret = true;
 	SDL_Rect rect;
@@ -160,9 +160,9 @@ bool Scene_Menu::PostUpdate()
 }
 
 // Called before quitting
-bool Scene_Menu::CleanUp()
+bool Scene_Die::CleanUp()
 {
-	LOG("Freeing Scene_Menu");
+	LOG("Freeing Scene_Die");
 
 	return true;
 }

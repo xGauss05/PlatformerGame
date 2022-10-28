@@ -23,14 +23,18 @@ public:
 
 	bool CleanUp();
 
-public:
+	void deathAnimation();
 
+public:
+	bool isDead = false;;
 private:
 
 	SDL_Texture* texture;
 	const char* texturePath;
 	int width = 32, height = 32;
 	PhysBody* pbody;
+	int lifes = 2;
+	int dieFx;
 
 	//Movement variables
 	float movementForce = 10.0f;
