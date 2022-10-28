@@ -112,7 +112,7 @@
     <ClCompile Include="Source\Scene_Menu.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Window.cpp" />
-    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />

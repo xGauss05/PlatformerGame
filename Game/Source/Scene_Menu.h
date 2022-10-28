@@ -2,6 +2,7 @@
 #define __SCENE_MENU_H__
 
 #include "Module.h"
+#include "Animation.h"
 
 struct SDL_Texture;
 
@@ -41,6 +42,9 @@ private:
 	//int font = 0;
 	int choice = 0;
 	bool hasSelected = false;
+	Animation anim;
+	Animation* currentAnim = nullptr;
+
 };
 
 #endif __SCENE_MENU_H__

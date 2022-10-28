@@ -18,6 +18,12 @@
 Scene_Menu::Scene_Menu(bool startEnabled) : Module(startEnabled)
 {
 	name.Create("scene_menu");
+	anim.PushBack({ 0, 0, 120, 38 });
+	anim.PushBack({ 124, 0, 120, 38 });
+	
+	anim.speed = 0.01f;
+	currentAnim = &anim;
+
 }
 
 // Destructor
@@ -36,7 +42,7 @@ bool Scene_Menu::Awake(pugi::xml_node& config)
 bool Scene_Menu::Start()
 {
 	img = app->tex->Load("Assets/Textures/menu.png");
-	arrow = app->tex->Load("Assets/Textures/arrow.png");
+	arrow = app->tex->Load("Assets/Textures/arrowAnim.png");
 	choice = 0;
 
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
@@ -116,6 +122,9 @@ bool Scene_Menu::Update(float dt)
 bool Scene_Menu::PostUpdate()
 {
 	bool ret = true;
+	SDL_Rect rect;
+	rect.h = 20;
+	rect.w = 20;
 
 	app->render->DrawTexture(img, 0, 0, NULL);
 
@@ -132,7 +141,10 @@ bool Scene_Menu::PostUpdate()
 	default:
 		break;
 	}
-	app->render->DrawTexture(arrow, x, y, NULL);
+	
+	rect = currentAnim->GetCurrentFrame();
+	currentAnim->Update();
+	app->render->DrawTexture(arrow, x, y, &rect);
 	return ret;
 }
 
