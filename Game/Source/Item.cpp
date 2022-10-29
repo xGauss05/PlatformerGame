@@ -30,7 +30,7 @@ bool Item::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateCircle(position.x, position.y, 10, DYNAMIC);
-	
+	pbody->listener = (Module*)app->entityManager;
 	return true;
 }
 
@@ -53,6 +53,11 @@ bool Item::CleanUp()
 {
 	return true;
 }
+
+void Item::OnCollision(PhysBody* body) {
+	//if (body->body->)
+}
+
 
 void Item::deathAnimation() {
 	app->audio->PlayFx(pickUpFx);

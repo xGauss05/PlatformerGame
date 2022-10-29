@@ -123,6 +123,10 @@ bool Player::CleanUp()
 	return true;
 }
 
+void Player::OnCollision(PhysBody* body) {
+	LOG("IM COLLIDING MAN");
+}
+
 void Player::deathAnimation() {
 
 	app->audio->PlayFx(dieFx);

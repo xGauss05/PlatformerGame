@@ -23,6 +23,8 @@ public:
 
 	bool CleanUp();
 
+	void OnCollision(PhysBody* body);
+
 	void deathAnimation();
 
 public:

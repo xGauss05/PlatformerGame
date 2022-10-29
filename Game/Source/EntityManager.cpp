@@ -4,6 +4,7 @@
 #include "App.h"
 #include "Textures.h"
 #include "Scene_Level1.h"
+#include "Physics.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -135,4 +136,17 @@ bool EntityManager::Update(float dt)
 	}
 
 	return ret;
+}
+
+void EntityManager::OnCollision(PhysBody* bodyA, PhysBody* bodyB) {
+	ListItem<Entity*>* item;
+	Entity* pEntity = NULL;
+	for (item = entities.start; item != NULL; item = item->next)
+	{
+		pEntity = item->data;
+		if (pEntity != NULL && pEntity->collider == bodyA) {
+			pEntity->OnCollision(bodyB);m
+			break;
+		}
+	}
 }

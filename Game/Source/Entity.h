@@ -6,8 +6,6 @@
 #include "Input.h"
 #include "Render.h"
 
-struct Collider;
-
 enum class EntityType
 {
 	PLAYER,
@@ -69,11 +67,11 @@ public:
 		}
 	}
 
-	virtual void OnCollision(Collider* c1, Collider* c2) {
-	
-	};
+	virtual void OnCollision(PhysBody* body) = 0;
 
 	virtual void deathAnimation() = 0;
+
+	const PhysBody* GetCollider() const;
 
 public:
 
@@ -81,7 +79,7 @@ public:
 	EntityType type;
 	bool active = true;
 	pugi::xml_node parameters;
-
+	PhysBody* collider = nullptr;
 	// Possible properties, it depends on how generic we
 	// want our Entity class, maybe it's not renderable...
 	iPoint position;       

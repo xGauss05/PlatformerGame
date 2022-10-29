@@ -3,6 +3,7 @@
 #include "Render.h"
 #include "Physics.h"
 #include "math.h"
+#include "EntityManager.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -17,9 +18,7 @@ Physics::Physics(bool startEnabled) : Module(startEnabled)
 }
 
 // Destructor
-Physics::~Physics()
-{
-}
+Physics::~Physics() {}
 
 bool Physics::Awake(pugi::xml_node& config) {
 	LOG("Loading Physics");
@@ -34,7 +33,7 @@ bool Physics::Start()
 	LOG("Creating Physics 2D environment");
 
 	world = new b2World(b2Vec2(GRAVITY_X, -GRAVITY_Y));
-	world->SetContactListener(this); // cambiar a EntityManager
+	world->SetContactListener(this);
 
 	//// needed to create joints like mouse joint
 	//b2BodyDef bd;

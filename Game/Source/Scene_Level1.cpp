@@ -81,9 +81,10 @@ bool Scene_Level1::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		app->LoadGameRequest();
-	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
 		app->entityManager->DestroyEntity(player);
-	app->ftb->SceneFadeToBlack(this, app->scene_die, 0);
+		app->ftb->SceneFadeToBlack(this, app->scene_die, 0);
+	}
 
 	// Draw map
 	app->map->Draw();
