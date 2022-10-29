@@ -31,6 +31,7 @@ bool Item::Start() {
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateCircle(position.x, position.y, 10, DYNAMIC);
 	pbody->listener = (Module*)app->entityManager;
+	pbody->entity = this;
 	return true;
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Module.h"
+#include "EntityManager.h"
 #include "Box2D/Box2D/Box2D.h"
 
 #define GRAVITY_X 0.0f
@@ -29,7 +30,7 @@ enum bodyType {
 class PhysBody
 {
 public:
-	PhysBody() : listener(NULL), body(NULL)
+	PhysBody() : listener(NULL), body(NULL), entity(NULL)
 	{}
 
 	void GetPosition(int& x, int &y) const;
@@ -40,6 +41,7 @@ public:
 public:
 	int width, height;
 	b2Body* body;
+	Entity* entity;
 	Module* listener;
 };
 

@@ -46,6 +46,7 @@ bool Player::Start() {
 	pbody = app->physics->CreateRectangle(200, 540, 20, 20, DYNAMIC);
 	pbody->body->SetFixedRotation(true);
 	pbody->listener = (Module*)app->entityManager;
+	pbody->entity = this;
 	return true;
 }
 
@@ -124,7 +125,14 @@ bool Player::CleanUp()
 }
 
 void Player::OnCollision(PhysBody* body) {
-	LOG("IM COLLIDING MAN");
+	if (body->entity != NULL) {
+		if (body->entity->type == EntityType::ITEM) {
+			LOG("IM COLLIDING ITEM");
+		}
+	}
+	else {
+		LOG("IM COLLIDING FLOOR");
+	}
 }
 
 void Player::deathAnimation() {
