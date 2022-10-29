@@ -35,6 +35,7 @@ private:
 	const char* texturePath;
 	int width = 32, height = 32;
 	PhysBody* pbody;
+	PhysBody* headSensor;
 	int lifes = 2;
 	int dieFx;
 

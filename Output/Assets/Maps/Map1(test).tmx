@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="50" height="24" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="37">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="50" height="24" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="38">
  <tileset firstgid="1" name="Tileset_32x32" tilewidth="32" tileheight="32" spacing="2" margin="2" tilecount="1050" columns="35">
   <image source="Tileset_32x32.png" width="1192" height="1022"/>
  </tileset>
@@ -3630,25 +3630,26 @@
   <object id="5" x="992" y="608" width="32" height="160"/>
   <object id="6" x="928" y="608" width="64" height="32"/>
   <object id="10" x="416" y="192" width="64" height="32"/>
-  <object id="11" x="608" y="192" width="224" height="32"/>
-  <object id="12" x="864" y="192" width="64" height="32"/>
+  <object id="11" x="608" y="192" width="217" height="32"/>
+  <object id="12" x="870" y="192" width="58" height="32"/>
   <object id="13" x="416" y="224" width="32" height="256"/>
   <object id="14" x="608" y="224" width="32" height="32"/>
   <object id="15" x="896" y="224" width="32" height="256"/>
-  <object id="16" x="864" y="384" width="32" height="32"/>
-  <object id="17" x="608" y="384" width="224" height="32"/>
+  <object id="16" x="870" y="384" width="26" height="32"/>
+  <object id="17" x="608" y="384" width="217" height="32"/>
   <object id="18" x="608" y="416" width="32" height="64"/>
-  <object id="19" x="160" y="352" width="96" height="32"/>
-  <object id="20" x="288" y="352" width="32" height="32"/>
-  <object id="21" x="256" y="256" width="128" height="32"/>
+  <object id="19" x="160" y="352" width="89" height="32"/>
+  <object id="20" x="295" y="352" width="25" height="32"/>
+  <object id="21" x="256" y="264" width="128" height="14"/>
   <object id="22" x="160" y="480" width="160" height="32"/>
   <object id="26" x="-3" y="0" width="2" height="608"/>
-  <object id="27" x="0" y="0" width="1024.33" height="2.33"/>
+  <object id="27" x="0" y="0" width="1020.33" height="2.33"/>
   <object id="28" x="1022" y="0" width="2" height="608"/>
-  <object id="33" x="32" y="256" width="96" height="32"/>
+  <object id="33" x="32" y="264" width="96" height="14"/>
  </objectgroup>
  <objectgroup id="5" name="Triggers">
-  <object id="30" x="832" y="160" width="32" height="160"/>
-  <object id="31" x="832" y="352" width="32" height="192"/>
+  <object id="30" x="841" y="160" width="14" height="160"/>
+  <object id="31" x="841" y="352" width="14" height="192"/>
+  <object id="37" x="264" y="352" width="16" height="96"/>
  </objectgroup>
 </map>

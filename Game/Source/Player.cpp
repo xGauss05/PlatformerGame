@@ -44,6 +44,7 @@ bool Player::Start() {
 	isDead = false;
 	lifes = 0;
 	pbody = app->physics->CreateRectangle(200, 540, 20, 20, DYNAMIC);
+	headSensor = app->physics->CreateRectangleSensor(210, 520, 10, 10, STATIC);
 	pbody->body->SetFixedRotation(true);
 	pbody->listener = (Module*)app->entityManager;
 	pbody->entity = this;
@@ -52,6 +53,8 @@ bool Player::Start() {
 
 bool Player::Update()
 {
+	headSensor->body->SetTransform(b2Vec2(this->pbody->body->GetPosition().x, this->pbody->body->GetPosition().y - 1.0f), 0.0f);
+
 	//Jump
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
@@ -111,8 +114,27 @@ bool Player::Update()
 		if (contact->GetFixtureB()->IsSensor())
 		{
 			app->font->BlitText(20, 20, 0, "TOUCHING");
-			this->pbody->body->SetLinearVelocity(b2Vec2(pbody->body->GetLinearVelocity().x, -5.0f));
+			//this->pbody->body->SetLinearVelocity(b2Vec2(pbody->body->GetLinearVelocity().x, -5.0f));
 		}
+
+		//Mierda Raycast
+		/*app->render->DrawLine(this->position.x + this->width/2, this->position.y + this->height/2, 
+							  METERS_TO_PIXELS(contact->GetFixtureB()->GetBody()->GetPosition().x), 
+							  METERS_TO_PIXELS(contact->GetFixtureB()->GetBody()->GetPosition().y), 
+							  0, 255, 0, 255);
+
+		float direction_X = 0;         
+		float direction_Y = 0;
+		this->pbody->RayCast(PIXEL_TO_METERS(this->position.x), PIXEL_TO_METERS(this->position.y),
+							 contact->GetFixtureB()->GetBody()->GetPosition().x, contact->GetFixtureB()->GetBody()->GetPosition().y,
+							 direction_X, direction_Y);
+
+		app->render->DrawLine(this->position.x + this->width / 2, this->position.y + this->height / 2, 
+							  direction_X*100, direction_Y*100,
+							  255, 255, 0, 255);
+
+		LOG("X : %s", std::to_string(direction_X).c_str());
+		LOG("Y : %s", std::to_string(direction_Y).c_str());*/
 	}
 
 	return true;
