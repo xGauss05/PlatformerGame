@@ -112,7 +112,7 @@ void EntityManager::DestroyEntity(Entity* entity)
 			item->data->deathAnimation();
 			entities.Del(item);
 		}
-		
+
 	}
 }
 
@@ -139,14 +139,6 @@ bool EntityManager::Update(float dt)
 }
 
 void EntityManager::OnCollision(PhysBody* bodyA, PhysBody* bodyB) {
-	ListItem<Entity*>* item;
-	Entity* pEntity = NULL;
-	for (item = entities.start; item != NULL; item = item->next)
-	{
-		pEntity = item->data;
-		if (pEntity != NULL && pEntity->collider == bodyA) {
-			pEntity->OnCollision(bodyB);
-			break;
-		}
-	}
+	if (bodyA->entity != NULL)
+		bodyA->entity->OnCollision(bodyB);
 }
