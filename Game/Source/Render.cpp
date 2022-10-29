@@ -10,7 +10,7 @@
 Render::Render(bool startEnabled) : Module(startEnabled)
 {
 	name.Create("renderer");
-	background.r = 0;
+	background.r = 100;
 	background.g = 0;
 	background.b = 0;
 	background.a = 0;

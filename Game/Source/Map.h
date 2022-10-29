@@ -57,6 +57,7 @@ struct MapLayer
 	int id; 
 	int width;
 	int height;
+	float opacity;
 	uint* data;
 	Properties properties;
 

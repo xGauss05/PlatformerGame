@@ -145,7 +145,7 @@ void EntityManager::OnCollision(PhysBody* bodyA, PhysBody* bodyB) {
 	{
 		pEntity = item->data;
 		if (pEntity != NULL && pEntity->collider == bodyA) {
-			pEntity->OnCollision(bodyB);m
+			pEntity->OnCollision(bodyB);
 			break;
 		}
 	}

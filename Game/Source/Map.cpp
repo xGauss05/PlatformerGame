@@ -57,7 +57,11 @@ void Map::Draw()
                     SDL_Rect r = tileset->GetTileRect(gid);
                     iPoint pos = MapToWorld(x, y);
 
-                    app->render->DrawTexture(tileset->texture,
+                    SDL_Texture* opacity_texture = tileset->texture;
+
+                    SDL_SetTextureAlphaMod(opacity_texture, mapLayerItem->data->opacity * 255.0f);
+
+                    app->render->DrawTexture(opacity_texture,
                         pos.x,
                         pos.y,
                         &r);
@@ -268,6 +272,7 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
     layer->name = node.attribute("name").as_string();
     layer->width = node.attribute("width").as_int();
     layer->height = node.attribute("height").as_int();
+    layer->opacity = node.attribute("opacity").as_float();
 
     Properties* ps = new Properties();
     LoadProperties(node.child("properties"), layer->properties);
