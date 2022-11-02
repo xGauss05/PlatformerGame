@@ -18,15 +18,36 @@ Player::Player() : Entity(EntityType::PLAYER)
 	name.Create("Player");
 }
 
+void Player::initAnims()
+{
+	//Idle "animations"
+	rightIdle.PushBack({ 0,0,64,88 });
+	leftIdle.PushBack({ 0,88,64,88 });
+
+	//Running right
+	for (int i = 0; i < 13; i++)
+	{
+		rightRun.PushBack({ i * 64,0,64,88 });
+	}
+	rightRun.speed = 0.4f;
+	rightRun.loop = true;
+
+	//Running left
+	for (int i = 0; i < 13; i++)
+	{
+		leftRun.PushBack({ i * 64,88,64,88 });
+	}
+	leftRun.speed = 0.4f;
+	leftRun.loop = true;
+
+	currentAnim = &rightIdle;
+}
+
 Player::~Player() {
 
 }
 
 bool Player::Awake() {
-
-	//L02: DONE 1: Initialize Player parameters
-	//pos = position;
-	//texturePath = "Assets/Textures/player/idle1.png";
 
 	//L02: DONE 5: Get Player parameters from XML
 	position.x = parameters.attribute("x").as_int();
@@ -39,15 +60,21 @@ bool Player::Awake() {
 
 bool Player::Start() {
 
-	//initilize textures
 	texture = app->tex->Load(texturePath);
 	isDead = false;
 	lifes = 0;
-	pbody = app->physics->CreateRectangle(200, 540, 20, 20, DYNAMIC);
+	pbody = app->physics->CreateRectangle(100, 450, 40, height, DYNAMIC);
 	headSensor = app->physics->CreateRectangleSensor(210, 520, 10, 10, STATIC);
 	pbody->body->SetFixedRotation(true);
 	pbody->listener = (Module*)app->entityManager;
 	pbody->entity = this;
+
+	//Changing the body's mass to fit the game physics
+	b2MassData* data = new b2MassData; data->center = b2Vec2((float)width / 2, (float)height / 2); data->I = 0.0f; data->mass = 0.390625f;
+	pbody->body->SetMassData(data);
+	delete data;
+
+	initAnims();
 	return true;
 }
 
@@ -75,7 +102,10 @@ bool Player::Update()
 			if (pbody->body->GetLinearVelocity().x > -speedCap)
 				pbody->body->ApplyForce(b2Vec2(-movementForce, 0.0f), pbody->body->GetWorldCenter(), true);
 		}
+
+		currentAnim = &leftRun;
 	}
+	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP) { currentAnim = &leftIdle; leftRun.Reset(); }
 
 	//Right
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
@@ -90,7 +120,10 @@ bool Player::Update()
 			if (pbody->body->GetLinearVelocity().x < speedCap)
 				pbody->body->ApplyForce(b2Vec2(movementForce, 0.0f), pbody->body->GetWorldCenter(), true);
 		}
+
+		currentAnim = &rightRun;
 	}
+	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP) { currentAnim = &rightIdle; rightRun.Reset(); }
 
 	//General dampening
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && app->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE)
@@ -103,7 +136,6 @@ bool Player::Update()
 
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x - (width / 2));
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y - (height / 2));
-	app->render->DrawTexture(texture, position.x, position.y);
 
 	//(This should be in the debug, pending to move)
 	//app->font->BlitText(10, 110, 0, "X SPEED");
@@ -137,12 +169,15 @@ bool Player::Update()
 		LOG("Y : %s", std::to_string(direction_Y).c_str());*/
 	}
 
+	//Animation Stuff
+	currentAnim->Update();
+	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
+
 	return true;
 }
 
 bool Player::CleanUp()
 {
-
 	return true;
 }
 

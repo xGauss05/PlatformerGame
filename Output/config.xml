@@ -9,7 +9,7 @@
   </renderer>
 
   <window>
-    <resolution width="1024" height="768" scale="1"/>
+    <resolution width="1600" height="900" scale="1"/>
     <fullscreen value="false"/>
     <borderless value="false"/>
     <resizable value="false"/>
@@ -22,7 +22,7 @@
   </audio>
   
   <scene_level1>
-    <player x="150" y="500" texturepath="Assets/Textures/player1.png"/>
+    <player x="100" y="450" texturepath="Assets/Textures/Spritesheet.png"/>
     <item x="256" y="515" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="416" y="512" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="720" y="189" texturepath="Assets/Textures/goldCoin.png"/>
