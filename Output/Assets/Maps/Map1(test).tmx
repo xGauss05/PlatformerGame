@@ -4382,14 +4382,14 @@
   <object id="42" x="192" y="416" width="64" height="32"/>
   <object id="43" x="352" y="416" width="96" height="32"/>
   <object id="44" x="576" y="264" width="128" height="14"/>
-  <object id="45" x="832" y="160" width="32" height="384"/>
-  <object id="46" x="864" y="160" width="64" height="32"/>
-  <object id="47" x="1088" y="160" width="32" height="128"/>
-  <object id="48" x="1120" y="160" width="192" height="32"/>
-  <object id="49" x="1408" y="160" width="64" height="32"/>
-  <object id="50" x="1472" y="160" width="32" height="384"/>
-  <object id="51" x="1088" y="448" width="32" height="96"/>
-  <object id="53" x="1120" y="448" width="192" height="32"/>
+  <object id="45" x="832" y="192" width="32" height="352"/>
+  <object id="46" x="832" y="160" width="96" height="32"/>
+  <object id="47" x="1088" y="192" width="32" height="96"/>
+  <object id="48" x="1088" y="160" width="224" height="32"/>
+  <object id="49" x="1408" y="160" width="96" height="32"/>
+  <object id="50" x="1472" y="192" width="32" height="352"/>
+  <object id="51" x="1088" y="480" width="32" height="64"/>
+  <object id="53" x="1088" y="448" width="224" height="32"/>
   <object id="54" x="1408" y="448" width="64" height="32"/>
   <object id="57" x="0" y="-64" width="5" height="800"/>
   <object id="59" x="1595" y="-64" width="5" height="800"/>

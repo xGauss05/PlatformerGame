@@ -39,6 +39,7 @@ public:
 public:
 
 	Player* player;
+	List<PhysBody*> boxes;
 
 private:
 	SDL_Texture* img;

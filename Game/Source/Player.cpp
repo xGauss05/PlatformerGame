@@ -9,6 +9,7 @@
 #include "Point.h"
 #include "Physics.h"
 #include "Fonts.h"
+#include "List.h"
 
 #include<iostream>
 
@@ -64,18 +65,19 @@ bool Player::Start() {
 	texture = app->tex->Load(texturePath);
 	isDead = false;
 	lifes = 0;
-	jumps = 1;
+	maxJumps = 1;
+	currentJumps = maxJumps;
 
 	pbody = app->physics->CreateRectangle(100, 450, 40, height, DYNAMIC);
-	headSensor = app->physics->CreateRectangleSensor(200, 540, 40, 10, STATIC);
-	wallSensorL = app->physics->CreateRectangleSensor(200, 540, 10, 82, STATIC);
-	wallSensorR = app->physics->CreateRectangleSensor(200, 540, 10, 82, STATIC);
-	footSensor = app->physics->CreateRectangleSensor(200, 540, 40, 10, STATIC);
+	//headSensor = app->physics->CreateRectangleSensor(200, 540, 40, 10, STATIC);
+	//wallSensorL = app->physics->CreateRectangleSensor(200, 540, 10, 82, STATIC);
+	//wallSensorR = app->physics->CreateRectangleSensor(200, 540, 10, 82, STATIC);
+	//footSensor = app->physics->CreateRectangleSensor(200, 540, 40, 10, STATIC);
 
-	headSensor->listener = (Module*)app->entityManager;
-	wallSensorL->listener = (Module*)app->entityManager;
-	wallSensorR->listener = (Module*)app->entityManager;
-	footSensor->listener = (Module*)app->entityManager;
+	//headSensor->listener = (Module*)app->entityManager;
+	//wallSensorL->listener = (Module*)app->entityManager;
+	//wallSensorR->listener = (Module*)app->entityManager;
+	//footSensor->listener = (Module*)app->entityManager;
 
 	pbody->listener = (Module*)app->entityManager;
 	pbody->body->SetFixedRotation(true);
@@ -92,15 +94,22 @@ bool Player::Start() {
 
 bool Player::Update()
 {
-	headSensor->body->SetTransform(b2Vec2(this->pbody->body->GetPosition().x, this->pbody->body->GetPosition().y - 1.6f), 0.0f);
-	footSensor->body->SetTransform(b2Vec2(this->pbody->body->GetPosition().x, this->pbody->body->GetPosition().y + 1.6f), 0.0f);
-	wallSensorL->body->SetTransform(b2Vec2(this->pbody->body->GetPosition().x - 0.83f, this->pbody->body->GetPosition().y), 0.0f);
-	wallSensorR->body->SetTransform(b2Vec2(this->pbody->body->GetPosition().x + 0.85f, this->pbody->body->GetPosition().y), 0.0f);
+	//headSensor->body->SetTransform(b2Vec2(this->pbody->body->GetPosition().x, this->pbody->body->GetPosition().y - 1.6f), 0.0f);
+	//footSensor->body->SetTransform(b2Vec2(this->pbody->body->GetPosition().x, this->pbody->body->GetPosition().y + 1.6f), 0.0f);
+	//wallSensorL->body->SetTransform(b2Vec2(this->pbody->body->GetPosition().x - 0.83f, this->pbody->body->GetPosition().y), 0.0f);
+	//wallSensorR->body->SetTransform(b2Vec2(this->pbody->body->GetPosition().x + 0.85f, this->pbody->body->GetPosition().y), 0.0f);
+	
 	//Jump
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && currentJumps > 0)
 	{
 		pbody->body->SetLinearVelocity(b2Vec2(pbody->body->GetLinearVelocity().x, 0.0f));
 		pbody->body->ApplyForce(b2Vec2(0, -jumpForce), pbody->body->GetWorldCenter(), true);
+		currentJumps--;
+
+		//Right of the wall
+		if (normal_x == 1.0f && normal_y == 0.0f){ pbody->body->ApplyForce(b2Vec2(jumpForce/2, 0.0f), pbody->body->GetWorldCenter(), true); }
+		//Left of the wall
+		if (normal_x == -1.0f && normal_y == 0.0f){ pbody->body->ApplyForce(b2Vec2(-jumpForce/2, 0.0f), pbody->body->GetWorldCenter(), true); }
 	}
 
 	//Left
@@ -155,33 +164,51 @@ bool Player::Update()
 	//app->font->BlitText(10, 110, 0, "X SPEED");
 	//app->font->BlitText(100, 110, 0, std::to_string(pbody->body->GetLinearVelocity().x).c_str());
 
-	//OnCollision with boxes in the Trigger layer
+	//Raycast from player to collision
+	if (app->physics->world->GetContactList() == NULL) { normal_x = 0.0f; normal_y = 0.0f; }
+
 	for (b2Contact* contact = app->physics->world->GetContactList(); contact; contact = contact->GetNext()) {
-		if (contact->GetFixtureB()->IsSensor())
+
+		ListItem<PhysBody*>* c = app->scene->boxes.start;
+
+		while (c != NULL)
 		{
-			app->font->BlitText(20, 20, 0, "TOUCHING");
-			//this->pbody->body->SetLinearVelocity(b2Vec2(pbody->body->GetLinearVelocity().x, -5.0f));
+			if (contact->GetFixtureB() == c->data->body->GetFixtureList())
+			{
+				app->render->DrawLine(METERS_TO_PIXELS(this->pbody->body->GetPosition().x),
+					METERS_TO_PIXELS(this->pbody->body->GetPosition().y),
+					METERS_TO_PIXELS(c->data->body->GetPosition().x),
+					METERS_TO_PIXELS(c->data->body->GetPosition().y),
+					0, 255, 0, 255);
+
+				b2RayCastInput input;
+				b2RayCastOutput output;
+
+				input.p1.Set(this->pbody->body->GetPosition().x, this->pbody->body->GetPosition().y);
+				input.p2.Set(c->data->body->GetPosition().x, c->data->body->GetPosition().y);
+				input.maxFraction = 1.0f;
+
+				c->data->body->GetFixtureList()->RayCast(&output, input, 0);
+				normal_x = output.normal.x;
+				normal_y = output.normal.y;
+			}
+			c = c->next;
 		}
 	}
-	//	//Mierda Raycast
-	//	/*app->render->DrawLine(this->position.x + this->width/2, this->position.y + this->height/2, 
-	//						  METERS_TO_PIXELS(contact->GetFixtureB()->GetBody()->GetPosition().x), 
-	//						  METERS_TO_PIXELS(contact->GetFixtureB()->GetBody()->GetPosition().y), 
-	//						  0, 255, 0, 255);
 
-	//	float direction_X = 0;         
-	//	float direction_Y = 0;
-	//	this->pbody->RayCast(PIXEL_TO_METERS(this->position.x), PIXEL_TO_METERS(this->position.y),
-	//						 contact->GetFixtureB()->GetBody()->GetPosition().x, contact->GetFixtureB()->GetBody()->GetPosition().y,
-	//						 direction_X, direction_Y);
+	if (normal_x == 0.0f && normal_y == 0.0f) { app->font->BlitText(20, 20, 0, "AIR"); }
+	if (normal_x == 0.0f && normal_y == 1.0f) { app->font->BlitText(20, 20, 0, "CEILING"); }
+	if (normal_x == 0.0f && normal_y == -1.0f) { app->font->BlitText(20, 20, 0, "GROUND"); currentJumps = maxJumps; }
+	if (normal_x == 1.0f && normal_y == 0.0f) { app->font->BlitText(20, 20, 0, "RIGHT"); currentJumps = maxJumps; }
+	if (normal_x == -1.0f && normal_y == 0.0f) { app->font->BlitText(20, 20, 0, "LEFT"); currentJumps = maxJumps; }
 
-	//	app->render->DrawLine(this->position.x + this->width / 2, this->position.y + this->height / 2, 
-	//						  direction_X*100, direction_Y*100,
-	//						  255, 255, 0, 255);
+	app->font->BlitText(20, 60, 0, "X NORMAL. ");
+	app->font->BlitText(100, 60, 0, std::to_string(normal_x).c_str());
+	app->font->BlitText(20, 70, 0, "Y NORMAL. ");
+	app->font->BlitText(100, 70, 0, std::to_string(normal_y).c_str());
 
-	//	LOG("X : %s", std::to_string(direction_X).c_str());
-	//	LOG("Y : %s", std::to_string(direction_Y).c_str());*/
-	//}
+	app->font->BlitText(20, 80, 0, "JUMPS. ");
+	app->font->BlitText(100, 80, 0, std::to_string(currentJumps).c_str());
 
 	//Animation Stuff
 	currentAnim->Update();
@@ -201,7 +228,7 @@ void Player::OnCollision(PhysBody* body) {
 			LOG("IM COLLIDING ITEM");
 		}
 	}
-	else {
+	/*else {
 		if (body == headSensor) {
 			LOG("IM COLLIDING MY HEAD");
 		}
@@ -214,7 +241,7 @@ void Player::OnCollision(PhysBody* body) {
 		if (body == footSensor) {
 			LOG("IM COLLIDING MY FOOT");
 		}
-	}
+	}*/
 
 }
 

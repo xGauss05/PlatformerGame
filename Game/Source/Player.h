@@ -34,7 +34,8 @@ public:
 
 public:
 	bool isDead = false;
-	int jumps = 1;
+	int maxJumps;
+	int currentJumps;
 private:
 
 	SDL_Texture* texture;
@@ -66,6 +67,8 @@ private:
 	float movementDampen = 20.0f;
 	float speedCap = 12.0;
 	float idleDampenMultiplier = 3.0f;
+
+	float normal_x = 0.0f, normal_y = 0.0f;
 };
 
 #endif // __PLAYER_H__
