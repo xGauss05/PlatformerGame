@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Point.h"
+#include "Animation.h"
 #include "SDL/include/SDL.h"
 
 struct SDL_Texture;
@@ -13,6 +14,8 @@ public:
 
 	Player();
 	
+	void initAnims();
+
 	virtual ~Player();
 
 	bool Awake();
@@ -36,7 +39,16 @@ private:
 
 	SDL_Texture* texture;
 	const char* texturePath;
-	int width = 32, height = 32;
+	int width = 64, height = 88;
+
+	Animation* currentAnim = nullptr;
+
+	Animation rightIdle;
+	Animation rightRun;
+
+	Animation leftIdle;
+	Animation leftRun;
+
 	PhysBody* pbody;
 	PhysBody* headSensor;
 	PhysBody* wallSensorL;
