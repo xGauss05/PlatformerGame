@@ -274,7 +274,6 @@ void Physics::BeginContact(b2Contact* contact)
 	if (physB && physB->listener != NULL)
 		physB->listener->OnCollision(physB, physA);
 	
-	
 }
 
 b2RevoluteJoint* Physics::CreateRevoluteJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, float angle, bool collideConnected, bool enableLimit)

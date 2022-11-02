@@ -50,10 +50,12 @@ private:
 	Animation leftRun;
 
 	PhysBody* pbody;
+
 	PhysBody* headSensor;
 	PhysBody* wallSensorL;
 	PhysBody* wallSensorR;
 	PhysBody* footSensor;
+
 	int lifes = 2;
 	int dieFx;
 
