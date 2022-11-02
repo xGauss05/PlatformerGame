@@ -110,3 +110,7 @@ bool Scene_Level1::CleanUp()
 
 	return true;
 }
+
+void Scene_Level1::OnCollision(PhysBody* bodyA, PhysBody* bodyB) {
+
+}

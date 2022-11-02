@@ -141,4 +141,5 @@ bool EntityManager::Update(float dt)
 void EntityManager::OnCollision(PhysBody* bodyA, PhysBody* bodyB) {
 	if (bodyA->entity != NULL)
 		bodyA->entity->OnCollision(bodyB);
+	
 }

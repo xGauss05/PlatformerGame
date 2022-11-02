@@ -19,6 +19,8 @@ public:
 
 	bool Start();
 
+	//bool PreUpdate();
+
 	bool Update();
 
 	bool CleanUp();
@@ -28,7 +30,8 @@ public:
 	void deathAnimation();
 
 public:
-	bool isDead = false;;
+	bool isDead = false;
+	int jumps = 1;
 private:
 
 	SDL_Texture* texture;
@@ -36,9 +39,13 @@ private:
 	int width = 32, height = 32;
 	PhysBody* pbody;
 	PhysBody* headSensor;
+	PhysBody* wallSensorL;
+	PhysBody* wallSensorR;
+	PhysBody* footSensor;
 	int lifes = 2;
 	int dieFx;
 
+	
 	//Movement variables
 	float movementForce = 10.0f;
 	float jumpForce = 300.f;
