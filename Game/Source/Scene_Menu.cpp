@@ -24,12 +24,6 @@ Scene_Menu::Scene_Menu(bool startEnabled) : Module(startEnabled)
 	anim.speed = 0.01f;
 	currentAnim = &anim;
 
-	pointerArrow.PushBack({ 0, 0, 18, 18 });
-	pointerArrow.PushBack({ 25, 0, 18, 18 });
-
-	pointerArrow.speed = 1.0f;
-	currentPointerAnim = &pointerArrow;
-
 }
 
 // Destructor
@@ -39,7 +33,21 @@ Scene_Menu::~Scene_Menu() {}
 bool Scene_Menu::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene_Menu");
+	for (pugi::xml_node node = config.child("pointer").child("pushback"); node; node = node.next_sibling("pushback"))
+	{
+		pointerArrow.PushBack({ node.attribute("x").as_int(),
+								node.attribute("y").as_int(),
+								node.attribute("width").as_int(),
+								node.attribute("height").as_int() });
+
+	}
+	pointerArrow.speed = config.child("pointer").attribute("animspeed").as_float();
+	currentPointerAnim = &pointerArrow;
+
+	background_texturePath = config.child("background").attribute("texturepath").as_string();
+	pointer_texturePath = config.child("pointer").attribute("texturepath").as_string();
 	bool ret = true;
+
 
 	return ret;
 }
@@ -47,9 +55,9 @@ bool Scene_Menu::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool Scene_Menu::Start()
 {
-	img = app->tex->Load("Assets/Textures/menu.png");
+	background = app->tex->Load(background_texturePath);
 	arrow = app->tex->Load("Assets/Textures/arrowAnim.png");
-	pointer = app->tex->Load("Assets/Textures/pointer.png");
+	pointer = app->tex->Load(pointer_texturePath);
 	choice = 0;
 	SDL_ShowCursor(SDL_DISABLE);
 	//app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
@@ -133,7 +141,7 @@ bool Scene_Menu::PostUpdate()
 	rect.h = 20;
 	rect.w = 20;
 
-	app->render->DrawTexture(img, 0, 0, NULL);
+	app->render->DrawTexture(background, 0, 0, NULL);
 
 
 	int x = 400;
