@@ -24,12 +24,12 @@ void Player::initAnims()
 {
 	//Idle "animations"
 	rightIdle.PushBack({ 0,0,64,88 });
-	leftIdle.PushBack({ 0,88,64,88 });
+	leftIdle.PushBack({ 64,0,64,88 });
 
 	//Running right
 	for (int i = 0; i < 13; i++)
 	{
-		rightRun.PushBack({ i * 64,0,64,88 });
+		rightRun.PushBack({ i * 64,88,64,88 });
 	}
 	rightRun.speed = 0.4f;
 	rightRun.loop = true;
@@ -37,10 +37,29 @@ void Player::initAnims()
 	//Running left
 	for (int i = 0; i < 13; i++)
 	{
-		leftRun.PushBack({ i * 64,88,64,88 });
+		leftRun.PushBack({ i * 64,176,64,88 });
 	}
 	leftRun.speed = 0.4f;
 	leftRun.loop = true;
+
+	//Jumping right
+	for (int i = 0; i < 5; i++)
+	{
+		rightJump.PushBack({ i * 64,264,64,88 });
+	}
+	rightJump.speed = 0.4f;
+	rightJump.loop = false;
+
+	//Jumping left
+	for (int i = 5; i < 10; i++)
+	{
+		leftJump.PushBack({ i * 64,264,64,88 });
+	}
+	leftJump.speed = 0.4f;
+	leftJump.loop = false;
+
+	rightFall.PushBack({ 256,264,64,88 });
+	leftFall.PushBack({ 576,264,64,88 });
 
 	currentAnim = &rightIdle;
 }
@@ -110,6 +129,8 @@ bool Player::Update()
 		if (normal_x == 1.0f && normal_y == 0.0f){ pbody->body->ApplyForce(b2Vec2(jumpForce/2, 0.0f), pbody->body->GetWorldCenter(), true); }
 		//Left of the wall
 		if (normal_x == -1.0f && normal_y == 0.0f){ pbody->body->ApplyForce(b2Vec2(-jumpForce/2, 0.0f), pbody->body->GetWorldCenter(), true); }
+
+		//currentAnim = &rightJump;
 	}
 
 	//Left
@@ -126,9 +147,9 @@ bool Player::Update()
 				pbody->body->ApplyForce(b2Vec2(-movementForce, 0.0f), pbody->body->GetWorldCenter(), true);
 		}
 
-		currentAnim = &leftRun;
+		//currentAnim = &leftRun;
 	}
-	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP) { currentAnim = &leftIdle; leftRun.Reset(); }
+	//if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP) { currentAnim = &leftIdle; leftRun.Reset(); }
 
 	//Right
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
@@ -144,9 +165,9 @@ bool Player::Update()
 				pbody->body->ApplyForce(b2Vec2(movementForce, 0.0f), pbody->body->GetWorldCenter(), true);
 		}
 
-		currentAnim = &rightRun;
+		//if (normal_y != 0.0f) { currentAnim = &rightRun; }
 	}
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP) { currentAnim = &rightIdle; rightRun.Reset(); }
+	//if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP) { currentAnim = &rightIdle; rightRun.Reset(); }
 
 	//General dampening
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && app->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE)
@@ -160,6 +181,10 @@ bool Player::Update()
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x - (width / 2));
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y - (height / 2));
 
+	if (normal_x != 0.0f || normal_y != 0.0f){ rightJump.Reset(); }
+
+
+	//Pass level
 	if (app->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
 		if (level < 2)
@@ -231,6 +256,56 @@ bool Player::Update()
 	app->font->BlitText(100, 80, 0, std::to_string(currentJumps).c_str());
 
 	//Animation Stuff
+	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+		if (normal_y == -1.0f)
+		{
+			currentAnim = &rightRun;
+		}
+		else
+		{
+			currentAnim = &rightFall;
+		}
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	{
+		if (normal_y == -1.0f)
+		{
+
+			currentAnim = &leftRun;
+		}
+		else
+		{
+			currentAnim = &leftFall;
+		}
+	}
+
+	if (normal_y == -1.0f)
+	{
+		if (currentAnim == &leftRun || currentAnim == &leftFall)
+		{
+			if (app->input->GetKey(SDL_SCANCODE_A) != KEY_REPEAT)
+				currentAnim = &leftIdle;
+		}
+		if (currentAnim == &rightRun || currentAnim == &rightFall)
+		{
+			if (app->input->GetKey(SDL_SCANCODE_D) != KEY_REPEAT)
+				currentAnim = &rightIdle;
+		}
+	}
+	else if (normal_y == 0.0f)
+	{
+		if (currentAnim == &leftRun || currentAnim == &leftIdle)
+		{
+			currentAnim = &leftFall;
+		}
+		if (currentAnim == &rightRun || currentAnim == &rightIdle)
+		{
+			currentAnim = &rightFall;
+		}
+	}
+
 	currentAnim->Update();
 	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
 

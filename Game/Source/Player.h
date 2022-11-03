@@ -51,6 +51,12 @@ private:
 	Animation leftIdle;
 	Animation leftRun;
 
+	Animation leftJump;
+	Animation rightJump;
+
+	Animation leftFall;
+	Animation rightFall;
+
 	PhysBody* pbody;
 
 	int lifes = 2;
