@@ -169,6 +169,12 @@ bool Scene_Die::PostUpdate()
 bool Scene_Die::CleanUp()
 {
 	LOG("Freeing Scene_Die");
+	pointer = nullptr;
+	delete pointer;
+	arrow = nullptr;
+	delete arrow;
+	background = nullptr;
+	delete background;
 
 	return true;
 }

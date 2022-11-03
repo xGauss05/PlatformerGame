@@ -34,14 +34,13 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
-
 public:
 
 	Player* player;
 	List<PhysBody*> boxes;
 
 private:
+
 	SDL_Texture* img;
 	int font = 0;
 

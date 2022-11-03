@@ -171,6 +171,12 @@ bool Scene_Menu::PostUpdate()
 bool Scene_Menu::CleanUp()
 {
 	LOG("Freeing Scene_Menu");
-
+	pointer = nullptr;
+	delete pointer;
+	arrow = nullptr;
+	delete arrow;
+	background = nullptr;
+	delete background;
+	
 	return true;
 }

@@ -107,10 +107,6 @@ bool Scene_Level1::PostUpdate()
 bool Scene_Level1::CleanUp()
 {
 	LOG("Freeing Scene_Level1");
-
+	
 	return true;
-}
-
-void Scene_Level1::OnCollision(PhysBody* bodyA, PhysBody* bodyB) {
-
 }
