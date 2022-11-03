@@ -14,8 +14,6 @@ public:
 
 	Player();
 	
-	void initAnims();
-
 	virtual ~Player();
 
 	bool Awake();
