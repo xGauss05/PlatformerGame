@@ -16,6 +16,8 @@ public:
 	
 	virtual ~Player();
 
+	void initAnims();
+
 	bool Awake();
 
 	bool Start();
@@ -45,15 +47,13 @@ private:
 
 	Animation rightIdle;
 	Animation rightRun;
+	Animation rightJump;
+	Animation rightFall;
 
 	Animation leftIdle;
 	Animation leftRun;
-
 	Animation leftJump;
-	Animation rightJump;
-
 	Animation leftFall;
-	Animation rightFall;
 
 	PhysBody* pbody;
 
