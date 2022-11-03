@@ -1,6 +1,7 @@
 #include "EntityManager.h"
 #include "Player.h"
 #include "Item.h"
+#include "Saw.h"
 #include "App.h"
 #include "Textures.h"
 #include "Scene_Level1.h"
@@ -93,6 +94,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		entity = new Item();
 		break;
 
+	case EntityType::SAW:
+		entity = new Saw();
+		break;
 	default: break;
 	}
 

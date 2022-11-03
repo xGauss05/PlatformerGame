@@ -55,8 +55,9 @@ bool Player::Awake() {
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
+	maxJumps = parameters.attribute("maxJumps").as_int();
+	dieFx = app->audio->LoadFx(parameters.attribute("dieFxpath").as_string());
 
-	dieFx = app->audio->LoadFx("Assets/Audio/Fx/hurt.wav");
 	return true;
 }
 
@@ -65,7 +66,6 @@ bool Player::Start() {
 	texture = app->tex->Load(texturePath);
 	isDead = false;
 	lifes = 0;
-	maxJumps = 1;
 	currentJumps = maxJumps;
 
 	pbody = app->physics->CreateRectangle(100, 450, 40, height, DYNAMIC);
@@ -228,21 +228,7 @@ void Player::OnCollision(PhysBody* body) {
 			LOG("IM COLLIDING ITEM");
 		}
 	}
-	/*else {
-		if (body == headSensor) {
-			LOG("IM COLLIDING MY HEAD");
-		}
-		if (body == wallSensorL) {
-			LOG("IM COLLIDING MY LEFT");
-		}
-		if (body == wallSensorR) {
-			LOG("IM COLLIDING MY RIGHT");
-		}
-		if (body == footSensor) {
-			LOG("IM COLLIDING MY FOOT");
-		}
-	}*/
-
+	
 }
 
 void Player::deathAnimation() {

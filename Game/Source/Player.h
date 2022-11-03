@@ -60,7 +60,6 @@ private:
 	int lifes = 2;
 	int dieFx;
 
-	
 	//Movement variables
 	float movementForce = 10.0f;
 	float jumpForce = 300.f;

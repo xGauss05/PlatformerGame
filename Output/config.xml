@@ -22,7 +22,8 @@
   </audio>
   
   <scene_level1>
-    <player x="100" y="450" texturepath="Assets/Textures/Spritesheet.png"/>
+    <player x="100" y="450" texturepath="Assets/Textures/Spritesheet.png" 
+            maxJumps="1" dieFxpath="Assets/Audio/Fx/hurt.wav"/>
     <item x="256" y="515" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="416" y="512" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="720" y="189" texturepath="Assets/Textures/goldCoin.png"/>
