@@ -20,44 +20,55 @@ Player::Player() : Entity(EntityType::PLAYER)
 	name.Create("Player");
 }
 
-void Player::initAnims()
-{
-	//Idle "animations"
-	rightIdle.PushBack({ 0,0,64,88 });
-	leftIdle.PushBack({ 0,88,64,88 });
-
-	//Running right
-	for (int i = 0; i < 13; i++)
-	{
-		rightRun.PushBack({ i * 64,0,64,88 });
-	}
-	rightRun.speed = 0.4f;
-	rightRun.loop = true;
-
-	//Running left
-	for (int i = 0; i < 13; i++)
-	{
-		leftRun.PushBack({ i * 64,88,64,88 });
-	}
-	leftRun.speed = 0.4f;
-	leftRun.loop = true;
-
-	currentAnim = &rightIdle;
-}
-
 Player::~Player() {
 
 }
 
 bool Player::Awake() {
 
-	//L02: DONE 5: Get Player parameters from XML
+	LOG("Loading Player");
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 	maxJumps = parameters.attribute("maxJumps").as_int();
 	dieFx = app->audio->LoadFx(parameters.attribute("dieFxpath").as_string());
 
+	for (pugi::xml_node node = parameters.child("right_idle").child("pushback");
+		node; node = node.next_sibling("pushback")) {
+		rightIdle.PushBack({ node.attribute("x").as_int(),
+							node.attribute("y").as_int(),
+							node.attribute("width").as_int(),
+							node.attribute("height").as_int() });
+	}
+	
+	for (pugi::xml_node node = parameters.child("right_run").child("pushback");
+		node; node = node.next_sibling("pushback")) {
+		rightRun.PushBack({ node.attribute("x").as_int(),
+							node.attribute("y").as_int(),
+							node.attribute("width").as_int(),
+							node.attribute("height").as_int() });
+	}
+	rightRun.speed = parameters.child("right_run").attribute("animspeed").as_float();
+	rightRun.loop = parameters.child("right_run").attribute("loop").as_bool();
+
+	for (pugi::xml_node node = parameters.child("left_idle").child("pushback");
+		node; node = node.next_sibling("pushback")) {
+		leftIdle.PushBack({ node.attribute("x").as_int(),
+							node.attribute("y").as_int(),
+							node.attribute("width").as_int(),
+							node.attribute("height").as_int() });
+	}
+	for (pugi::xml_node node = parameters.child("left_run").child("pushback");
+		node; node = node.next_sibling("pushback")) {
+		leftRun.PushBack({ node.attribute("x").as_int(),
+						   node.attribute("y").as_int(),
+						   node.attribute("width").as_int(),
+						   node.attribute("height").as_int() });
+	}
+	leftRun.speed = parameters.child("left_run").attribute("animspeed").as_float();
+	leftRun.loop = parameters.child("left_run").attribute("loop").as_bool();
+
+	currentAnim = &rightIdle;
 	return true;
 }
 
@@ -88,7 +99,6 @@ bool Player::Start() {
 	pbody->body->SetMassData(data);
 	delete data;
 
-	initAnims();
 	return true;
 }
 
@@ -98,7 +108,7 @@ bool Player::Update()
 	//footSensor->body->SetTransform(b2Vec2(this->pbody->body->GetPosition().x, this->pbody->body->GetPosition().y + 1.6f), 0.0f);
 	//wallSensorL->body->SetTransform(b2Vec2(this->pbody->body->GetPosition().x - 0.83f, this->pbody->body->GetPosition().y), 0.0f);
 	//wallSensorR->body->SetTransform(b2Vec2(this->pbody->body->GetPosition().x + 0.85f, this->pbody->body->GetPosition().y), 0.0f);
-	
+
 	//Jump
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && currentJumps > 0)
 	{
@@ -107,9 +117,9 @@ bool Player::Update()
 		currentJumps--;
 
 		//Right of the wall
-		if (normal_x == 1.0f && normal_y == 0.0f){ pbody->body->ApplyForce(b2Vec2(jumpForce/2, 0.0f), pbody->body->GetWorldCenter(), true); }
+		if (normal_x == 1.0f && normal_y == 0.0f) { pbody->body->ApplyForce(b2Vec2(jumpForce / 2, 0.0f), pbody->body->GetWorldCenter(), true); }
 		//Left of the wall
-		if (normal_x == -1.0f && normal_y == 0.0f){ pbody->body->ApplyForce(b2Vec2(-jumpForce/2, 0.0f), pbody->body->GetWorldCenter(), true); }
+		if (normal_x == -1.0f && normal_y == 0.0f) { pbody->body->ApplyForce(b2Vec2(-jumpForce / 2, 0.0f), pbody->body->GetWorldCenter(), true); }
 	}
 
 	//Left
@@ -248,7 +258,7 @@ void Player::OnCollision(PhysBody* body) {
 			LOG("IM COLLIDING ITEM");
 		}
 	}
-	
+
 }
 
 void Player::deathAnimation() {
