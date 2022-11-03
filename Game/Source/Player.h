@@ -36,6 +36,7 @@ public:
 	bool isDead = false;
 	int maxJumps;
 	int currentJumps;
+	int level = 1;
 private:
 
 	SDL_Texture* texture;
@@ -51,11 +52,6 @@ private:
 	Animation leftRun;
 
 	PhysBody* pbody;
-
-	PhysBody* headSensor;
-	PhysBody* wallSensorL;
-	PhysBody* wallSensorR;
-	PhysBody* footSensor;
 
 	int lifes = 2;
 	int dieFx;

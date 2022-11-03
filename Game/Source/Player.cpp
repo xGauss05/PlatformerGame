@@ -160,6 +160,26 @@ bool Player::Update()
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x - (width / 2));
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y - (height / 2));
 
+	if (app->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	{
+		if (level < 2)
+		{
+			level++;
+			app->render->camera.x -= (1600 + 32);
+			pbody->body->ApplyForce(b2Vec2(0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
+
+			switch (level)
+			{
+			case 2:
+				pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(2400), PIXEL_TO_METERS(70)), 0.0f);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+
 	//(This should be in the debug, pending to move)
 	//app->font->BlitText(10, 110, 0, "X SPEED");
 	//app->font->BlitText(100, 110, 0, std::to_string(pbody->body->GetLinearVelocity().x).c_str());
