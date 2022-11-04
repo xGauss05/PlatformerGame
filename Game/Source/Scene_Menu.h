@@ -10,7 +10,7 @@ class Scene_Menu : public Module
 {
 public:
 
-	Scene_Menu(bool startEnabled);
+	Scene_Menu();
 
 	// Destructor
 	virtual ~Scene_Menu();

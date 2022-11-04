@@ -7,7 +7,7 @@
 #include "SDL/include/SDL.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
-Audio::Audio(bool startEnabled) : Module(startEnabled)
+Audio::Audio() : Module()
 {
 	music = NULL;
 	name.Create("audio");

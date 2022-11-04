@@ -10,7 +10,7 @@
 #include "Defs.h"
 #include "Log.h"
 
-EntityManager::EntityManager(bool startEnabled) : Module(startEnabled)
+EntityManager::EntityManager() : Module()
 {
 	name.Create("entitymanager");
 }

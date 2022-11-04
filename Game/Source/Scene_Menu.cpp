@@ -6,6 +6,7 @@
 #include "Window.h"
 #include "Scene_Menu.h"
 #include "Scene_Level1.h"
+#include "Scene_Die.h"
 #include "EntityManager.h"
 #include "Map.h"
 #include "Fonts.h"
@@ -15,7 +16,7 @@
 #include "Defs.h"
 #include "Log.h"
 
-Scene_Menu::Scene_Menu(bool startEnabled) : Module(startEnabled)
+Scene_Menu::Scene_Menu() : Module()
 {
 	name.Create("scene_menu");
 	anim.PushBack({ 0, 0, 120, 38 });
@@ -55,6 +56,7 @@ bool Scene_Menu::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool Scene_Menu::Start()
 {
+
 	background = app->tex->Load(background_texturePath);
 	arrow = app->tex->Load("Assets/Textures/arrowAnim.png");
 	pointer = app->tex->Load(pointer_texturePath);
@@ -78,6 +80,15 @@ bool Scene_Menu::PreUpdate()
 // Called each loop iteration
 bool Scene_Menu::Update(float dt)
 {
+	if (app->entityManager->IsEnabled()) {
+		app->entityManager->Disable();
+	}
+	if (app->scene->IsEnabled()) {
+		app->scene->Disable();
+	}
+	if (app->scene_die->IsEnabled()) {
+		app->scene_die->Disable();
+	}
 
 	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected) {
 		if (choice == 1) {

@@ -1,12 +1,19 @@
 <?xml version="1.0"?>
 <save_state>
-	<input />
 	<window />
+	<input />
 	<textures />
 	<audio />
-	<scene />
+	<:anonymous />
+	<:anonymous />
+	<physics />
+	<scene_menu />
+	<scene_level1 />
+	<scene_die />
 	<entitymanager />
+	<map />
+	<:anonymous />
 	<renderer>
-		<camera x="195" y="36" />
+		<camera x="0" y="0" />
 	</renderer>
 </save_state>

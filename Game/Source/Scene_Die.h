@@ -10,7 +10,7 @@ class Scene_Die : public Module
 {
 public:
 
-	Scene_Die(bool startEnabled);
+	Scene_Die();
 
 	// Destructor
 	virtual ~Scene_Die();
@@ -37,6 +37,7 @@ public:
 
 
 private:
+	iPoint oldposition;
 	SDL_Texture* background;
 	const char* background_texturePath;
 	SDL_Texture* arrow;
@@ -45,6 +46,7 @@ private:
 	//int font = 0;
 	int choice = 0;
 	bool hasSelected = false;
+	bool hasRecovered = false;
 	Animation anim;
 	Animation* currentAnim = nullptr;
 	Animation pointerArrow;

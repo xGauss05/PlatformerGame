@@ -13,7 +13,7 @@
 
 using namespace std;
 
-Debug::Debug(bool startEnabled) : Module(startEnabled) {
+Debug::Debug() : Module() {
 	debug = false;
 }
 

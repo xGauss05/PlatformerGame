@@ -257,7 +257,7 @@ bool Player::Update()
 
 		while (c != NULL)
 		{
-			if (contact->GetFixtureB() == c->data->body->GetFixtureList())
+			if (contact->GetFixtureA() == c->data->body->GetFixtureList())
 			{
 				app->render->DrawLine(METERS_TO_PIXELS(this->pbody->body->GetPosition().x),
 					METERS_TO_PIXELS(this->pbody->body->GetPosition().y),
