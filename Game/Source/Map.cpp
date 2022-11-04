@@ -14,7 +14,7 @@
 #include "Fonts.h"
 #include "Scene_Level1.h"
 
-Map::Map(bool startEnabled) : Module(startEnabled), mapLoaded(false)
+Map::Map() : Module(), mapLoaded(false)
 {
     name.Create("map");
 }

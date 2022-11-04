@@ -25,33 +25,33 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 {
 	frames = 0;
 
-	input = new Input(true);
-	win = new Window(true);
-	render = new Render(true);
-	tex = new Textures(true);
-	font = new Fonts(true);
-	audio = new Audio(true);
-	scene_menu = new Scene_Menu(true);
-	scene = new Scene_Level1(false);
-	scene_die = new Scene_Die(false);
-	entityManager = new EntityManager(false);
-	map = new Map(false);
-	physics = new Physics(false);
-	ftb = new FadeToBlack(true);
-	debug = new Debug(true);
+	input = new Input();
+	win = new Window();
+	render = new Render();
+	tex = new Textures();
+	font = new Fonts();
+	audio = new Audio();
+	scene_menu = new Scene_Menu();
+	scene = new Scene_Level1();
+	scene_die = new Scene_Die();
+	entityManager = new EntityManager();
+	map = new Map();
+	physics = new Physics();
+	ftb = new FadeToBlack();
+	debug = new Debug();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(win);
 	AddModule(input);
-	AddModule(scene_menu);
+	AddModule(tex);
+	AddModule(audio);
+	AddModule(debug);
+	AddModule(font);
 	AddModule(physics);
+	AddModule(scene_menu);
 	AddModule(scene);
 	AddModule(scene_die);
-	AddModule(tex);
-	AddModule(font);
-	AddModule(debug);
-	AddModule(audio);
 	AddModule(entityManager);
 	AddModule(map);
 	AddModule(ftb);
@@ -116,7 +116,7 @@ bool App::Start()
 	while (item != NULL && ret == true)
 
 	{
-		ret = item->data->IsEnabled() ? item->data->Start() : true;
+		ret = item->data->Start();
 		item = item->next;
 	}
 

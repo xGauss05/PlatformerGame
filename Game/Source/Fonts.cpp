@@ -9,7 +9,7 @@
 
 #include<string.h>
 
-Fonts::Fonts(bool startEnabled) : Module(startEnabled) {}
+Fonts::Fonts() : Module() {}
 
 Fonts::~Fonts() {}
 

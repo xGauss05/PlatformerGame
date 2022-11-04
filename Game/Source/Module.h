@@ -12,11 +12,13 @@ class Module
 {
 public:
 
-	Module(bool startEnabled) : active(startEnabled)
+	Module() : active(false)
 	{}
 
 	void Init()
-	{}
+	{
+		active = true;
+	}
 
 	// Called before render is available
 	virtual bool Awake(pugi::xml_node&)
@@ -72,7 +74,6 @@ public:
 	virtual void Enable() {
 		if (!active) {
 			active = true;
-			Start();
 		}
 	}
 
@@ -80,7 +81,6 @@ public:
 	virtual void Disable() {
 		if (active) {
 			active = false;
-			CleanUp();
 		}
 	}
 

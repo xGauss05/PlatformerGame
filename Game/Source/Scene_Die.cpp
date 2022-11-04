@@ -15,7 +15,7 @@
 #include "Defs.h"
 #include "Log.h"
 
-Scene_Die::Scene_Die(bool startEnabled) : Module(startEnabled)
+Scene_Die::Scene_Die() : Module()
 {
 	name.Create("scene_die");
 	anim.PushBack({ 0, 0, 120, 38 });
@@ -57,6 +57,7 @@ bool Scene_Die::Start()
 	arrow = app->tex->Load("Assets/Textures/arrowAnim.png");
 	pointer = app->tex->Load(pointer_texturePath);
 	choice = 0;
+	hasRecovered = false;
 	//SDL_ShowCursor(SDL_DISABLE);
 	//app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
 
@@ -76,6 +77,13 @@ bool Scene_Die::PreUpdate()
 // Called each loop iteration
 bool Scene_Die::Update(float dt)
 {
+	if (!app->scene->IsEnabled() && !hasRecovered) {
+		oldposition.x = app->render->camera.x;
+		oldposition.y = app->render->camera.y;
+		app->render->camera.x = 0;
+		app->render->camera.y = 0;
+		hasRecovered = true;
+	}
 
 	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected) {
 		if (choice == 1) {
@@ -110,7 +118,11 @@ bool Scene_Die::Update(float dt)
 
 		switch (choice) {
 		case 0:
-			app->ftb->SceneFadeToBlack(this, app->scene, 90);
+			app->render->camera.x = oldposition.x;
+			app->render->camera.y = oldposition.y;
+			
+			app->ftb->SceneFadeToBlack(this, app->scene, 0);
+			hasRecovered = false;
 			break;
 		case 1:
 			return false;

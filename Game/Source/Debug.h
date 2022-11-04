@@ -8,7 +8,7 @@
 class Debug : public Module {
 public:
 	// Constructor
-	Debug(bool startEnabled);
+	Debug();
 
 	// Destructor
 	~Debug();

@@ -8,13 +8,13 @@
 #include "Defs.h"
 #include "Log.h"
 
-Physics::Physics(bool startEnabled) : Module(startEnabled)
+Physics::Physics() : Module()
 {
 	name.Create("physics");
 	world = NULL;
 	mouse_joint = NULL;
 	debug = true;
-	active = startEnabled;
+
 }
 
 // Destructor

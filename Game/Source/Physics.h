@@ -49,7 +49,7 @@ public:
 class Physics : public Module, public b2ContactListener 
 {
 public:
-	Physics(bool startEnabled);
+	Physics();
 	virtual ~Physics();
 
 	bool Awake(pugi::xml_node& config);

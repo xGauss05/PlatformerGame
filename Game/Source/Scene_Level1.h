@@ -11,7 +11,7 @@ class Scene_Level1 : public Module
 {
 public:
 
-	Scene_Level1(bool startEnabled);
+	Scene_Level1();
 
 	// Destructor
 	virtual ~Scene_Level1();
