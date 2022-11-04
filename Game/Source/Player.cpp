@@ -295,7 +295,9 @@ bool Player::Update()
 	app->font->BlitText(100, 80, 0, std::to_string(currentJumps).c_str());
 
 	//Animation Stuff
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	
+	//Old
+	/*if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		if (normal_y == -1.0f)
 		{
@@ -342,6 +344,137 @@ bool Player::Update()
 		if (currentAnim == &rightRun || currentAnim == &rightIdle)
 		{
 			currentAnim = &rightFall;
+		}
+	}*/
+
+	if (currentAnim == &rightIdle)
+	{
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
+		{
+			currentAnim = &leftRun;
+		}
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+		{
+			currentAnim = &rightRun;
+		}
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			currentAnim = &rightJump;
+		}
+	}
+	if (currentAnim == &leftIdle)
+	{
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
+		{
+			currentAnim = &leftRun;
+		}
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+		{
+			currentAnim = &rightRun;
+		}
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			currentAnim = &leftJump;
+		}
+	}
+	if (currentAnim == &rightRun) 
+	{
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
+		{
+			currentAnim = &rightIdle;
+		}
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
+		{
+			currentAnim = &leftRun;
+		}
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			rightJump.Reset();
+			currentAnim = &rightJump;
+		}
+		if (normal_y == 0.0f)
+		{
+			currentAnim = &rightFall;
+		}
+	}
+	if (currentAnim == &leftRun)
+	{
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP)
+		{
+			currentAnim = &leftIdle;
+		}
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+		{
+			currentAnim = &rightRun;
+		}
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			leftJump.Reset();
+			currentAnim = &leftJump;
+		}
+		if (normal_y == 0.0f)
+		{
+			currentAnim = &leftFall;
+		}
+	}
+	if (currentAnim == &rightJump)
+	{
+		if (rightJump.HasFinished())
+		{
+			//if (normal_X) wall stuff
+			currentAnim = &rightFall;
+		}
+	}
+	if (currentAnim == &leftJump)
+	{
+		if (leftJump.HasFinished())
+		{
+			//if (normal_X) wall stuff
+			currentAnim = &leftFall;
+		}
+	}
+	if (currentAnim == &rightFall)
+	{
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
+		{
+			currentAnim = &leftFall;
+		}
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && currentJumps > 0)
+		{
+			currentAnim = &leftJump;
+		}
+		if (normal_y == -1.0f)
+		{
+			if (pbody->body->GetLinearVelocity().x > 0.1f)
+			{
+				currentAnim = &rightRun;
+			}
+			if (pbody->body->GetLinearVelocity().x < 0.1f && pbody->body->GetLinearVelocity().x > -0.1f)
+			{
+				currentAnim = &rightRun;
+			}
+		}
+	}
+	if (currentAnim == &leftFall)
+	{
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+		{
+			currentAnim = &rightFall;
+		}
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && currentJumps > 0)
+		{
+			currentAnim = &leftJump;
+		}
+		if (normal_y == -1.0f)
+		{
+			if (pbody->body->GetLinearVelocity().x > 0.1f)
+			{
+				currentAnim = &leftRun;
+			}
+			if (pbody->body->GetLinearVelocity().x < 0.1f && pbody->body->GetLinearVelocity().x > -0.1f)
+			{
+				currentAnim = &leftRun;
+			}
 		}
 	}
 
