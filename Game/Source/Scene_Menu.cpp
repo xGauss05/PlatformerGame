@@ -64,10 +64,7 @@ bool Scene_Menu::Start()
 	SDL_ShowCursor(SDL_DISABLE);
 	app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
 
-	//font = app->font->Load("Assets/Textures/font.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.@'&-                       ", 8);
-
-	//app->win->SetTitle(title.GetString());
-
+	app->win->SetTitle("Super Metal Boy");
 	return true;
 }
 
@@ -80,6 +77,9 @@ bool Scene_Menu::PreUpdate()
 // Called each loop iteration
 bool Scene_Menu::Update(float dt)
 {
+	if (app->render->camera.x != 0) app->render->camera.x = 0;
+	if (app->scene->player->level != 1) app->scene->player->level = 1;
+
 	if (app->entityManager->IsEnabled()) {
 		app->entityManager->Disable();
 	}
@@ -123,7 +123,7 @@ bool Scene_Menu::Update(float dt)
 
 		switch (choice) {
 		case 0:
-			app->ftb->SceneFadeToBlack(this, app->scene, 90);
+			app->ftb->SceneFadeToBlack(this, app->scene, 0);
 			break;
 		case 1:
 			return false;

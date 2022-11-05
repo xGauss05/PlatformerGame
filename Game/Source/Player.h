@@ -25,10 +25,10 @@ public:
 	void animationLogic();
 	void movementLogic();
 	void normalsCheck();
-	void levelSelector();
-
+	
+	void SetSpawn(iPoint position, iPoint cameraPosition);
 	void TeleportTo(iPoint position);
-
+	void levelSelector();
 	bool Update();
 
 	bool CleanUp();

@@ -4,6 +4,7 @@
 #include "Audio.h"
 #include "Render.h"
 #include "Window.h"
+#include "Scene_Menu.h"
 #include "Scene_Die.h"
 #include "Scene_Level1.h"
 #include "EntityManager.h"
@@ -58,11 +59,6 @@ bool Scene_Die::Start()
 	pointer = app->tex->Load(pointer_texturePath);
 	choice = 0;
 	hasRecovered = false;
-	//app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
-
-	//font = app->font->Load("Assets/Textures/font.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.@'&-                       ", 8);
-
-	//app->win->SetTitle(title.GetString());
 
 	return true;
 }
@@ -121,17 +117,15 @@ bool Scene_Die::Update(float dt)
 
 		switch (choice) {
 		case 0:
-			app->render->camera.x = oldposition.x;
-			app->render->camera.y = oldposition.y;
-			
-			app->ftb->SceneFadeToBlack(this, app->scene, 0);
 			hasRecovered = false;
+			app->ftb->SceneFadeToBlack(this, app->scene, 0);
+			
 			break;
 		case 1:
 			return false;
 		default:
 			break;
-		}
+		} 
 	}
 
 	int x, y;
@@ -140,8 +134,9 @@ bool Scene_Die::Update(float dt)
 
 	if (y > 580) choice = 1;
 
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		return false;
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0);
+	}
 
 	return true;
 }

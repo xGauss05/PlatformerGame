@@ -26,10 +26,11 @@ public:
 	// Draws all existing colliders with some transparency
 	void DebugDraw();
 
+	bool debug;
 private:
 
 	// Simple debugging flag
-	bool debug;
+	
 
 	int varBox = 50;
 

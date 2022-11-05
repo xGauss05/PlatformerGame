@@ -86,6 +86,8 @@ bool Audio::PlayMusic(const char* path, float fadeTime)
 	if (!active)
 		return false;
 
+	Mix_VolumeMusic(MIX_MAX_VOLUME / 8);
+
 	if (music != NULL)
 	{
 		if (fadeTime > 0.0f)
