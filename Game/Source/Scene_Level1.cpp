@@ -5,6 +5,7 @@
 #include "Render.h"
 #include "Window.h"
 #include "Physics.h"
+#include "Scene_Menu.h"
 #include "Scene_Level1.h"
 #include "Scene_Die.h"
 #include "EntityManager.h"
@@ -47,7 +48,7 @@ bool Scene_Level1::Awake(pugi::xml_node& config)
 bool Scene_Level1::Start()
 {
 	//img = app->tex->Load("Assets/Textures/test.png");
-	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
+	//
 	app->physics->Enable();
 	app->entityManager->Enable();
 	font = app->font->Load("Assets/Textures/font.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.@'&-                       ", 8);
@@ -78,11 +79,17 @@ bool Scene_Level1::Update(float dt)
 	if (!app->entityManager->IsEnabled()) {
 		app->entityManager->Enable();
 	}
+
 	if (!app->scene->IsEnabled()) {
 		app->scene->Enable();
 	}
+
 	if (app->scene_die->IsEnabled()) {
 		app->scene_die->Disable();
+	}
+
+	if (app->scene_menu->IsEnabled()) {
+		app->scene_menu->Disable();
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
@@ -90,8 +97,10 @@ bool Scene_Level1::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		app->LoadGameRequest();
+
 	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
 		app->audio->PlayFx(player->dieFx);
+		player->TeleportTo(player->spawn);
 		app->ftb->SceneFadeToBlack(this, app->scene_die, 0);
 	}
 

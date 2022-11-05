@@ -90,7 +90,7 @@ bool App::Awake()
 
 	if (ret == true)
 	{
-		title = configNode.child("app").child("title").child_value(); // L01: DONE 4: Read the title from the config file
+		title = configNode.child("app").child("title").child_value();
 
 		ListItem<Module*>* item;
 		item = modules.start;
@@ -296,9 +296,6 @@ void App::SaveGameRequest()
 	saveGameRequested = true;
 }
 
-
-// L02: DONE 5: Implement the method LoadFromFile() to actually load a xml file
-// then call all the modules to load themselves
 bool App::LoadFromFile()
 {
 	bool ret = true;
@@ -328,8 +325,6 @@ bool App::LoadFromFile()
 	return ret;
 }
 
-// L02: DONE 7: Implement the xml save method SaveToFile() for current state
-// check https://pugixml.org/docs/quickstart.html#modify
 bool App::SaveToFile() 
 {
 	bool ret = false;

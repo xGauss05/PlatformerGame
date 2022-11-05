@@ -27,6 +27,8 @@ public:
 	void normalsCheck();
 	void levelSelector();
 
+	void TeleportTo(iPoint position);
+
 	bool Update();
 
 	bool CleanUp();
@@ -41,6 +43,7 @@ public:
 	int currentJumps;
 	int level = 1;
 	int dieFx;
+	iPoint spawn;
 private:
 
 	SDL_Texture* texture;
@@ -62,10 +65,7 @@ private:
 	Animation leftWall;
 
 	PhysBody* pbody;
-
-	int lifes = 2;
 	
-
 	//Movement variables
 	float movementForce = 10.0f;
 	float jumpForce = 300.f;

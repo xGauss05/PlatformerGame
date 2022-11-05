@@ -142,7 +142,6 @@ bool Player::Start() {
 
 	texture = app->tex->Load(texturePath);
 	isDead = false;
-	lifes = 0;
 	currentJumps = maxJumps;
 
 	pbody = app->physics->CreateRectangle(100, 450, 40, height, DYNAMIC);
@@ -536,14 +535,12 @@ void Player::normalsCheck()
 void Player::levelSelector()
 {
 	//Pass level
-	if (app->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
 		if (level < 2)
 		{
 			level++;
-			app->render->camera.x -= (1600 + 32);
-			pbody->body->ApplyForce(b2Vec2(0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
-
+			//app->render->camera.x -= (1600 + 32);
 			switch (level)
 			{
 			case 2:
@@ -554,6 +551,30 @@ void Player::levelSelector()
 			}
 		}
 	}
+
+	switch (level) {
+	case 1:
+		if (spawn.x != 100) spawn.x = 100;
+		
+		if (spawn.y != 450) spawn.y = 450;
+		
+		if (app->render->camera.x != 0) app->render->camera.x = 0;
+		
+		break;
+	case 2:
+		if (spawn.x != 2400) spawn.x = 2400;
+
+		if (spawn.y != 70) spawn.y = 70;
+		
+		if (app->render->camera.x != -(1600 + 32)) app->render->camera.x = -(1600 + 32);
+		
+		break;
+	}
+}
+
+void Player::TeleportTo(iPoint position) {
+	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0.0f);
+	pbody->body->ApplyForce(b2Vec2(0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
 }
 
 bool Player::Update()
@@ -579,7 +600,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
-
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");
@@ -589,7 +609,12 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::SAW:
 		LOG("Collision SAW");
+		TeleportTo(spawn);
 		app->audio->PlayFx(dieFx);
+		break;
+	case ColliderType::GOAL:
+		LOG("Collision GOAL");
+		level++;
 		break;
 	}
 }
@@ -607,5 +632,3 @@ void Player::DeathAnimation() {
 		SetToDelete();
 	}*/
 }
-
-

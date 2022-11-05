@@ -62,7 +62,7 @@ bool Scene_Menu::Start()
 	pointer = app->tex->Load(pointer_texturePath);
 	choice = 0;
 	SDL_ShowCursor(SDL_DISABLE);
-	//app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
+	app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
 
 	//font = app->font->Load("Assets/Textures/font.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.@'&-                       ", 8);
 

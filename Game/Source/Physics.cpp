@@ -193,7 +193,7 @@ PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType typ
 // Called before quitting
 bool Physics::CleanUp()
 {
-	//LOG("Destroying physics world");
+	LOG("Destroying physics world");
 
 	// Delete the whole physics world!
 	delete world;

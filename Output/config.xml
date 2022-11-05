@@ -99,6 +99,7 @@
       </left_wall>
     </player>
     <item x="256" y="515" texturepath="Assets/Textures/goldCoin.png"/>
+
   </scene_level1>
 
   <map>

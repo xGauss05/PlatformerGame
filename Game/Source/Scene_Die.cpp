@@ -58,7 +58,6 @@ bool Scene_Die::Start()
 	pointer = app->tex->Load(pointer_texturePath);
 	choice = 0;
 	hasRecovered = false;
-	//SDL_ShowCursor(SDL_DISABLE);
 	//app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
 
 	//font = app->font->Load("Assets/Textures/font.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.@'&-                       ", 8);
@@ -83,6 +82,10 @@ bool Scene_Die::Update(float dt)
 		app->render->camera.x = 0;
 		app->render->camera.y = 0;
 		hasRecovered = true;
+	}
+
+	if (app->entityManager->IsEnabled()) {
+		app->entityManager->Disable();
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected) {

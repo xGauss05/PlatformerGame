@@ -7,8 +7,6 @@
 
 #include "PugiXml\src\pugixml.hpp"
 
-// L04: DONE 2: Create a struct to hold information for a TileSet
-// Ignore Terrain Types and Tile Types for now, but we want the image!
 struct TileSet
 {
 	SString	name;
@@ -22,12 +20,9 @@ struct TileSet
 
 	SDL_Texture* texture;
 
-	// L05: DONE 7: Create a method that receives a tile id and returns it's Rectfind the Rect associated with a specific tile id
 	SDL_Rect GetTileRect(int gid) const;
 };
 
-//  We create an enum for map type, just for convenience,
-// NOTE: Platformer game will be of type ORTHOGONAL
 enum MapTypes
 {
 	MAPTYPE_UNKNOWN = 0,
@@ -36,7 +31,6 @@ enum MapTypes
 	MAPTYPE_STAGGERED
 };
 
-// L06: TODO 5: Create a generic structure to hold properties
 struct Properties
 {
 	struct Property
@@ -46,11 +40,10 @@ struct Properties
 		bool value;
 	};
 	List<Property*> list;
-	// L06: TODO 7: Method to ask for the value of a custom property
+
 	bool GetProperyValue(SString name);
 };
 
-// L05: DONE 1: Create a struct for the map layer
 struct MapLayer
 {
 	SString	name;
@@ -61,8 +54,6 @@ struct MapLayer
 	uint* data;
 	Properties properties;
 
-	// L06: TODO7: Store custom properties
-
 	MapLayer() : data(NULL)
 	{}
 
@@ -71,14 +62,12 @@ struct MapLayer
 		RELEASE(data);
 	}
 
-	// L05: DONE 6: Short function to get the gid value of x,y
 	inline uint Get(int x, int y) const
 	{
 		return data[(y * width) + x];
 	}
 };
 
-// L04: DONE 1: Create a struct needed to hold the information to Map node
 struct MapData
 {
 	int width;
@@ -88,7 +77,6 @@ struct MapData
 	List<TileSet*> tilesets;
 	MapTypes type;
 
-	// L05: DONE 2: Add a list/array of layers to the map
 	List<MapLayer*> maplayers;
 };
 
