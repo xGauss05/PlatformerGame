@@ -26,8 +26,8 @@ bool Saw::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateCircle(position.x, position.y, 10, STATIC);
-	pbody->listener = (Module*)app->entityManager;
-	pbody->entity = this;
+	pbody->listener = this;
+	pbody->ctype = ColliderType::SAW;
 	return true;
 }
 
@@ -41,8 +41,8 @@ bool Saw::CleanUp()
 	return true;
 }
 
-void Saw::OnCollision(PhysBody* body) {
+void Saw::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 }
 
-void Saw::deathAnimation() {}
+void Saw::DeathAnimation() {}

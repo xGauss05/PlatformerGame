@@ -30,8 +30,8 @@ bool Item::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateCircle(position.x, position.y, 10, STATIC);
-	pbody->listener = (Module*)app->entityManager;
-	pbody->entity = this;
+	pbody->listener = this;
+	pbody->ctype = ColliderType::ITEM;
 	return true;
 }
 
@@ -55,12 +55,12 @@ bool Item::CleanUp()
 	return true;
 }
 
-void Item::OnCollision(PhysBody* body) {
+void Item::OnCollision(PhysBody* physA, PhysBody* physB) {
 	//if (body->body->)
 }
 
 
-void Item::deathAnimation() {
+void Item::DeathAnimation() {
 	app->audio->PlayFx(pickUpFx);
 	// sfx? delete entity?
 }

@@ -134,7 +134,7 @@ bool Player::Awake() {
 	maxJumps = parameters.attribute("maxJumps").as_int();
 	dieFx = app->audio->LoadFx(parameters.attribute("dieFxpath").as_string());
 	initAnims();
-	
+
 	return true;
 }
 
@@ -147,9 +147,9 @@ bool Player::Start() {
 
 	pbody = app->physics->CreateRectangle(100, 450, 40, height, DYNAMIC);
 
-	pbody->listener = (Module*)app->entityManager;
+	pbody->listener = this;
 	pbody->body->SetFixedRotation(true);
-	pbody->entity = this;
+	pbody->ctype = ColliderType::PLAYER;
 
 	//Changing the body's mass to fit the game physics
 	b2MassData* data = new b2MassData; data->center = b2Vec2((float)width / 2, (float)height / 2); data->I = 0.0f; data->mass = 0.390625f;
@@ -571,16 +571,23 @@ bool Player::CleanUp()
 	return true;
 }
 
-void Player::OnCollision(PhysBody* body) {
-	if (body->entity != NULL) {
-		if (body->entity->type == EntityType::ITEM) {
-			LOG("IM COLLIDING ITEM");
-		}
-	}
+void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
+	switch (physB->ctype)
+	{
+	case ColliderType::ITEM:
+		LOG("Collision ITEM");
 
+		break;
+	case ColliderType::PLATFORM:
+		LOG("Collision PLATFORM");
+		break;
+	case ColliderType::UNKNOWN:
+		LOG("Collision UNKNOWN");
+		break;
+	}
 }
 
-void Player::deathAnimation() {
+void Player::DeathAnimation() {
 
 	app->audio->PlayFx(dieFx);
 

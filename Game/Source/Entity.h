@@ -68,11 +68,11 @@ public:
 		}
 	}
 
-	virtual void OnCollision(PhysBody* body) = 0;
+	virtual void OnCollision(PhysBody* physA, PhysBody* physB) {
 
-	virtual void deathAnimation() = 0;
+	};
 
-	const PhysBody* GetCollider() const;
+	virtual void DeathAnimation() = 0;
 
 public:
 

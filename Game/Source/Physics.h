@@ -26,11 +26,20 @@ enum bodyType {
 	KINEMATIC
 };
 
+enum class ColliderType {
+	PLAYER,
+	ITEM,
+	PLATFORM,
+	SAW,
+	UNKNOWN
+	// ..
+};
+
 // Small class to return to other modules to track position and rotation of physics bodies
 class PhysBody
 {
 public:
-	PhysBody() : listener(NULL), body(NULL), entity(NULL)
+	PhysBody() : listener(NULL), body(NULL), ctype(ColliderType::UNKNOWN)
 	{}
 
 	void GetPosition(int& x, int &y) const;
@@ -41,8 +50,8 @@ public:
 public:
 	int width, height;
 	b2Body* body;
-	Entity* entity;
-	Module* listener;
+	Entity* listener;
+	ColliderType ctype;
 };
 
 // Module --------------------------------------

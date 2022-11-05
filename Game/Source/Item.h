@@ -22,9 +22,9 @@ public:
 
 	bool CleanUp();
 
-	void OnCollision(PhysBody* body);
+	void OnCollision(PhysBody* physA, PhysBody* physB);
 
-	void deathAnimation();
+	void DeathAnimation();
 
 public:
 

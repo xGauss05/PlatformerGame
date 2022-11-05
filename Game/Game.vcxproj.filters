@@ -14,10 +14,10 @@
       <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="Source\EntityManager.cpp">
-      <Filter>Entities</Filter>
+      <Filter>Application\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Source\Item.cpp">
-      <Filter>Entities</Filter>
+      <Filter>Application\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene_Level1.cpp">
       <Filter>Modules\Gameplay\Scenes</Filter>
@@ -53,7 +53,7 @@
       <Filter>Modules\Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="Source\Player.cpp">
-      <Filter>Entities</Filter>
+      <Filter>Application\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene_Menu.cpp">
       <Filter>Modules\Gameplay\Scenes</Filter>
@@ -62,7 +62,7 @@
       <Filter>Modules\Gameplay\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\Saw.cpp">
-      <Filter>Entities</Filter>
+      <Filter>Application\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,13 +100,13 @@
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="Source\EntityManager.h">
-      <Filter>Entities</Filter>
+      <Filter>Application\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Entity.h">
-      <Filter>Entities</Filter>
+      <Filter>Application\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Item.h">
-      <Filter>Entities</Filter>
+      <Filter>Application\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene_Level1.h">
       <Filter>Modules\Gameplay\Scenes</Filter>
@@ -142,7 +142,7 @@
       <Filter>Modules\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="Source\Player.h">
-      <Filter>Entities</Filter>
+      <Filter>Application\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene_Menu.h">
       <Filter>Modules\Gameplay\Scenes</Filter>
@@ -154,7 +154,7 @@
       <Filter>Modules\Gameplay\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Saw.h">
-      <Filter>Entities</Filter>
+      <Filter>Application\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -173,9 +173,6 @@
     <Filter Include="Application">
       <UniqueIdentifier>{bd2fc26d-046a-488e-b824-c036a60fba48}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Entities">
-      <UniqueIdentifier>{c73aef02-9768-49aa-ae0d-aeeacf69af2b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Modules\Gameplay">
       <UniqueIdentifier>{8a3594c6-7792-4b2c-b61a-27b3166d637e}</UniqueIdentifier>
     </Filter>
@@ -184,6 +181,9 @@
     </Filter>
     <Filter Include="Modules\Core">
       <UniqueIdentifier>{a1c24bff-f456-4571-b3da-8e9151666f3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Entities">
+      <UniqueIdentifier>{c73aef02-9768-49aa-ae0d-aeeacf69af2b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

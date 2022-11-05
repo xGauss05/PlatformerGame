@@ -113,7 +113,7 @@ void EntityManager::DestroyEntity(Entity* entity)
 	for (item = entities.start; item != NULL; item = item->next)
 	{
 		if (item->data == entity) {
-			item->data->deathAnimation();
+			item->data->DeathAnimation();
 			entities.Del(item);
 		}
 
@@ -142,8 +142,8 @@ bool EntityManager::Update(float dt)
 	return ret;
 }
 
-void EntityManager::OnCollision(PhysBody* bodyA, PhysBody* bodyB) {
-	if (bodyA->entity != NULL)
-		bodyA->entity->OnCollision(bodyB);
-	
-}
+//void EntityManager::OnCollision(PhysBody* bodyA, PhysBody* bodyB) {
+//	if (bodyA->entity != NULL)
+//		bodyA->entity->OnCollision(bodyB);
+//	
+//}

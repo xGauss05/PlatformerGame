@@ -99,10 +99,6 @@
       </left_wall>
     </player>
     <item x="256" y="515" texturepath="Assets/Textures/goldCoin.png"/>
-    <item x="416" y="512" texturepath="Assets/Textures/goldCoin.png"/>
-    <item x="720" y="189" texturepath="Assets/Textures/goldCoin.png"/>
-    <item x="200" y="245" texturepath="Assets/Textures/goldCoin.png"/>
-    <item x="500" y="127" texturepath="Assets/Textures/goldCoin.png"/>
   </scene_level1>
 
   <map>

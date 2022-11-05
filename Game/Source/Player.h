@@ -31,9 +31,9 @@ public:
 
 	bool CleanUp();
 
-	void OnCollision(PhysBody* body);
+	void OnCollision(PhysBody* bodyA, PhysBody* physB);
 
-	void deathAnimation();
+	void DeathAnimation();
 
 public:
 	bool isDead = false;
