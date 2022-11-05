@@ -612,11 +612,6 @@ bool Player::Update()
 	currentAnim->Update();
 	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
 
-	if (app->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
-	{
-		TeleportTo(spawn);
-	}
-
 	return true;
 }
 

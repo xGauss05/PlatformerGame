@@ -19,12 +19,6 @@
 Scene_Die::Scene_Die() : Module()
 {
 	name.Create("scene_die");
-	anim.PushBack({ 0, 0, 120, 38 });
-	anim.PushBack({ 124, 0, 120, 38 });
-
-	anim.speed = 0.01f;
-	currentAnim = &anim;
-
 }
 
 // Destructor
@@ -46,6 +40,7 @@ bool Scene_Die::Awake(pugi::xml_node& config)
 	currentPointerAnim = &pointerArrow;
 	background_texturePath = config.child("background").attribute("texturepath").as_string();
 	pointer_texturePath = config.child("pointer").attribute("texturepath").as_string();
+	selector_texturePath = config.child("selector").attribute("texturepath").as_string();
 	bool ret = true;
 
 	return ret;
@@ -55,7 +50,7 @@ bool Scene_Die::Awake(pugi::xml_node& config)
 bool Scene_Die::Start()
 {
 	background = app->tex->Load(background_texturePath);
-	arrow = app->tex->Load("Assets/Textures/arrowAnim.png");
+	selector = app->tex->Load(selector_texturePath);
 	pointer = app->tex->Load(pointer_texturePath);
 	choice = 0;
 	hasRecovered = false;
@@ -85,25 +80,20 @@ bool Scene_Die::Update(float dt)
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected) {
-		if (choice == 1) {
+		if (choice == 2) {
 			choice = 0;
 		}
 		else {
 			choice++;
 		}
-		if (!hasSelected) {
-			//app->audio->PlayFx(selectHover);
-		}
 	}
+
 	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && !hasSelected) {
 		if (choice == 0) {
-			choice = 1;
+			choice = 2;
 		}
 		else {
 			choice--;
-		}
-		if (!hasSelected) {
-			//app->audio->PlayFx(selectHover);
 		}
 	}
 
@@ -119,9 +109,12 @@ bool Scene_Die::Update(float dt)
 		case 0:
 			hasRecovered = false;
 			app->ftb->SceneFadeToBlack(this, app->scene, 0);
-			
 			break;
 		case 1:
+			app->scene_menu->hasSelected = false;
+			app->ftb->SceneFadeToBlack(this, app->scene_menu, 45);
+			break;
+		case 2:
 			return false;
 		default:
 			break;
@@ -130,10 +123,12 @@ bool Scene_Die::Update(float dt)
 
 	int x, y;
 	app->input->GetMousePosition(x, y);
-	if (y >= 400 && y <= 580) choice = 0;
+	if (y >= 575 && y <= 675) choice = 0;
 
-	if (y > 580) choice = 1;
+	if (y > 675 && y < 775) choice = 1;
 
+	if (y > 775) choice = 2;
+	
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
 		hasRecovered = false;
 		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0);
@@ -152,15 +147,17 @@ bool Scene_Die::PostUpdate()
 
 	app->render->DrawTexture(background, 0, 0, NULL);
 
-
-	int x = 400;
+	int x = 630;
 	int y;
 	switch (choice) {
 	case 0:
-		y = 400;
+		y = 575;
 		break;
 	case 1:
-		y = 580;
+		y = 675;
+		break;
+	case 2:
+		y = 775;
 		break;
 	default:
 		break;
@@ -170,9 +167,8 @@ bool Scene_Die::PostUpdate()
 	rect = currentPointerAnim->GetCurrentFrame();
 	currentPointerAnim->Update();
 	app->render->DrawTexture(pointer, a, b, &rect);
-	rect = currentAnim->GetCurrentFrame();
-	currentAnim->Update();
-	app->render->DrawTexture(arrow, x, y, &rect);
+
+	app->render->DrawTexture(selector, x, y);
 	return ret;
 }
 
@@ -182,8 +178,8 @@ bool Scene_Die::CleanUp()
 	LOG("Freeing Scene_Die");
 	pointer = nullptr;
 	delete pointer;
-	arrow = nullptr;
-	delete arrow;
+	selector = nullptr;
+	delete selector;
 	background = nullptr;
 	delete background;
 
