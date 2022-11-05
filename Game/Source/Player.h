@@ -40,6 +40,7 @@ public:
 	int maxJumps;
 	int currentJumps;
 	int level = 1;
+	int dieFx;
 private:
 
 	SDL_Texture* texture;
@@ -63,7 +64,7 @@ private:
 	PhysBody* pbody;
 
 	int lifes = 2;
-	int dieFx;
+	
 
 	//Movement variables
 	float movementForce = 10.0f;

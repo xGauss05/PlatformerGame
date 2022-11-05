@@ -425,6 +425,7 @@ void Player::animationLogic()
 		}
 	}
 }
+
 void Player::movementLogic()
 {
 	//Jump
@@ -482,6 +483,7 @@ void Player::movementLogic()
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x - (width / 2));
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y - (height / 2));
 }
+
 void Player::normalsCheck()
 {
 	//Raycast from player to collision
@@ -530,6 +532,7 @@ void Player::normalsCheck()
 	app->font->BlitText(20, 80, 0, "JUMPS. ");
 	app->font->BlitText(100, 80, 0, std::to_string(currentJumps).c_str());
 }
+
 void Player::levelSelector()
 {
 	//Pass level
@@ -583,6 +586,10 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");
+		break;
+	case ColliderType::SAW:
+		LOG("Collision SAW");
+		app->audio->PlayFx(dieFx);
 		break;
 	}
 }
