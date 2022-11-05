@@ -5,12 +5,14 @@
 #include "Input.h"
 #include "Render.h"
 #include "Scene_Level1.h"
+#include "Scene_Die.h"
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
 #include "Fonts.h"
 #include "List.h"
 #include "Debug.h"
+#include "FadeToBlack.h"
 
 #include<iostream>
 
@@ -631,8 +633,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::SAW:
 		LOG("Collision SAW");
-		TeleportTo(spawn);
-		app->audio->PlayFx(dieFx);
+		
 		break;
 	case ColliderType::GOAL:
 		LOG("Collision GOAL");

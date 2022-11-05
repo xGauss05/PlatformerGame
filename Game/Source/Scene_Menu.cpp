@@ -19,12 +19,6 @@
 Scene_Menu::Scene_Menu() : Module()
 {
 	name.Create("scene_menu");
-	anim.PushBack({ 0, 0, 120, 38 });
-	anim.PushBack({ 124, 0, 120, 38 });
-
-	anim.speed = 0.01f;
-	currentAnim = &anim;
-
 }
 
 // Destructor
@@ -44,7 +38,7 @@ bool Scene_Menu::Awake(pugi::xml_node& config)
 	}
 	pointerArrow.speed = config.child("pointer").attribute("animspeed").as_float();
 	currentPointerAnim = &pointerArrow;
-
+	selectedFx = app->audio->LoadFx(config.child("select_fx").attribute("path").as_string());
 	background_texturePath = config.child("background").attribute("texturepath").as_string();
 	pointer_texturePath = config.child("pointer").attribute("texturepath").as_string();
 	bool ret = true;
@@ -56,9 +50,8 @@ bool Scene_Menu::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool Scene_Menu::Start()
 {
-
+	app->render->DrawRectangle(selector, 255, 0, 0);
 	background = app->tex->Load(background_texturePath);
-	arrow = app->tex->Load("Assets/Textures/arrowAnim.png");
 	pointer = app->tex->Load(pointer_texturePath);
 	choice = 0;
 	SDL_ShowCursor(SDL_DISABLE);
@@ -98,7 +91,7 @@ bool Scene_Menu::Update(float dt)
 			choice++;
 		}
 		if (!hasSelected) {
-			//app->audio->PlayFx(selectHover);
+			app->audio->PlayFx(selectedFx);
 		}
 	}
 	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && !hasSelected) {
@@ -109,7 +102,7 @@ bool Scene_Menu::Update(float dt)
 			choice--;
 		}
 		if (!hasSelected) {
-			//app->audio->PlayFx(selectHover);
+			app->audio->PlayFx(selectedFx);
 		}
 	}
 
@@ -118,12 +111,13 @@ bool Scene_Menu::Update(float dt)
 
 		if (!hasSelected) {
 			hasSelected = !hasSelected;
-			//app->audio->PlayFx(selected);
+			app->audio->PlayFx(selectedFx);
 		}
 
 		switch (choice) {
 		case 0:
 			app->ftb->SceneFadeToBlack(this, app->scene, 0);
+			hasSelected = false;
 			break;
 		case 1:
 			return false;
@@ -154,7 +148,6 @@ bool Scene_Menu::PostUpdate()
 
 	app->render->DrawTexture(background, 0, 0, NULL);
 
-
 	int x = 400;
 	int y;
 	switch (choice) {
@@ -167,14 +160,13 @@ bool Scene_Menu::PostUpdate()
 	default:
 		break;
 	}
+	selector.y = y;
+
 	int a, b;
 	app->input->GetMousePosition(a, b);
 	rect = currentPointerAnim->GetCurrentFrame();
 	currentPointerAnim->Update();
 	app->render->DrawTexture(pointer, a, b, &rect);
-	rect = currentAnim->GetCurrentFrame();
-	currentAnim->Update();
-	app->render->DrawTexture(arrow, x, y, &rect);
 	return ret;
 }
 
@@ -184,8 +176,6 @@ bool Scene_Menu::CleanUp()
 	LOG("Freeing Scene_Menu");
 	pointer = nullptr;
 	delete pointer;
-	arrow = nullptr;
-	delete arrow;
 	background = nullptr;
 	delete background;
 	
