@@ -6,7 +6,7 @@
 #include "SDL/include/SDL_render.h"
 
 FadeToBlack::FadeToBlack() : Module() {
-	//screenRect = { 0, 0, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE };
+	screenRect = { 0, 0, 1600 * 1, 900 * 1 };
 }
 
 FadeToBlack::~FadeToBlack() {}

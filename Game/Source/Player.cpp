@@ -5,12 +5,15 @@
 #include "Input.h"
 #include "Render.h"
 #include "Scene_Level1.h"
+#include "SceneTransition.h"
+#include "Scene_Die.h"
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
 #include "Fonts.h"
 #include "List.h"
 #include "Debug.h"
+#include "FadeToBlack.h"
 
 #include<iostream>
 
@@ -609,6 +612,11 @@ bool Player::Update()
 	currentAnim->Update();
 	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
 
+	if (app->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
+	{
+		TeleportTo(spawn);
+	}
+
 	return true;
 }
 
@@ -631,13 +639,13 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::SAW:
 		LOG("Collision SAW");
-		TeleportTo(spawn);
 		app->audio->PlayFx(dieFx);
+		app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 0.0f);
 		break;
 	case ColliderType::GOAL:
 		LOG("Collision GOAL");
 		level++;
-		TeleportTo(spawn);
+		app->ftb->SceneFadeToBlack(app->scene, app->transition, 0.0f);
 		break;
 	}
 }

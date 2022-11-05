@@ -92,7 +92,6 @@ bool Scene_Level1::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
 		app->audio->PlayFx(player->dieFx);
-		player->TeleportTo(player->spawn);
 		app->ftb->SceneFadeToBlack(this, app->scene_die, 0);
 	}
 

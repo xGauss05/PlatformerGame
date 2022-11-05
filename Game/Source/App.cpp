@@ -6,6 +6,7 @@
 #include "Audio.h"
 #include "Scene_Menu.h"
 #include "Scene_Level1.h"
+#include "SceneTransition.h"
 #include "Scene_Die.h"
 #include "EntityManager.h"
 #include "Map.h"
@@ -33,6 +34,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new Audio();
 	scene_menu = new Scene_Menu();
 	scene = new Scene_Level1();
+	transition = new Scene_Transition();
 	scene_die = new Scene_Die();
 	entityManager = new EntityManager();
 	map = new Map();
@@ -51,6 +53,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(physics);
 	AddModule(scene_menu);
 	AddModule(scene);
+	AddModule(transition);
 	AddModule(scene_die);
 	AddModule(entityManager);
 	AddModule(map);

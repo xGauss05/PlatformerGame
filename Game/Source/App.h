@@ -17,6 +17,7 @@ class Textures;
 class Audio;
 class Scene_Menu;
 class Scene_Level1;
+class Scene_Transition;
 class Scene_Die;
 class EntityManager;
 class Map;
@@ -91,6 +92,7 @@ public:
 	Audio* audio;
 	Scene_Menu* scene_menu;
 	Scene_Level1* scene;
+	Scene_Transition* transition;
 	Scene_Die* scene_die;
 	EntityManager* entityManager;
 	Physics* physics;

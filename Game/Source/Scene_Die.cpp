@@ -135,6 +135,7 @@ bool Scene_Die::Update(float dt)
 	if (y > 580) choice = 1;
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+		hasRecovered = false;
 		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0);
 	}
 
