@@ -34,17 +34,22 @@ public:
 	bool CleanUp();
 
 public:
-
+	bool hasSelected = false;
 
 private:
-	SDL_Rect selector;
-	int selectedFx;
+
 	SDL_Texture* background;
 	const char* background_texturePath;
+
+	SDL_Texture* selector;
+	const char* selector_texturePath;
+
 	SDL_Texture* pointer;
-	const char* pointer_texturePath;
+	const char* pointer_texturePath; 
+
+	int selectedFx;
 	int choice = 0;
-	bool hasSelected = false;
+	
 	Animation pointerArrow;
 	Animation* currentPointerAnim = nullptr;
 

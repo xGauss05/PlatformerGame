@@ -21,7 +21,9 @@
     <fx volume="128"/>
   </audio>
   <scene_menu>
+    <selector texturepath="Assets/Textures/menu_marker.png"/>
     <background texturepath="Assets/Textures/background_Menu.png"/>
+      <pushback x="25" y="0" width="18" height="18"/>
     <select_fx path="Assets/Audio/Fx/metal.wav"/>
     <pointer animspeed="0.1f" texturepath="Assets/Textures/pointer.png">
       <pushback x="0" y="0" width="18" height="18"/>
@@ -29,6 +31,7 @@
     </pointer>
   </scene_menu>
   <scene_die>
+    <selector texturepath="Assets/Textures/death_marker.png"/>
     <background texturepath="Assets/Textures/background_Die.png"/>
     <pointer animspeed="0.1f" texturepath="Assets/Textures/pointer.png">
       <pushback x="0" y="0" width="18" height="18"/>

@@ -38,17 +38,20 @@ public:
 
 private:
 	iPoint oldposition;
+
 	SDL_Texture* background;
 	const char* background_texturePath;
-	SDL_Texture* arrow;
+
+	SDL_Texture* selector;
+	const char* selector_texturePath;
+
 	SDL_Texture* pointer;
 	const char* pointer_texturePath;
-	//int font = 0;
+
 	int choice = 0;
 	bool hasSelected = false;
 	bool hasRecovered = false;
-	Animation anim;
-	Animation* currentAnim = nullptr;
+
 	Animation pointerArrow;
 	Animation* currentPointerAnim = nullptr;
 
