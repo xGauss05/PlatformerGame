@@ -50,19 +50,11 @@ bool Scene_Level1::Start()
 	//img = app->tex->Load("Assets/Textures/test.png");
 	//
 	app->physics->Enable();
-	app->entityManager->Enable();
 	font = app->font->Load("Assets/Textures/font.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.@'&-                       ", 8);
 
 	app->map->Load();
 
-	SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
-		app->map->mapData.width,
-		app->map->mapData.height,
-		app->map->mapData.tileWidth,
-		app->map->mapData.tileHeight,
-		app->map->mapData.tilesets.Count());
-
-	app->win->SetTitle(title.GetString());
+	
 
 	return true;
 }
@@ -78,10 +70,10 @@ bool Scene_Level1::Update(float dt)
 {
 	if (!app->entityManager->IsEnabled()) {
 		app->entityManager->Enable();
-	}
-
-	if (!app->scene->IsEnabled()) {
-		app->scene->Enable();
+		player->levelSelector();
+		player->TeleportTo(player->spawn);
+		app->render->camera.x = 0;
+		app->render->camera.y = 0;
 	}
 
 	if (app->scene_die->IsEnabled()) {
@@ -115,8 +107,13 @@ bool Scene_Level1::PostUpdate()
 {
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+		player->level = 1;
+		player->TeleportTo(player->spawn);
+		app->render->camera.x = 0;
+		app->render->camera.y = 0;
+		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0);
+	}
 
 	return ret;
 }

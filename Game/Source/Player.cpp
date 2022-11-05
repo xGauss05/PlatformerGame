@@ -10,6 +10,7 @@
 #include "Physics.h"
 #include "Fonts.h"
 #include "List.h"
+#include "Debug.h"
 
 #include<iostream>
 
@@ -143,8 +144,9 @@ bool Player::Start() {
 	texture = app->tex->Load(texturePath);
 	isDead = false;
 	currentJumps = maxJumps;
-
-	pbody = app->physics->CreateRectangle(100, 450, 40, height, DYNAMIC);
+	spawn.x = 100;
+	spawn.y = 450;
+	pbody = app->physics->CreateRectangle(0, 0, 40, height, DYNAMIC);
 
 	pbody->listener = this;
 	pbody->body->SetFixedRotation(true);
@@ -155,6 +157,7 @@ bool Player::Start() {
 	pbody->body->SetMassData(data);
 	delete data;
 
+	TeleportTo(spawn);
 	return true;
 }
 
@@ -532,49 +535,68 @@ void Player::normalsCheck()
 	app->font->BlitText(100, 80, 0, std::to_string(currentJumps).c_str());
 }
 
-void Player::levelSelector()
-{
-	//Pass level
-	if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
-	{
-		if (level < 2)
-		{
-			level++;
-			//app->render->camera.x -= (1600 + 32);
-			switch (level)
-			{
-			case 2:
-				pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(2400), PIXEL_TO_METERS(70)), 0.0f);
-				break;
-			default:
-				break;
-			}
-		}
+void Player::SetSpawn(iPoint position, iPoint cameraPosition) {
+	if (spawn.x != position.x || spawn.y != position.y) {
+		spawn = position;
 	}
-
-	switch (level) {
-	case 1:
-		if (spawn.x != 100) spawn.x = 100;
-		
-		if (spawn.y != 450) spawn.y = 450;
-		
-		if (app->render->camera.x != 0) app->render->camera.x = 0;
-		
-		break;
-	case 2:
-		if (spawn.x != 2400) spawn.x = 2400;
-
-		if (spawn.y != 70) spawn.y = 70;
-		
-		if (app->render->camera.x != -(1600 + 32)) app->render->camera.x = -(1600 + 32);
-		
-		break;
+	if (!app->debug->debug) {
+		if (app->render->camera.x != cameraPosition.x ||
+			app->render->camera.y != cameraPosition.y) {
+			app->render->camera.x = cameraPosition.x;
+			app->render->camera.y = cameraPosition.y;
+		}
 	}
 }
 
 void Player::TeleportTo(iPoint position) {
 	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0.0f);
 	pbody->body->ApplyForce(b2Vec2(0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
+}
+
+void Player::levelSelector()
+{
+	iPoint newSpawnPoint;
+	iPoint newCameraPosition;
+	switch (level) {
+
+	case 1:
+		newSpawnPoint.x = 100;
+		newSpawnPoint.y = 450;
+		newCameraPosition.x = 0;
+		newCameraPosition.y = 0;
+		SetSpawn(newSpawnPoint, newCameraPosition);
+
+		break;
+	case 2:
+		newSpawnPoint.x = 2400;
+		newSpawnPoint.y = 70;
+		newCameraPosition.x = -(1600 + 32);
+		newCameraPosition.y = 0;
+		SetSpawn(newSpawnPoint, newCameraPosition);
+
+		break;
+	default:
+		break;
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
+		if (level > 1)
+		{
+			level--;
+			levelSelector();
+			TeleportTo(spawn);
+		}
+	}
+	//Pass level
+	if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		if (level < 2)
+		{
+			level++;
+			levelSelector();
+			TeleportTo(spawn);
+		}
+	}
 }
 
 bool Player::Update()
@@ -615,6 +637,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::GOAL:
 		LOG("Collision GOAL");
 		level++;
+		TeleportTo(spawn);
 		break;
 	}
 }

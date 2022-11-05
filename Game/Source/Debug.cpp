@@ -27,7 +27,7 @@ bool Debug::Start() {
 
 bool Debug::Update(float dt) {
 
-	if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
 		debug = !debug;
 
 	if (debug) {
