@@ -71,14 +71,14 @@
         <pushback x="640" y="176" width="64" height="88"/>
         <pushback x="704" y="176" width="64" height="88"/>
       </left_run>
-      <right_jump animspeed="0.4f" loop="false">
+      <right_jump animspeed="0.3f" loop="false">
         <pushback x="0" y="264" width="64" height="88"/>
         <pushback x="64" y="264" width="64" height="88"/>
         <pushback x="128" y="264" width="64" height="88"/>
         <pushback x="192" y="264" width="64" height="88"/>
         <pushback x="256" y="264" width="64" height="88"/>
       </right_jump>
-      <left_jump animspeed="0.4f" loop="false">
+      <left_jump animspeed="0.3f" loop="false">
         <pushback x="320" y="264" width="64" height="88"/>
         <pushback x="384" y="264" width="64" height="88"/>
         <pushback x="448" y="264" width="64" height="88"/>
@@ -91,6 +91,12 @@
       <left_fall>
         <pushback x="576" y="264" width="64" height="88"/>
       </left_fall>
+      <right_wall>
+        <pushback x="192" y="0" width="64" height="88"/>
+      </right_wall>
+      <left_wall>
+        <pushback x="128" y="0" width="64" height="88"/>
+      </left_wall>
     </player>
     <item x="256" y="515" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="416" y="512" texturepath="Assets/Textures/goldCoin.png"/>

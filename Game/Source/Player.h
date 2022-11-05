@@ -22,7 +22,10 @@ public:
 
 	bool Start();
 
-	//bool PreUpdate();
+	void animationLogic();
+	void movementLogic();
+	void normalsCheck();
+	void levelSelector();
 
 	bool Update();
 
@@ -49,11 +52,13 @@ private:
 	Animation rightRun;
 	Animation rightJump;
 	Animation rightFall;
+	Animation rightWall;
 
 	Animation leftIdle;
 	Animation leftRun;
 	Animation leftJump;
 	Animation leftFall;
+	Animation leftWall;
 
 	PhysBody* pbody;
 
