@@ -135,9 +135,6 @@
     <ClInclude Include="Source\Textures.h">
       <Filter>Modules\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Window.h">
-      <Filter>Modules\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Map.h">
       <Filter>Modules\Gameplay</Filter>
     </ClInclude>
@@ -173,6 +170,9 @@
     </ClInclude>
     <ClInclude Include="Source\Scene_Intro.h">
       <Filter>Modules\Gameplay\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Window.h">
+      <Filter>Modules\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
