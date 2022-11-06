@@ -32,6 +32,9 @@ A simple 2D platformer that has some levels to play with. Our metal protagonist 
 - F9 View colliders / logic
 - F10 God Mode (fly around, cannot be killed)
 
+- O Instant win
+- P Instant lose
+
 ## Developers
 
 - Jonathan Cacay - [xGauss05](https://github.com/xGauss05)
