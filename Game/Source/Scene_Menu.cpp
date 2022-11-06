@@ -51,6 +51,7 @@ bool Scene_Menu::Awake(pugi::xml_node& config)
 	pointer_texturePath = config.child("pointer").attribute("texturepath").as_string();
 	bool ret = true;
 
+	
 
 	return ret;
 }
@@ -66,6 +67,7 @@ bool Scene_Menu::Start()
 	app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
 
 	app->win->SetTitle("Super Metal Boy");
+	this->active = false;
 	return true;
 }
 

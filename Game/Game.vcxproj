@@ -110,6 +110,7 @@
     <ClCompile Include="Source\Saw.cpp" />
     <ClCompile Include="Source\SceneTransition.cpp" />
     <ClCompile Include="Source\Scene_Die.cpp" />
+    <ClCompile Include="Source\Scene_Intro.cpp" />
     <ClCompile Include="Source\Scene_Level1.cpp" />
     <ClCompile Include="Source\Render.cpp" />
     <ClCompile Include="Source\Scene_Menu.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="Source\Saw.h" />
     <ClInclude Include="Source\SceneTransition.h" />
     <ClInclude Include="Source\Scene_Die.h" />
+    <ClInclude Include="Source\Scene_Intro.h" />
     <ClInclude Include="Source\Scene_Level1.h" />
     <ClInclude Include="Source\Audio.h" />
     <ClInclude Include="Source\Input.h" />

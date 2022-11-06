@@ -57,7 +57,7 @@ bool Scene_Die::Start()
 	pointer = app->tex->Load(pointer_texturePath);
 	choice = 0;
 	hasRecovered = false;
-
+	active = false;
 	return true;
 }
 
