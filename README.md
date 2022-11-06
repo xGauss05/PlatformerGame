@@ -6,22 +6,29 @@ A simple 2D platformer that has some levels to play with. Our metal protagonist 
 
 ## Key Features
 
- - Two levels.
- - Player is able to walljump.
+ - Four levels.
+ - Player is able to wall jump.
+ - Player is able to double jump.
 
 ## Controls
  - ESC: Exit the game
- - WASD: Movement controls.
+ - AD: Movement controls.
  - Space-Bar: Jump. Walljump.
+ - (Debug menu) WASD: God mode movement
+ - (Debug menu) Arrows: Free camera movement
  ### While on the menu
- - WS & Mouse pointer: Select option.
+ - Up/Down arrows & Mouse pointer: Select option.
  - Enter: Select the selected option.
 
 ## Debug keys
-- F1/F2 Start from the first/second level
+- F1 Go back a level
+- F2 Advance level
 - F3 Start from the beginning of the current level
+- F4 Open debug menu
 - F5 Save the current game state
 - F6 Load the previous state (even across levels)
+- F7 Show variables in debug menu
+- F8 Move camera freely with debug menu
 - F9 View colliders / logic
 - F10 God Mode (fly around, cannot be killed)
 
