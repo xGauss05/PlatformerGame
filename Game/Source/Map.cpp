@@ -332,6 +332,18 @@ bool Map::LoadColliders(pugi::xml_node mapFile)
                 app->scene->boxes.Add(box);
             }
         }
+        if ((SString)parent.attribute("name").as_string() == "Level_Walls")
+        {
+            for (pugi::xml_node collider = parent.child("object"); collider && ret; collider = collider.next_sibling("object"))
+            {
+                PhysBody* box = app->physics->CreateRectangle(collider.attribute("x").as_int() + collider.attribute("width").as_int() / 2,
+                    collider.attribute("y").as_int() + collider.attribute("height").as_int() / 2,
+                    collider.attribute("width").as_int(),
+                    collider.attribute("height").as_int(), STATIC);
+                box->ctype = ColliderType::LIMIT;
+                app->scene->boxes.Add(box);
+            }
+        }
         else if ((SString)parent.attribute("name").as_string() == "Triggers")
         {
             for (pugi::xml_node collider = parent.child("object"); collider && ret; collider = collider.next_sibling("object"))

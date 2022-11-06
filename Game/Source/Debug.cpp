@@ -33,6 +33,25 @@ bool Debug::Start()
 
 bool Debug::Update(float dt) 
 {
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		if (app->scene->player->level > 1)
+		{
+			app->scene->player->level--;
+			app->scene->player->LevelSelector();
+			app->scene->player->TeleportTo(app->scene->player->spawn);
+		}
+	}
+	//Pass level
+	if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		if (app->scene->player->level < 3)
+		{
+			app->scene->player->level++;
+			app->scene->player->LevelSelector();
+			app->scene->player->TeleportTo(app->scene->player->spawn);
+		}
+	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) debug = !debug;
 
@@ -140,6 +159,8 @@ void Debug::DebugDraw()
 		if (app->scene->player->normal_x == -1.0f && app->scene->player->normal_y == 0.0f) { app->font->BlitText(100, varBox + 130, 0, "LEFT"); }
 
 		app->font->BlitText(10, varBox + 150, 0, "CURRENT ANIMATION");
+
+		app->font->BlitText(10, varBox + 180, 0, std::to_string(app->scene->player->level).c_str());
 
 		#pragma endregion
 	}

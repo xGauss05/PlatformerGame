@@ -6,6 +6,7 @@
 #include "Render.h"
 #include "Scene_Level1.h"
 #include "SceneTransition.h"
+#include "Scene_Win.h"
 #include "Scene_Die.h"
 #include "Log.h"
 #include "Point.h"
@@ -582,8 +583,17 @@ void Player::NormalsCheck()
 				input.maxFraction = 1.0f;
 
 				c->data->body->GetFixtureList()->RayCast(&output, input, 0);
-				normal_x = output.normal.x;
-				normal_y = output.normal.y;
+
+				if (c->data->ctype == ColliderType::LIMIT)
+				{
+					normal_x = 0.0f;
+					normal_y = 0.0f;
+				}
+				else
+				{
+					normal_x = output.normal.x;
+					normal_y = output.normal.y;
+				}
 			}
 			c = c->next;
 		}
@@ -626,43 +636,34 @@ void Player::LevelSelector()
 	{
 
 	case 1:
-		newSpawnPoint.x = 100;
-		newSpawnPoint.y = 450;
+		newSpawnPoint.x = 190;
+		newSpawnPoint.y = 680;
 		newCameraPosition.x = 0;
 		newCameraPosition.y = 0;
 		SetSpawn(newSpawnPoint, newCameraPosition);
 
 		break;
 	case 2:
-		newSpawnPoint.x = 2400;
-		newSpawnPoint.y = 70;
+		newSpawnPoint.x = 1790;
+		newSpawnPoint.y = 680;
 		newCameraPosition.x = -(1600 + 32);
 		newCameraPosition.y = 0;
 		SetSpawn(newSpawnPoint, newCameraPosition);
 
 		break;
+	case 3:
+		newSpawnPoint.x = 3300;
+		newSpawnPoint.y = 680;
+		newCameraPosition.x = -(3200 + 64);
+		newCameraPosition.y = 0;
+		SetSpawn(newSpawnPoint, newCameraPosition);
+
+		break;
+	case 4:
+		app->ftb->SceneFadeToBlack(app->scene, app->scene_win, 0.0f);
+		break;
 	default:
 		break;
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-	{
-		if (level > 1)
-		{
-			level--;
-			LevelSelector();
-			TeleportTo(spawn);
-		}
-	}
-	//Pass level
-	if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
-	{
-		if (level < 2)
-		{
-			level++;
-			LevelSelector();
-			TeleportTo(spawn);
-		}
 	}
 }
 
