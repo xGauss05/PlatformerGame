@@ -7,11 +7,13 @@
 	<debug />
 	<fonts />
 	<physics />
+	<scene_intro />
 	<scene_menu />
 	<scene_level1>
-		<player x="100" y="691" level="1" />
+		<player x="190" y="680" level="1" />
 	</scene_level1>
 	<scene_transition />
+	<scene_win />
 	<scene_die />
 	<entitymanager />
 	<map />

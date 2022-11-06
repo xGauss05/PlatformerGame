@@ -56,6 +56,7 @@ bool Scene_Level1::Awake(pugi::xml_node& config)
 	}
 	saw_texturePath = config.child("saw").attribute("texturepath").as_string();
 	sawAnim.loop = config.child("saw").attribute("loop").as_bool();
+	sawAnim.speed = config.child("saw").attribute("animspeed").as_float();
 	return ret;
 }
 
@@ -102,7 +103,7 @@ bool Scene_Level1::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) 
 	{
 		app->audio->PlayFx(player->dieFx);
-		app->ftb->SceneFadeToBlack(this, app->scene_die, 0);
+		app->ftb->SceneFadeToBlack(this, app->scene_die, 40.0f);
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) app->ftb->SceneFadeToBlack(this, app->scene_win, 0);
@@ -146,7 +147,7 @@ bool Scene_Level1::PostUpdate()
 		player->TeleportTo(player->spawn);
 		app->render->camera.x = 0;
 		app->render->camera.y = 0;
-		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0);
+		app->ftb->SceneFadeToBlack(this, app->scene_menu, 20.0f);
 	}
 
 	return ret;

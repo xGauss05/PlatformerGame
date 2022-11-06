@@ -45,7 +45,7 @@ bool Debug::Update(float dt)
 	//Pass level
 	if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
-		if (app->scene->player->level < 3)
+		if (app->scene->player->level < 4)
 		{
 			app->scene->player->level++;
 			app->scene->player->LevelSelector();
@@ -160,7 +160,8 @@ void Debug::DebugDraw()
 
 		app->font->BlitText(10, varBox + 150, 0, "CURRENT ANIMATION");
 
-		app->font->BlitText(10, varBox + 180, 0, std::to_string(app->scene->player->level).c_str());
+		app->font->BlitText(10, varBox + 180, 0, "LEVEL");
+		app->font->BlitText(100, varBox + 180, 0, std::to_string(app->scene->player->level).c_str());
 
 		#pragma endregion
 	}
