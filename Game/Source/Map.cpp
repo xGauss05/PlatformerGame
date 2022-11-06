@@ -354,6 +354,17 @@ bool Map::LoadColliders(pugi::xml_node mapFile)
                 app->scene->boxes.Add(box);
             }
         }
+        else if ((SString)parent.attribute("name").as_string() == "Saws")
+        {
+            for (pugi::xml_node collider = parent.child("object"); collider && ret; collider = collider.next_sibling("object"))
+            {
+                PhysBody* saw = app->physics->CreateCircle(collider.attribute("x").as_int() + collider.attribute("width").as_int() / 2,
+                    collider.attribute("y").as_int() + collider.attribute("height").as_int() / 2,
+                    collider.attribute("width").as_int()/2, STATIC);
+                saw->ctype = ColliderType::SAW;
+                app->scene->saws.Add(saw);
+            }
+        }
     }
 
     return ret;

@@ -3,6 +3,7 @@
 #include "Textures.h"
 #include "Audio.h"
 #include "Render.h"
+#include "Textures.h"
 #include "Window.h"
 #include "Physics.h"
 #include "Scene_Menu.h"
@@ -47,15 +48,16 @@ bool Scene_Level1::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool Scene_Level1::Start()
 {
-	//img = app->tex->Load("Assets/Textures/test.png");
-	//
 	app->physics->Enable();
 	font = app->font->Load("Assets/Textures/font.png", " !ª#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[º]^_`abcdefghijklmnopqrstuvwxyz{|}~             ", 6);
 
+	sawTexture = app->tex->Load("Assets/Textures/Saw_spritesheet.png");
+
+	sawAnim.PushBack({ 0, 0, 64, 64 });
+	sawAnim.PushBack({ 64, 0, 64, 64 });
+	sawAnim.PushBack({ 128, 0, 64, 64 });
+
 	app->map->Load();
-
-	
-
 	return true;
 }
 
@@ -97,6 +99,15 @@ bool Scene_Level1::Update(float dt)
 
 	// Draw map
 	app->map->Draw();
+
+	for (int i = 0; i < saws.Count(); i++)
+	{
+		sawAnim.Update();
+		app->render->DrawTexture(sawTexture, 
+								 METERS_TO_PIXELS(saws.At(i)->data->body->GetPosition().x) - 32,
+								 METERS_TO_PIXELS(saws.At(i)->data->body->GetPosition().y) - 32,
+								 &(sawAnim.GetCurrentFrame()));
+	}
 
 	return true;
 }

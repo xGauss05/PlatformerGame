@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Player.h"
 #include "Item.h"
+#include "Animation.h"
 
 struct SDL_Texture;
 
@@ -41,10 +42,12 @@ public:
 
 	Player* player;
 	List<PhysBody*> boxes;
+	List<PhysBody*> saws;
 
 private:
 
-	SDL_Texture* img;
+	SDL_Texture* sawTexture;
+	Animation sawAnim;
 	int font = 0;
 
 };
