@@ -137,6 +137,9 @@ bool Player::Awake() {
 	texturePath = parameters.attribute("texturepath").as_string();
 	maxJumps = parameters.attribute("maxJumps").as_int();
 	dieFx = app->audio->LoadFx(parameters.attribute("dieFxpath").as_string());
+	jumpFx = app->audio->LoadFx(parameters.attribute("jumpFxpath").as_string());
+	landingFx = app->audio->LoadFx(parameters.attribute("landingFxpath").as_string());
+	goalFx = app->audio->LoadFx(parameters.attribute("goalFxpath").as_string());
 	initAnims();
 
 	return true;
@@ -452,6 +455,7 @@ void Player::movementLogic()
 		//Jump
 		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && currentJumps > 0)
 		{
+			app->audio->PlayFx(jumpFx);
 			pbody->body->SetLinearVelocity(b2Vec2(pbody->body->GetLinearVelocity().x, 0.0f));
 			pbody->body->ApplyForce(b2Vec2(0, -jumpForce), pbody->body->GetWorldCenter(), true);
 			currentJumps--;
@@ -660,6 +664,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");
+		app->audio->PlayFx(landingFx);
 		break;
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");
@@ -675,6 +680,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::GOAL:
 		LOG("Collision GOAL");
 		level++;
+		app->audio->PlayFx(goalFx);
 		app->ftb->SceneFadeToBlack(app->scene, app->transition, 0.0f);
 		break;
 	}
@@ -682,14 +688,4 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 void Player::DeathAnimation() {
 
-	app->audio->PlayFx(dieFx);
-
-	/*if (healthPoints <= 0) {
-
-		App->particles->AddParticle(App->particles->cardDeath, position.x, position.y);
-
-		App->player->lifePlayer++;
-
-		SetToDelete();
-	}*/
 }

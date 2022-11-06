@@ -44,6 +44,9 @@ public:
 	int currentJumps;
 	int level = 1;
 	int dieFx;
+	int landingFx;
+	int jumpFx;
+	int goalFx;
 	iPoint spawn;
 
 	PhysBody* pbody;

@@ -40,7 +40,8 @@
   </scene_die>
   <scene_level1>
     <player x="100" y="450" texturepath="Assets/Textures/Spritesheet.png"
-            maxJumps="1" dieFxpath="Assets/Audio/Fx/hurt.wav">
+            maxJumps="1" dieFxpath="Assets/Audio/Fx/hurt.wav" landingFxpath="Assets/Audio/Fx/landing.wav"
+            jumpFxpath="Assets/Audio/Fx/jump.wav" goalFxpath="Assets/Audio/Fx/goal.wav">
       <right_idle>
         <pushback x="0" y="0" width="64" height="88"/>
       </right_idle>
