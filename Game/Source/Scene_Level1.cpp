@@ -46,6 +46,16 @@ bool Scene_Level1::Awake(pugi::xml_node& config)
 	}
 	this->active = false;
 
+
+	for (pugi::xml_node node = config.child("saw").child("pushback"); node; node = node.next_sibling("pushback"))
+	{
+		sawAnim.PushBack({ node.attribute("x").as_int(),
+							node.attribute("y").as_int(),
+							node.attribute("width").as_int(),
+							node.attribute("height").as_int() });
+	}
+	saw_texturePath = config.child("saw").attribute("texturepath").as_string();
+	sawAnim.loop = config.child("saw").attribute("loop").as_bool();
 	return ret;
 }
 
@@ -55,11 +65,8 @@ bool Scene_Level1::Start()
 	app->physics->Enable();
 	font = app->font->Load("Assets/Textures/font.png", " !ª#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[º]^_`abcdefghijklmnopqrstuvwxyz{|}~             ", 6);
 
-	sawTexture = app->tex->Load("Assets/Textures/Saw_spritesheet.png");
+	sawTexture = app->tex->Load(saw_texturePath);
 
-	sawAnim.PushBack({ 0, 0, 64, 64 });
-	sawAnim.PushBack({ 64, 0, 64, 64 });
-	sawAnim.PushBack({ 128, 0, 64, 64 });
 
 	app->map->Load();
 	return true;

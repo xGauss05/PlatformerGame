@@ -47,6 +47,8 @@ public:
 private:
 
 	SDL_Texture* sawTexture;
+	const char* saw_texturePath;
+
 	Animation sawAnim;
 	int font = 0;
 
