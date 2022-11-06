@@ -205,7 +205,8 @@ void Player::animationLogic()
 
 	if (currentAnim == &rightIdle)
 	{
-		app->font->BlitText(20, 100, 0, "RIGHT IDLE ");
+		if (app->debug->debug && app->debug->variables)
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "RIGHT IDLE ");
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN || app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
@@ -222,7 +223,8 @@ void Player::animationLogic()
 	}
 	if (currentAnim == &leftIdle)
 	{
-		app->font->BlitText(20, 100, 0, "LEFT IDLE ");
+		if (app->debug->debug && app->debug->variables)
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "LEFT IDLE ");
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN || app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
@@ -239,7 +241,8 @@ void Player::animationLogic()
 	}
 	if (currentAnim == &rightRun)
 	{
-		app->font->BlitText(20, 100, 0, "RIGHT RUN ");
+		if (app->debug->debug && app->debug->variables)
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "RIGHT RUN ");
 
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
 		{
@@ -264,7 +267,8 @@ void Player::animationLogic()
 	}
 	if (currentAnim == &leftRun)
 	{
-		app->font->BlitText(20, 100, 0, "LEFT RUN ");
+		if (app->debug->debug && app->debug->variables)
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "LEFT RUN ");
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP)
 		{
@@ -289,7 +293,8 @@ void Player::animationLogic()
 	}
 	if (currentAnim == &rightJump)
 	{
-		app->font->BlitText(20, 100, 0, "RIGHT JUMP ");
+		if (app->debug->debug && app->debug->variables)
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "RIGHT JUMP ");
 
 		if (rightJump.HasFinished())
 		{
@@ -309,7 +314,8 @@ void Player::animationLogic()
 	}
 	if (currentAnim == &leftJump)
 	{
-		app->font->BlitText(20, 100, 0, "LEFT JUMP ");
+		if (app->debug->debug && app->debug->variables)
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "LEFT JUMP ");
 
 		if (leftJump.HasFinished())
 		{
@@ -329,7 +335,8 @@ void Player::animationLogic()
 	}
 	if (currentAnim == &rightFall)
 	{
-		app->font->BlitText(20, 100, 0, "RIGHT FALL ");
+		if (app->debug->debug && app->debug->variables)
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "RIGHT FALL ");
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 		{
@@ -362,7 +369,8 @@ void Player::animationLogic()
 	}
 	if (currentAnim == &leftFall)
 	{
-		app->font->BlitText(20, 100, 0, "LEFT FALL ");
+		if (app->debug->debug && app->debug->variables)
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "LEFT FALL ");
 
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 		{
@@ -395,6 +403,9 @@ void Player::animationLogic()
 	}
 	if (currentAnim == &rightWall)
 	{
+		if (app->debug->debug && app->debug->variables)
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "RIGHT WALL ");
+
 		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 		{
 			if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
@@ -413,6 +424,9 @@ void Player::animationLogic()
 	}
 	if (currentAnim == &leftWall)
 	{
+		if (app->debug->debug && app->debug->variables)
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "LEFT WALL ");
+
 		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 		{
 			if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
@@ -551,19 +565,9 @@ void Player::normalsCheck()
 		}
 	}
 
-	if (normal_x == 0.0f && normal_y == 0.0f) { app->font->BlitText(20, 20, 0, "AIR"); }
-	if (normal_x == 0.0f && normal_y == 1.0f) { app->font->BlitText(20, 20, 0, "CEILING"); }
-	if (normal_x == 0.0f && normal_y == -1.0f) { app->font->BlitText(20, 20, 0, "GROUND"); currentJumps = maxJumps; }
-	if (normal_x == 1.0f && normal_y == 0.0f) { app->font->BlitText(20, 20, 0, "RIGHT"); currentJumps = maxJumps; }
-	if (normal_x == -1.0f && normal_y == 0.0f) { app->font->BlitText(20, 20, 0, "LEFT"); currentJumps = maxJumps; }
-
-	app->font->BlitText(20, 60, 0, "X NORMAL. ");
-	app->font->BlitText(100, 60, 0, std::to_string(normal_x).c_str());
-	app->font->BlitText(20, 70, 0, "Y NORMAL. ");
-	app->font->BlitText(100, 70, 0, std::to_string(normal_y).c_str());
-
-	app->font->BlitText(20, 80, 0, "JUMPS. ");
-	app->font->BlitText(100, 80, 0, std::to_string(currentJumps).c_str());
+	if (normal_x == 0.0f && normal_y == -1.0f) { currentJumps = maxJumps; }
+	if (normal_x == 1.0f && normal_y == 0.0f) { currentJumps = maxJumps; }
+	if (normal_x == -1.0f && normal_y == 0.0f) { currentJumps = maxJumps; }
 }
 
 void Player::SetSpawn(iPoint position, iPoint cameraPosition) {

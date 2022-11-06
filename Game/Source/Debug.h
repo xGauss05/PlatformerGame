@@ -35,9 +35,7 @@ public:
 	bool debugCamera = false;
 	bool godMode = false;
 
-private:
-
-	int varBox = 50;
+	int varBox = 80;
 };
 
 #endif // __MODULE_DEBUG_H__

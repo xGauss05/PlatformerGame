@@ -9,7 +9,7 @@
 
 #include<string.h>
 
-Fonts::Fonts() : Module() {}
+Fonts::Fonts() : Module() { name.Create("fonts"); }
 
 Fonts::~Fonts() {}
 

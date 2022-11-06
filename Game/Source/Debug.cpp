@@ -16,6 +16,7 @@ using namespace std;
 
 Debug::Debug() : Module() {
 	debug = false;
+	name.Create("debug");
 }
 
 Debug::~Debug() {
@@ -32,10 +33,10 @@ bool Debug::Update(float dt) {
 		debug = !debug;
 
 	if (debug) {
-		if (app->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN)
+		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
 			variables = !variables;
 
-		if (app->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
+		if (app->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
 			debugCamera = !debugCamera;
 	}
 
@@ -66,8 +67,16 @@ bool Debug::PostUpdate() {
 
 	if (debug)
 	{
+		app->font->BlitText(10, 10, 0, "PRESS F5 TO SAVE THE CURRENT GAME STATE");
+		app->font->BlitText(10, 20, 0, "PRESS F6 TO LOAD THE CURRENT GAME STATE");
+		app->font->BlitText(10, 30, 0, "PRESS F7 TO SHOW GAME VARIABLES");
+		app->font->BlitText(10, 40, 0, "PRESS F8 TO MOVE THE CAMERA FREELY");
+		app->font->BlitText(10, 50, 0, "PRESS F9 TO VIEW COLLIDERS");
+		app->font->BlitText(10, 60, 0, "PRESS F10 TO ACTIVATE GOD MODE");
+
 		DebugDraw();
 	}
+
 	if (hitboxes)
 	{
 		DrawHitboxes();
@@ -77,33 +86,58 @@ bool Debug::PostUpdate() {
 }
 
 void Debug::DebugDraw() {
-	
-	app->font->BlitText(10, + 20, 0, "PRESS V FOR VARIABLES");
-	if (variables) {
 
-		//Position debug
-		app->font->BlitText(10, varBox + 30, 0, "PLAYER");
+	if (variables) 
+	{
+		#pragma region Position debug
 
-		app->font->BlitText(10, varBox + 40, 0, "X.");
-		app->font->BlitText(25, varBox + 40, 0, std::to_string(app->entityManager->entities.At(0)->data->position.x).c_str());
+		app->font->BlitText(10, varBox + 0, 0, "PLAYER");
 
-		app->font->BlitText(10, varBox + 50, 0, "Y.");
-		app->font->BlitText(25, varBox + 50, 0, std::to_string(app->entityManager->entities.At(0)->data->position.y).c_str());
+		app->font->BlitText(20, varBox + 10, 0, "X.");
+		app->font->BlitText(100, varBox + 10, 0, std::to_string(app->entityManager->entities.At(0)->data->position.x).c_str());
 
-		app->font->BlitText(10, 60, 0, "FREE CAM");
+		app->font->BlitText(20, varBox + 20, 0, "Y.");
+		app->font->BlitText(100, varBox + 20, 0, std::to_string(app->entityManager->entities.At(0)->data->position.y).c_str());
+
+		app->font->BlitText(10, varBox + 40, 0, "CAMERA");
+		app->font->BlitText(20, varBox + 50, 0, "FREE CAM");
 		if (!debugCamera)
-			app->font->BlitText(80, 60, 0, "OFF");
+			app->font->BlitText(90, varBox + 50, 0, "OFF");
 		else
-			app->font->BlitText(80, 60, 0, "ON");
+			app->font->BlitText(90, varBox + 50, 0, "ON");
 
-		app->font->BlitText(10, varBox + 70, 0, "CAMERA X.");
-		app->font->BlitText(80, varBox + 70, 0, std::to_string(app->render->camera.x).c_str());
+		app->font->BlitText(20, varBox + 60, 0, "CAMERA X.");
+		app->font->BlitText(100, varBox + 60, 0, std::to_string(app->render->camera.x).c_str());
 
-		app->font->BlitText(10, varBox + 80, 0, "CAMERA Y.");
-		app->font->BlitText(80, varBox + 80, 0, std::to_string(app->render->camera.y).c_str());
+		app->font->BlitText(20, varBox + 70, 0, "CAMERA Y.");
+		app->font->BlitText(100, varBox + 70, 0, std::to_string(app->render->camera.y).c_str());
+
+		#pragma endregion
+
+		#pragma region Normals Debug
+
+		app->font->BlitText(10, varBox + 90, 0, "NORMALS ");
+
+		app->font->BlitText(20, varBox + 100, 0, "X NORMAL. ");
+		app->font->BlitText(100, varBox + 100, 0, std::to_string(app->scene->player->normal_x).c_str());
+		app->font->BlitText(20, varBox + 110, 0, "Y NORMAL. ");
+		app->font->BlitText(100, varBox + 110, 0, std::to_string(app->scene->player->normal_y).c_str());
+
+		app->font->BlitText(20, varBox + 120, 0, "JUMPS. ");
+		app->font->BlitText(100, varBox + 120, 0, std::to_string(app->scene->player->currentJumps).c_str());
+
+		app->font->BlitText(20, varBox + 130, 0, "STATE. ");
+		if (app->scene->player->normal_x == 0.0f && app->scene->player->normal_y == 0.0f) { app->font->BlitText(100, varBox + 130, 0, "AIR"); }
+		if (app->scene->player->normal_x == 0.0f && app->scene->player->normal_y == 1.0f) { app->font->BlitText(100, varBox + 130, 0, "CEILING"); }
+		if (app->scene->player->normal_x == 0.0f && app->scene->player->normal_y == -1.0f) { app->font->BlitText(100, varBox + 130, 0, "GROUND"); }
+		if (app->scene->player->normal_x == 1.0f && app->scene->player->normal_y == 0.0f) { app->font->BlitText(100, varBox + 130, 0, "RIGHT"); }
+		if (app->scene->player->normal_x == -1.0f && app->scene->player->normal_y == 0.0f) { app->font->BlitText(100, varBox + 130, 0, "LEFT"); }
+
+		app->font->BlitText(10, varBox + 150, 0, "CURRENT ANIMATION");
+
+		#pragma endregion
 	}
 
-	app->font->BlitText(10, 40, 0, "PRESS C TO MOVE THE CAMERA FREELY");
 	if (debugCamera)
 	{
 		if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
@@ -118,8 +152,6 @@ void Debug::DebugDraw() {
 		if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 			app->render->camera.x -= 1;
 	}
-
-	app->font->BlitText(10, 30, 0, "PRESS F9 FOR HITBOXES");
 }
 
 void Debug::DrawHitboxes()

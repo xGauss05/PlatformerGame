@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "Point.h"
 #include "Animation.h"
+#include "Debug.h"
 #include "SDL/include/SDL.h"
 
 struct SDL_Texture;
@@ -66,7 +67,7 @@ private:
 	Animation leftJump;
 	Animation leftFall;
 	Animation leftWall;
-
+	
 	//Movement variables
 	float movementForce = 10.0f;
 	float jumpForce = 300.f;
@@ -75,6 +76,8 @@ private:
 	float idleDampenMultiplier = 3.0f;
 
 	float normal_x = 0.0f, normal_y = 0.0f;
+
+	friend void Debug::DebugDraw();
 };
 
 #endif // __PLAYER_H__

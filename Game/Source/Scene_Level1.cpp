@@ -124,3 +124,27 @@ bool Scene_Level1::CleanUp()
 	
 	return true;
 }
+
+bool Scene_Level1::LoadState(pugi::xml_node& data)
+{
+	int x = data.child("player").attribute("x").as_int();
+	int y = data.child("player").attribute("y").as_int();
+
+	player->pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(x),PIXEL_TO_METERS(y)),0.0f);
+	player->level = data.child("player").attribute("level").as_int();
+
+	return true;
+}
+
+// using append_child and append_attribute
+bool Scene_Level1::SaveState(pugi::xml_node& data)
+{
+	pugi::xml_node node = data.append_child("player");
+
+	node.append_attribute("x") = METERS_TO_PIXELS(player->pbody->body->GetPosition().x);
+	node.append_attribute("y") = METERS_TO_PIXELS(player->pbody->body->GetPosition().y);
+
+	node.append_attribute("level") = player->level;
+
+	return true;
+}
