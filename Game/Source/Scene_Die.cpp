@@ -114,11 +114,11 @@ bool Scene_Die::Update(float dt)
 		{
 		case 0:
 			hasRecovered = false;
-			app->ftb->SceneFadeToBlack(this, app->scene, 0);
+			app->ftb->SceneFadeToBlack(this, app->scene, 40.0f);
 			break;
 		case 1:
 			app->scene_menu->hasSelected = false;
-			app->ftb->SceneFadeToBlack(this, app->scene_menu, 45);
+			app->ftb->SceneFadeToBlack(this, app->scene_menu, 45.0f);
 			break;
 		case 2:
 			return false;

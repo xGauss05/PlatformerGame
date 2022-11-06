@@ -7,6 +7,7 @@
 #include "Window.h"
 #include "Scene_Menu.h"
 #include "Scene_Level1.h"
+#include "Scene_Win.h"
 #include "Scene_Die.h"
 #include "EntityManager.h"
 #include "Map.h"
@@ -55,7 +56,10 @@ bool Scene_Transition::Update(float dt)
 {
 	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
 	
-	app->ftb->SceneFadeToBlack(this, app->scene, 25.0f);
+	if (app->scene->player->level < 5)
+		app->ftb->SceneFadeToBlack(this, app->scene, 25.0f);
+	else
+		app->ftb->SceneFadeToBlack(this, app->scene_win, 25.0f);
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) return false;
 

@@ -660,7 +660,15 @@ void Player::LevelSelector()
 
 		break;
 	case 4:
-		app->ftb->SceneFadeToBlack(app->scene, app->scene_win, 0.0f);
+		newSpawnPoint.x = 4930;
+		newSpawnPoint.y = 70;
+		newCameraPosition.x = -(4800 + 96);
+		newCameraPosition.y = 0;
+		SetSpawn(newSpawnPoint, newCameraPosition);
+
+		break;
+	case 5:
+		app->ftb->SceneFadeToBlack(app->scene, app->scene_win, 50.0f);
 		break;
 	default:
 		break;
@@ -704,14 +712,21 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB)
 		if (!app->debug->godMode)
 		{
 			app->audio->PlayFx(dieFx);
-			app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 0.0f);
+			app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 10.0f);
 		}
 		break;
 	case ColliderType::GOAL:
 		LOG("Collision GOAL");
 		level++;
 		app->audio->PlayFx(goalFx);
-		app->ftb->SceneFadeToBlack(app->scene, app->transition, 0.0f);
+		if (app->scene->player->level < 5)
+		{
+			app->ftb->SceneFadeToBlack(app->scene, app->transition, 0.0f);
+		}
+		else
+		{
+			app->ftb->SceneFadeToBlack(app->scene, app->scene_win, 10.0f);
+		}
 		break;
 	}
 }

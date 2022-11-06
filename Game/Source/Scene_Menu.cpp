@@ -127,7 +127,7 @@ bool Scene_Menu::Update(float dt)
 		{
 		case 0:
 			
-			app->ftb->SceneFadeToBlack(this, app->scene, 45);
+			app->ftb->SceneFadeToBlack(this, app->scene, 45.0f);
 			break;
 		case 1:
 			return false;

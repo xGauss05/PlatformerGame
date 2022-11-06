@@ -43,7 +43,7 @@
   </scene_die>
   <scene_level1>
     
-    <saw texturepath="Assets/Textures/Saw_spritesheet.png" loop="true">
+    <saw texturepath="Assets/Textures/Saw_spritesheet.png" loop="true" animspeed="0.1f">
       <pushback x="0" y="0" width="64" height="64"/>
       <pushback x="64" y="0" width="64" height="64"/>
       <pushback x="128" y="0" width="64" height="64"/>

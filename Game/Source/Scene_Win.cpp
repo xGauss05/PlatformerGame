@@ -68,7 +68,7 @@ bool Scene_Win::Update(float dt)
 
 	if (elapsed >= milliseconds(5000))
 	{
-		app->ftb->SceneFadeToBlack(this, app->scene_menu, 25.0f);
+		app->ftb->SceneFadeToBlack(this, app->scene_menu, 100.0f);
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
