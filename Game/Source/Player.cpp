@@ -433,56 +433,81 @@ void Player::animationLogic()
 
 void Player::movementLogic()
 {
-	//Jump
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && currentJumps > 0)
+	if (!app->debug->godMode)
 	{
-		pbody->body->SetLinearVelocity(b2Vec2(pbody->body->GetLinearVelocity().x, 0.0f));
-		pbody->body->ApplyForce(b2Vec2(0, -jumpForce), pbody->body->GetWorldCenter(), true);
-		currentJumps--;
+		//Jump
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && currentJumps > 0)
+		{
+			pbody->body->SetLinearVelocity(b2Vec2(pbody->body->GetLinearVelocity().x, 0.0f));
+			pbody->body->ApplyForce(b2Vec2(0, -jumpForce), pbody->body->GetWorldCenter(), true);
+			currentJumps--;
 
-		//Right of the wall
-		if (normal_x == 1.0f && normal_y == 0.0f) { pbody->body->ApplyForce(b2Vec2(jumpForce / 2, 0.0f), pbody->body->GetWorldCenter(), true); }
-		//Left of the wall
-		if (normal_x == -1.0f && normal_y == 0.0f) { pbody->body->ApplyForce(b2Vec2(-jumpForce / 2, 0.0f), pbody->body->GetWorldCenter(), true); }
+			//Right of the wall
+			if (normal_x == 1.0f && normal_y == 0.0f) { pbody->body->ApplyForce(b2Vec2(jumpForce / 2, 0.0f), pbody->body->GetWorldCenter(), true); }
+			//Left of the wall
+			if (normal_x == -1.0f && normal_y == 0.0f) { pbody->body->ApplyForce(b2Vec2(-jumpForce / 2, 0.0f), pbody->body->GetWorldCenter(), true); }
+		}
+
+		//Left
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			if (pbody->body->GetLinearVelocity().x > 0.5f)
+			{
+				//Opposite direction dampening
+				pbody->body->ApplyForce(b2Vec2(-movementDampen, 0.0f), pbody->body->GetWorldCenter(), true);
+			}
+			else
+			{
+				if (pbody->body->GetLinearVelocity().x > -speedCap)
+					pbody->body->ApplyForce(b2Vec2(-movementForce, 0.0f), pbody->body->GetWorldCenter(), true);
+			}
+		}
+
+		//Right
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			if (pbody->body->GetLinearVelocity().x < -0.5f)
+			{
+				//Opposite direction dampening
+				pbody->body->ApplyForce(b2Vec2(movementDampen, 0.0f), pbody->body->GetWorldCenter(), true);
+			}
+			else
+			{
+				if (pbody->body->GetLinearVelocity().x < speedCap)
+					pbody->body->ApplyForce(b2Vec2(movementForce, 0.0f), pbody->body->GetWorldCenter(), true);
+			}
+		}
+
+		//General dampening
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && app->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE)
+		{
+			if (pbody->body->GetLinearVelocity().x > 0.5f)
+				pbody->body->ApplyForce(b2Vec2(-pbody->body->GetLinearVelocity().x * idleDampenMultiplier, 0.0f), pbody->body->GetWorldCenter(), true);
+			if (pbody->body->GetLinearVelocity().x < -0.5f)
+				pbody->body->ApplyForce(b2Vec2(-pbody->body->GetLinearVelocity().x * idleDampenMultiplier, 0.0f), pbody->body->GetWorldCenter(), true);
+		}
 	}
-
-	//Left
-	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	else
 	{
-		if (pbody->body->GetLinearVelocity().x > 0.5f)
-		{
-			//Opposite direction dampening
-			pbody->body->ApplyForce(b2Vec2(-movementDampen, 0.0f), pbody->body->GetWorldCenter(), true);
-		}
-		else
-		{
-			if (pbody->body->GetLinearVelocity().x > -speedCap)
-				pbody->body->ApplyForce(b2Vec2(-movementForce, 0.0f), pbody->body->GetWorldCenter(), true);
-		}
-	}
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+			pbody->body->SetLinearVelocity(b2Vec2(0.0f, -5.0f));
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
+			pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
 
-	//Right
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	{
-		if (pbody->body->GetLinearVelocity().x < -0.5f)
-		{
-			//Opposite direction dampening
-			pbody->body->ApplyForce(b2Vec2(movementDampen, 0.0f), pbody->body->GetWorldCenter(), true);
-		}
-		else
-		{
-			if (pbody->body->GetLinearVelocity().x < speedCap)
-				pbody->body->ApplyForce(b2Vec2(movementForce, 0.0f), pbody->body->GetWorldCenter(), true);
-		}
-	}
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+			pbody->body->SetLinearVelocity(b2Vec2(-5.0f, 0.0f));
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP)
+			pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
 
-	//General dampening
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && app->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE)
-	{
-		if (pbody->body->GetLinearVelocity().x > 0.5f)
-			pbody->body->ApplyForce(b2Vec2(-pbody->body->GetLinearVelocity().x * idleDampenMultiplier, 0.0f), pbody->body->GetWorldCenter(), true);
-		if (pbody->body->GetLinearVelocity().x < -0.5f)
-			pbody->body->ApplyForce(b2Vec2(-pbody->body->GetLinearVelocity().x * idleDampenMultiplier, 0.0f), pbody->body->GetWorldCenter(), true);
+		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+			pbody->body->SetLinearVelocity(b2Vec2(0.0f, 5.0f));
+		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
+			pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+			pbody->body->SetLinearVelocity(b2Vec2(5.0f, 0.0f));
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
+			pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
 	}
 
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x - (width / 2));
@@ -502,11 +527,14 @@ void Player::normalsCheck()
 		{
 			if (contact->GetFixtureA() == c->data->body->GetFixtureList())
 			{
-				app->render->DrawLine(METERS_TO_PIXELS(this->pbody->body->GetPosition().x),
-					METERS_TO_PIXELS(this->pbody->body->GetPosition().y),
-					METERS_TO_PIXELS(c->data->body->GetPosition().x),
-					METERS_TO_PIXELS(c->data->body->GetPosition().y),
-					0, 255, 0, 255);
+				if (app->debug->hitboxes)
+				{
+					app->render->DrawLine(METERS_TO_PIXELS(this->pbody->body->GetPosition().x),
+						METERS_TO_PIXELS(this->pbody->body->GetPosition().y),
+						METERS_TO_PIXELS(c->data->body->GetPosition().x),
+						METERS_TO_PIXELS(c->data->body->GetPosition().y),
+						0, 255, 0, 255);
+				}
 
 				b2RayCastInput input;
 				b2RayCastOutput output;
@@ -542,7 +570,7 @@ void Player::SetSpawn(iPoint position, iPoint cameraPosition) {
 	if (spawn.x != position.x || spawn.y != position.y) {
 		spawn = position;
 	}
-	if (!app->debug->debug) {
+	if (!app->debug->debugCamera) {
 		if (app->render->camera.x != cameraPosition.x ||
 			app->render->camera.y != cameraPosition.y) {
 			app->render->camera.x = cameraPosition.x;
@@ -634,8 +662,11 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::SAW:
 		LOG("Collision SAW");
-		app->audio->PlayFx(dieFx);
-		app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 0.0f);
+		if (!app->debug->godMode)
+		{
+			app->audio->PlayFx(dieFx);
+			app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 0.0f);
+		}
 		break;
 	case ColliderType::GOAL:
 		LOG("Collision GOAL");

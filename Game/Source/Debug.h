@@ -26,17 +26,18 @@ public:
 	// Draws all existing colliders with some transparency
 	void DebugDraw();
 
+	void DrawHitboxes();
+
 	bool debug;
-private:
-
-	// Simple debugging flag
-	
-
-	int varBox = 50;
 
 	bool variables = false;
 	bool hitboxes = false;
 	bool debugCamera = false;
+	bool godMode = false;
+
+private:
+
+	int varBox = 50;
 };
 
 #endif // __MODULE_DEBUG_H__

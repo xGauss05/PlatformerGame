@@ -44,6 +44,9 @@ public:
 	int level = 1;
 	int dieFx;
 	iPoint spawn;
+
+	PhysBody* pbody;
+
 private:
 
 	SDL_Texture* texture;
@@ -64,8 +67,6 @@ private:
 	Animation leftFall;
 	Animation leftWall;
 
-	PhysBody* pbody;
-	
 	//Movement variables
 	float movementForce = 10.0f;
 	float jumpForce = 300.f;
