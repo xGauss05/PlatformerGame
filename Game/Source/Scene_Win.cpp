@@ -31,6 +31,7 @@ Scene_Win::~Scene_Win() {}
 bool Scene_Win::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene_Win");
+	background_texturePath = config.child("background").attribute("texturepath").as_string();
 	bool ret = true;
 
 	return ret;
@@ -40,6 +41,7 @@ bool Scene_Win::Awake(pugi::xml_node& config)
 bool Scene_Win::Start()
 {
 	active = false;
+	background = app->tex->Load(background_texturePath);
 	return true;
 }
 
@@ -52,7 +54,10 @@ bool Scene_Win::PreUpdate()
 // Called each loop iteration
 bool Scene_Win::Update(float dt)
 {
-	app->font->BlitText(700, 400, 0, "You Won!");
+
+	if (app->render->camera.x != 0) app->render->camera.x = 0;
+
+	if (app->render->camera.y != 0) app->render->camera.y = 0;
 
 	if (app->entityManager->IsEnabled()) {
 		app->entityManager->Disable();
@@ -78,6 +83,7 @@ bool Scene_Win::Update(float dt)
 bool Scene_Win::PostUpdate()
 {
 	bool ret = true;
+	app->render->DrawTexture(background, 0, 0, NULL);
 
 	return ret;
 }
@@ -85,6 +91,6 @@ bool Scene_Win::PostUpdate()
 // Called before quitting
 bool Scene_Win::CleanUp()
 {
-	LOG("Freeing Scene_Menu");
+	LOG("Freeing Scene_Win");
 	return true;
 }

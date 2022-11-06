@@ -40,6 +40,8 @@ public:
 
 
 private:
+	SDL_Texture* background;
+	const char* background_texturePath;
 
 	high_resolution_clock::time_point start;
 	high_resolution_clock::time_point currentTime;

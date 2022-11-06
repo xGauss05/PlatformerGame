@@ -104,7 +104,9 @@
       </left_wall>
     </player>
   </scene_level1>
-
+  <scene_win>
+    <background texturepath="Assets/Textures/background_Win.png"/>
+  </scene_win>
   <map>
     <mapfolder path="Assets/Maps/"/>
     <mapfile path="Assets/Maps/Map1(test).tmx"/>
