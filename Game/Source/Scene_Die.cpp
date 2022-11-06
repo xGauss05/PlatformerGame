@@ -56,7 +56,6 @@ bool Scene_Die::Start()
 	selector = app->tex->Load(selector_texturePath);
 	pointer = app->tex->Load(pointer_texturePath);
 	choice = 0;
-	hasRecovered = false;
 	active = false;
 	return true;
 }
@@ -70,13 +69,10 @@ bool Scene_Die::PreUpdate()
 // Called each loop iteration
 bool Scene_Die::Update(float dt)
 {
-	if (!app->scene->IsEnabled() && !hasRecovered)
+	if (app->render->camera.x = 0)
 	{
-		oldposition.x = app->render->camera.x;
-		oldposition.y = app->render->camera.y;
 		app->render->camera.x = 0;
 		app->render->camera.y = 0;
-		hasRecovered = true;
 	}
 
 	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
@@ -113,7 +109,7 @@ bool Scene_Die::Update(float dt)
 		switch (choice) 
 		{
 		case 0:
-			hasRecovered = false;
+			app->entityManager->Enable();
 			app->ftb->SceneFadeToBlack(this, app->scene, 40.0f);
 			break;
 		case 1:
@@ -137,7 +133,6 @@ bool Scene_Die::Update(float dt)
 	
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) 
 	{
-		hasRecovered = false;
 		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0);
 	}
 

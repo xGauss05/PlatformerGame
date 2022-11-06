@@ -50,7 +50,6 @@ private:
 
 	int choice = 0;
 	bool hasSelected = false;
-	bool hasRecovered = false;
 
 	Animation pointerArrow;
 	Animation* currentPointerAnim = nullptr;

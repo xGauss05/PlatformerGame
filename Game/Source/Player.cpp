@@ -712,6 +712,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB)
 		if (!app->debug->godMode)
 		{
 			app->audio->PlayFx(dieFx);
+			app->entityManager->Disable();
 			app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 10.0f);
 		}
 		break;
