@@ -67,12 +67,12 @@ bool Debug::PostUpdate() {
 
 	if (debug)
 	{
-		app->font->BlitText(10, 10, 0, "PRESS F5 TO SAVE THE CURRENT GAME STATE");
-		app->font->BlitText(10, 20, 0, "PRESS F6 TO LOAD THE CURRENT GAME STATE");
-		app->font->BlitText(10, 30, 0, "PRESS F7 TO SHOW GAME VARIABLES");
-		app->font->BlitText(10, 40, 0, "PRESS F8 TO MOVE THE CAMERA FREELY");
-		app->font->BlitText(10, 50, 0, "PRESS F9 TO VIEW COLLIDERS");
-		app->font->BlitText(10, 60, 0, "PRESS F10 TO ACTIVATE GOD MODE");
+		app->font->BlitText(10, 10, 0, "Press F5 to SAVE the current game state");
+		app->font->BlitText(10, 20, 0, "Press F6 to LOAD the current game state");
+		app->font->BlitText(10, 30, 0, "Press F7 to show game VARIABLES");
+		app->font->BlitText(10, 40, 0, "Press F8 to move the CAMERA freely");
+		app->font->BlitText(10, 50, 0, "Press F9 to view COLLIDERS");
+		app->font->BlitText(10, 60, 0, "Press F10 to activate GOD MODE");
 
 		DebugDraw();
 	}
@@ -93,23 +93,23 @@ void Debug::DebugDraw() {
 
 		app->font->BlitText(10, varBox + 0, 0, "PLAYER");
 
-		app->font->BlitText(20, varBox + 10, 0, "X.");
+		app->font->BlitText(20, varBox + 10, 0, "X:");
 		app->font->BlitText(100, varBox + 10, 0, std::to_string(app->entityManager->entities.At(0)->data->position.x).c_str());
 
-		app->font->BlitText(20, varBox + 20, 0, "Y.");
+		app->font->BlitText(20, varBox + 20, 0, "Y:");
 		app->font->BlitText(100, varBox + 20, 0, std::to_string(app->entityManager->entities.At(0)->data->position.y).c_str());
 
 		app->font->BlitText(10, varBox + 40, 0, "CAMERA");
-		app->font->BlitText(20, varBox + 50, 0, "FREE CAM");
+		app->font->BlitText(20, varBox + 50, 0, "Free Cam");
 		if (!debugCamera)
 			app->font->BlitText(90, varBox + 50, 0, "OFF");
 		else
 			app->font->BlitText(90, varBox + 50, 0, "ON");
 
-		app->font->BlitText(20, varBox + 60, 0, "CAMERA X.");
+		app->font->BlitText(20, varBox + 60, 0, "Camera X:");
 		app->font->BlitText(100, varBox + 60, 0, std::to_string(app->render->camera.x).c_str());
 
-		app->font->BlitText(20, varBox + 70, 0, "CAMERA Y.");
+		app->font->BlitText(20, varBox + 70, 0, "Camera Y:");
 		app->font->BlitText(100, varBox + 70, 0, std::to_string(app->render->camera.y).c_str());
 
 		#pragma endregion
@@ -118,15 +118,15 @@ void Debug::DebugDraw() {
 
 		app->font->BlitText(10, varBox + 90, 0, "NORMALS ");
 
-		app->font->BlitText(20, varBox + 100, 0, "X NORMAL. ");
+		app->font->BlitText(20, varBox + 100, 0, "X Normal: ");
 		app->font->BlitText(100, varBox + 100, 0, std::to_string(app->scene->player->normal_x).c_str());
-		app->font->BlitText(20, varBox + 110, 0, "Y NORMAL. ");
+		app->font->BlitText(20, varBox + 110, 0, "Y Normal: ");
 		app->font->BlitText(100, varBox + 110, 0, std::to_string(app->scene->player->normal_y).c_str());
 
-		app->font->BlitText(20, varBox + 120, 0, "JUMPS. ");
+		app->font->BlitText(20, varBox + 120, 0, "Jumps: ");
 		app->font->BlitText(100, varBox + 120, 0, std::to_string(app->scene->player->currentJumps).c_str());
 
-		app->font->BlitText(20, varBox + 130, 0, "STATE. ");
+		app->font->BlitText(20, varBox + 130, 0, "State: ");
 		if (app->scene->player->normal_x == 0.0f && app->scene->player->normal_y == 0.0f) { app->font->BlitText(100, varBox + 130, 0, "AIR"); }
 		if (app->scene->player->normal_x == 0.0f && app->scene->player->normal_y == 1.0f) { app->font->BlitText(100, varBox + 130, 0, "CEILING"); }
 		if (app->scene->player->normal_x == 0.0f && app->scene->player->normal_y == -1.0f) { app->font->BlitText(100, varBox + 130, 0, "GROUND"); }

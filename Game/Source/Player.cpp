@@ -206,7 +206,7 @@ void Player::animationLogic()
 	if (currentAnim == &rightIdle)
 	{
 		if (app->debug->debug && app->debug->variables)
-			app->font->BlitText(20, app->debug->varBox + 160, 0, "RIGHT IDLE ");
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "Right Idle ");
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN || app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
@@ -224,7 +224,7 @@ void Player::animationLogic()
 	if (currentAnim == &leftIdle)
 	{
 		if (app->debug->debug && app->debug->variables)
-			app->font->BlitText(20, app->debug->varBox + 160, 0, "LEFT IDLE ");
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "Left Idle ");
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN || app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
@@ -242,7 +242,7 @@ void Player::animationLogic()
 	if (currentAnim == &rightRun)
 	{
 		if (app->debug->debug && app->debug->variables)
-			app->font->BlitText(20, app->debug->varBox + 160, 0, "RIGHT RUN ");
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "Right Run ");
 
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
 		{
@@ -268,7 +268,7 @@ void Player::animationLogic()
 	if (currentAnim == &leftRun)
 	{
 		if (app->debug->debug && app->debug->variables)
-			app->font->BlitText(20, app->debug->varBox + 160, 0, "LEFT RUN ");
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "Left Run ");
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP)
 		{
@@ -294,7 +294,7 @@ void Player::animationLogic()
 	if (currentAnim == &rightJump)
 	{
 		if (app->debug->debug && app->debug->variables)
-			app->font->BlitText(20, app->debug->varBox + 160, 0, "RIGHT JUMP ");
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "Right Jump ");
 
 		if (rightJump.HasFinished())
 		{
@@ -315,7 +315,7 @@ void Player::animationLogic()
 	if (currentAnim == &leftJump)
 	{
 		if (app->debug->debug && app->debug->variables)
-			app->font->BlitText(20, app->debug->varBox + 160, 0, "LEFT JUMP ");
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "Left Jump ");
 
 		if (leftJump.HasFinished())
 		{
@@ -336,7 +336,7 @@ void Player::animationLogic()
 	if (currentAnim == &rightFall)
 	{
 		if (app->debug->debug && app->debug->variables)
-			app->font->BlitText(20, app->debug->varBox + 160, 0, "RIGHT FALL ");
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "Right Fall ");
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 		{
@@ -370,7 +370,7 @@ void Player::animationLogic()
 	if (currentAnim == &leftFall)
 	{
 		if (app->debug->debug && app->debug->variables)
-			app->font->BlitText(20, app->debug->varBox + 160, 0, "LEFT FALL ");
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "Left Fall ");
 
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 		{
@@ -404,7 +404,7 @@ void Player::animationLogic()
 	if (currentAnim == &rightWall)
 	{
 		if (app->debug->debug && app->debug->variables)
-			app->font->BlitText(20, app->debug->varBox + 160, 0, "RIGHT WALL ");
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "Right Wall ");
 
 		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 		{
@@ -425,7 +425,7 @@ void Player::animationLogic()
 	if (currentAnim == &leftWall)
 	{
 		if (app->debug->debug && app->debug->variables)
-			app->font->BlitText(20, app->debug->varBox + 160, 0, "LEFT WALL ");
+			app->font->BlitText(20, app->debug->varBox + 160, 0, "Left Wall ");
 
 		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 		{

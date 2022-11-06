@@ -50,7 +50,7 @@ bool Scene_Level1::Start()
 	//img = app->tex->Load("Assets/Textures/test.png");
 	//
 	app->physics->Enable();
-	font = app->font->Load("Assets/Textures/font.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.@'&-                       ", 8);
+	font = app->font->Load("Assets/Textures/font.png", " !ª#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[º]^_`abcdefghijklmnopqrstuvwxyz{|}~             ", 6);
 
 	app->map->Load();
 
