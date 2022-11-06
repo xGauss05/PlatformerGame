@@ -4,6 +4,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Audio.h"
+#include "Scene_Intro.h"
 #include "Scene_Menu.h"
 #include "Scene_Level1.h"
 #include "SceneTransition.h"
@@ -33,6 +34,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new Textures();
 	font = new Fonts();
 	audio = new Audio();
+	scene_intro = new Scene_Intro();
 	scene_menu = new Scene_Menu();
 	scene = new Scene_Level1();
 	transition = new Scene_Transition();
@@ -53,6 +55,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(debug);
 	AddModule(font);
 	AddModule(physics);
+	AddModule(scene_intro);
 	AddModule(scene_menu);
 	AddModule(scene);
 	AddModule(transition);

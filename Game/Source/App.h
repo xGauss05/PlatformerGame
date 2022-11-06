@@ -15,6 +15,7 @@ class Input;
 class Render;
 class Textures;
 class Audio;
+class Scene_Intro;
 class Scene_Menu;
 class Scene_Level1;
 class Scene_Transition;
@@ -91,6 +92,7 @@ public:
 	Render* render;
 	Textures* tex;
 	Audio* audio;
+	Scene_Intro* scene_intro;
 	Scene_Menu* scene_menu;
 	Scene_Level1* scene;
 	Scene_Transition* transition;

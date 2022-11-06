@@ -70,6 +70,9 @@
     <ClCompile Include="Source\Scene_Win.cpp">
       <Filter>Modules\Gameplay\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene_Intro.cpp">
+      <Filter>Modules\Gameplay\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -166,6 +169,9 @@
       <Filter>Modules\Gameplay\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene_Win.h">
+      <Filter>Modules\Gameplay\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene_Intro.h">
       <Filter>Modules\Gameplay\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
