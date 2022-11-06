@@ -109,7 +109,7 @@
   </scene_win>
   <map>
     <mapfolder path="Assets/Maps/"/>
-    <mapfile path="Assets/Maps/Map1(test).tmx"/>
+    <mapfile path="Assets/Maps/Map.tmx"/>
   </map>
 
 </config>

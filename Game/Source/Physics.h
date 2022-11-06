@@ -30,6 +30,7 @@ enum class ColliderType {
 	PLAYER,
 	ITEM,
 	PLATFORM,
+	LIMIT,
 	SAW,
 	GOAL,
 	UNKNOWN

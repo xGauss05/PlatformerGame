@@ -113,6 +113,18 @@ bool Scene_Level1::Update(float dt)
 								 &(sawAnim.GetCurrentFrame()));
 	}
 
+	if (player->level == 1)
+	{
+		app->font->BlitText(130, 580, 0, "Use A and D to move");
+		app->font->BlitText(540, 630, 0, "Press SPACE to jump");
+		app->font->BlitText(1085, 690, 0, "Avoid sharp objects");
+	}
+	if (player->level == 2)
+	{
+		app->font->BlitText(1150, 650, 0, "Press SPACE while on");
+		app->font->BlitText(1135, 670, 0, "a wall to jump off of it");
+		app->font->BlitText(820, 300, 0, "Press SPACE mid-air to do a double jump");
+	}
 	return true;
 }
 
