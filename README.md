@@ -1,8 +1,8 @@
-# {Project Name}
+# Super Metal Boy
 - [Repository LINK](https://github.com/xGauss05/PlatformerGame)
 ## Description
 
-{project description}
+A simple 2D platformer that has some levels to play with. Our metal protagonist is able to walljump in order to reach the goal.
 
 ## Key Features
 
