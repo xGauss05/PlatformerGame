@@ -100,7 +100,7 @@ bool Scene_Die::Update(float dt)
 		}
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN ||
+	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN ||
 		app->input->GetMouseButtonDown(SDL_BUTTON_LEFT)) 
 	{
 
