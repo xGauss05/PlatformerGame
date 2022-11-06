@@ -18,6 +18,7 @@ class Audio;
 class Scene_Menu;
 class Scene_Level1;
 class Scene_Transition;
+class Scene_Win;
 class Scene_Die;
 class EntityManager;
 class Map;
@@ -93,6 +94,7 @@ public:
 	Scene_Menu* scene_menu;
 	Scene_Level1* scene;
 	Scene_Transition* transition;
+	Scene_Win* scene_win;
 	Scene_Die* scene_die;
 	EntityManager* entityManager;
 	Physics* physics;

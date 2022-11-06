@@ -8,6 +8,7 @@
 #include "Physics.h"
 #include "Scene_Menu.h"
 #include "Scene_Level1.h"
+#include "Scene_Win.h"
 #include "Scene_Die.h"
 #include "EntityManager.h"
 #include "Map.h"
@@ -95,6 +96,10 @@ bool Scene_Level1::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
 		app->audio->PlayFx(player->dieFx);
 		app->ftb->SceneFadeToBlack(this, app->scene_die, 0);
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+		app->ftb->SceneFadeToBlack(this, app->scene_win, 0);
 	}
 
 	// Draw map
