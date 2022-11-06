@@ -10,6 +10,7 @@
 struct SDL_Texture;
 
 struct Font {
+
 	// Lookup table. All characters displayed in the same order as the texture
 	char table[MAX_FONT_CHARS];
 
@@ -49,6 +50,5 @@ private:
 	// An array to keep track and store all loaded fonts
 	Font fonts[MAX_FONTS];
 };
-
 
 #endif // __ModuleFonts_H__

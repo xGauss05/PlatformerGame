@@ -17,8 +17,6 @@
 #include "Defs.h"
 #include "Log.h"
 
-
-
 Scene_Win::Scene_Win() : Module()
 {
 	name.Create("scene_win");

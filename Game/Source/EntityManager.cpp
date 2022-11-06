@@ -17,7 +17,9 @@ EntityManager::EntityManager() : Module()
 
 // Destructor
 EntityManager::~EntityManager()
-{}
+{
+
+}
 
 // Called before render is available
 bool EntityManager::Awake(pugi::xml_node& config)
@@ -37,9 +39,7 @@ bool EntityManager::Awake(pugi::xml_node& config)
 		ret = item->data->Awake();
 	}
 
-
 	return ret;
-
 }
 
 bool EntityManager::Start() {
@@ -116,7 +116,6 @@ void EntityManager::DestroyEntity(Entity* entity)
 			item->data->DeathAnimation();
 			entities.Del(item);
 		}
-
 	}
 }
 
@@ -141,9 +140,3 @@ bool EntityManager::Update(float dt)
 
 	return ret;
 }
-
-//void EntityManager::OnCollision(PhysBody* bodyA, PhysBody* bodyB) {
-//	if (bodyA->entity != NULL)
-//		bodyA->entity->OnCollision(bodyB);
-//	
-//}

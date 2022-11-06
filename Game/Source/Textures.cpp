@@ -13,7 +13,10 @@ Textures::Textures() : Module()
 }
 
 // Destructor
-Textures::~Textures() {}
+Textures::~Textures() 
+{
+
+}
 
 // Called before render is available
 bool Textures::Awake(pugi::xml_node& config)
@@ -118,6 +121,7 @@ void Textures::GetSize(const SDL_Texture* texture, uint& width, uint& height) co
 	SDL_QueryTexture((SDL_Texture*)texture, NULL, NULL, (int*)&width, (int*)&height);
 }
 
-void Textures::GetTextureSize(const SDL_Texture* texture, uint& width, uint& height) const {
+void Textures::GetTextureSize(const SDL_Texture* texture, uint& width, uint& height) const 
+{
 	SDL_QueryTexture((SDL_Texture*)texture, NULL, NULL, (int*)&width, (int*)&height);
 }

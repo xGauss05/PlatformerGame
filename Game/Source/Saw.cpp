@@ -6,18 +6,23 @@
 #include "Point.h"
 #include "Input.h"
 
-Saw::Saw() : Entity(EntityType::SAW) {
+Saw::Saw() : Entity(EntityType::SAW) 
+{
 	name.Create("saw");
 }
 
-Saw::~Saw() {}
+Saw::~Saw() 
+{
 
-bool Saw::Awake() {
+}
+
+bool Saw::Awake()
+{
 	return true;
 }
 
-bool Saw::Start() {
-
+bool Saw::Start() 
+{
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateCircle(position.x, position.y, 10, STATIC);
@@ -36,8 +41,12 @@ bool Saw::CleanUp()
 	return true;
 }
 
-void Saw::OnCollision(PhysBody* physA, PhysBody* physB) {
+void Saw::OnCollision(PhysBody* physA, PhysBody* physB) 
+{
 
 }
 
-void Saw::DeathAnimation() {}
+void Saw::DeathAnimation() 
+{
+
+}

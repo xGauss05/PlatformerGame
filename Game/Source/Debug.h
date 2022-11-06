@@ -7,6 +7,7 @@
 
 class Debug : public Module {
 public:
+
 	// Constructor
 	Debug();
 

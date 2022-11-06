@@ -6,6 +6,7 @@
 
 class FadeToBlack : public Module {
 public:
+
 	// Constructor
 	FadeToBlack();
 

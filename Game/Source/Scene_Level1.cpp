@@ -24,7 +24,10 @@ Scene_Level1::Scene_Level1() : Module()
 }
 
 // Destructor
-Scene_Level1::~Scene_Level1() {}
+Scene_Level1::~Scene_Level1() 
+{
+
+}
 
 // Called before render is available
 bool Scene_Level1::Awake(pugi::xml_node& config)
@@ -71,36 +74,32 @@ bool Scene_Level1::PreUpdate()
 // Called each loop iteration
 bool Scene_Level1::Update(float dt)
 {
-	if (!app->entityManager->IsEnabled()) {
+	if (!app->entityManager->IsEnabled()) 
+	{
 		app->entityManager->Enable();
-		player->levelSelector();
+		player->LevelSelector();
 		player->TeleportTo(player->spawn);
 		app->render->camera.x = 0;
 		app->render->camera.y = 0;
 	}
 
-	if (app->scene_die->IsEnabled()) {
-		app->scene_die->Disable();
-	}
+	if (app->scene_die->IsEnabled()) app->scene_die->Disable();
+	
+	if (app->scene_menu->IsEnabled()) app->scene_menu->Disable();
+	
 
-	if (app->scene_menu->IsEnabled()) {
-		app->scene_menu->Disable();
-	}
+	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveGameRequest();
 
-	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-		app->SaveGameRequest();
+	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadGameRequest();
 
-	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-		app->LoadGameRequest();
-
-	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) 
+	{
 		app->audio->PlayFx(player->dieFx);
 		app->ftb->SceneFadeToBlack(this, app->scene_die, 0);
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
-		app->ftb->SceneFadeToBlack(this, app->scene_win, 0);
-	}
+	if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) app->ftb->SceneFadeToBlack(this, app->scene_win, 0);
+	
 
 	// Draw map
 	app->map->Draw();
@@ -122,7 +121,8 @@ bool Scene_Level1::PostUpdate()
 {
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) 
+	{
 		player->level = 1;
 		player->TeleportTo(player->spawn);
 		app->render->camera.x = 0;

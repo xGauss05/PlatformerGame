@@ -14,30 +14,33 @@
 
 using namespace std;
 
-Debug::Debug() : Module() {
+Debug::Debug() : Module() 
+{
 	debug = false;
 	name.Create("debug");
 }
 
-Debug::~Debug() {
+Debug::~Debug() 
+{
+
 }
 
-bool Debug::Start() {
+bool Debug::Start() 
+{
 	debug = false;
 	return true;
 }
 
-bool Debug::Update(float dt) {
+bool Debug::Update(float dt) 
+{
 
-	if (app->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
-		debug = !debug;
+	if (app->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) debug = !debug;
 
-	if (debug) {
-		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
-			variables = !variables;
+	if (debug) 
+	{
+		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) variables = !variables;
 
-		if (app->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
-			debugCamera = !debugCamera;
+		if (app->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) debugCamera = !debugCamera;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
@@ -45,8 +48,7 @@ bool Debug::Update(float dt) {
 		app->scene->player->TeleportTo(app->scene->player->spawn);
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
-		hitboxes = !hitboxes;
+	if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) hitboxes = !hitboxes;
 
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
@@ -57,13 +59,16 @@ bool Debug::Update(float dt) {
 			app->scene->player->pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
 		}
 		else
+		{
 			app->scene->player->pbody->body->SetGravityScale(1.0f);
+		}
 	}
 
 	return true;
 }
 
-bool Debug::PostUpdate() {
+bool Debug::PostUpdate() 
+{
 
 	if (debug)
 	{
@@ -85,7 +90,8 @@ bool Debug::PostUpdate() {
 	return true;
 }
 
-void Debug::DebugDraw() {
+void Debug::DebugDraw() 
+{
 
 	if (variables) 
 	{

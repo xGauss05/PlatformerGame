@@ -24,11 +24,12 @@ Player::Player() : Entity(EntityType::PLAYER)
 	name.Create("Player");
 }
 
-void Player::initAnims()
+void Player::InitAnims()
 {
 	//Right idle
 	for (pugi::xml_node node = parameters.child("right_idle").child("pushback");
-		node; node = node.next_sibling("pushback")) {
+		node; node = node.next_sibling("pushback"))
+	{
 		rightIdle.PushBack({ node.attribute("x").as_int(),
 							node.attribute("y").as_int(),
 							node.attribute("width").as_int(),
@@ -37,7 +38,8 @@ void Player::initAnims()
 
 	//Right run
 	for (pugi::xml_node node = parameters.child("right_run").child("pushback");
-		node; node = node.next_sibling("pushback")) {
+		node; node = node.next_sibling("pushback"))
+	{
 		rightRun.PushBack({ node.attribute("x").as_int(),
 							node.attribute("y").as_int(),
 							node.attribute("width").as_int(),
@@ -48,7 +50,8 @@ void Player::initAnims()
 
 	//Right jump
 	for (pugi::xml_node node = parameters.child("right_jump").child("pushback");
-		node; node = node.next_sibling("pushback")) {
+		node; node = node.next_sibling("pushback"))
+	{
 		rightJump.PushBack({ node.attribute("x").as_int(),
 							node.attribute("y").as_int(),
 							node.attribute("width").as_int(),
@@ -59,15 +62,18 @@ void Player::initAnims()
 
 	//Right fall
 	for (pugi::xml_node node = parameters.child("right_fall").child("pushback");
-		node; node = node.next_sibling("pushback")) {
+		node; node = node.next_sibling("pushback"))
+	{
 		rightFall.PushBack({ node.attribute("x").as_int(),
 							node.attribute("y").as_int(),
 							node.attribute("width").as_int(),
 							node.attribute("height").as_int() });
 	}
+
 	//Right wall
 	for (pugi::xml_node node = parameters.child("right_wall").child("pushback");
-		node; node = node.next_sibling("pushback")) {
+		node; node = node.next_sibling("pushback"))
+	{
 		rightWall.PushBack({ node.attribute("x").as_int(),
 							node.attribute("y").as_int(),
 							node.attribute("width").as_int(),
@@ -85,7 +91,8 @@ void Player::initAnims()
 
 	//Left run
 	for (pugi::xml_node node = parameters.child("left_run").child("pushback");
-		node; node = node.next_sibling("pushback")) {
+		node; node = node.next_sibling("pushback"))
+	{
 		leftRun.PushBack({ node.attribute("x").as_int(),
 						   node.attribute("y").as_int(),
 						   node.attribute("width").as_int(),
@@ -96,7 +103,8 @@ void Player::initAnims()
 
 	//Left jump
 	for (pugi::xml_node node = parameters.child("left_jump").child("pushback");
-		node; node = node.next_sibling("pushback")) {
+		node; node = node.next_sibling("pushback"))
+	{
 		leftJump.PushBack({ node.attribute("x").as_int(),
 						   node.attribute("y").as_int(),
 						   node.attribute("width").as_int(),
@@ -107,15 +115,18 @@ void Player::initAnims()
 
 	//Left fall
 	for (pugi::xml_node node = parameters.child("left_fall").child("pushback");
-		node; node = node.next_sibling("pushback")) {
+		node; node = node.next_sibling("pushback"))
+	{
 		leftFall.PushBack({ node.attribute("x").as_int(),
 							node.attribute("y").as_int(),
 							node.attribute("width").as_int(),
 							node.attribute("height").as_int() });
 	}
+
 	//Left wall
 	for (pugi::xml_node node = parameters.child("left_wall").child("pushback");
-		node; node = node.next_sibling("pushback")) {
+		node; node = node.next_sibling("pushback"))
+	{
 		leftWall.PushBack({ node.attribute("x").as_int(),
 							node.attribute("y").as_int(),
 							node.attribute("width").as_int(),
@@ -125,11 +136,13 @@ void Player::initAnims()
 	currentAnim = &rightIdle;
 }
 
-Player::~Player() {
+Player::~Player()
+{
 
 }
 
-bool Player::Awake() {
+bool Player::Awake()
+{
 
 	LOG("Loading Player");
 	position.x = parameters.attribute("x").as_int();
@@ -140,12 +153,13 @@ bool Player::Awake() {
 	jumpFx = app->audio->LoadFx(parameters.attribute("jumpFxpath").as_string());
 	landingFx = app->audio->LoadFx(parameters.attribute("landingFxpath").as_string());
 	goalFx = app->audio->LoadFx(parameters.attribute("goalFxpath").as_string());
-	initAnims();
+	InitAnims();
 
 	return true;
 }
 
-bool Player::Start() {
+bool Player::Start()
+{
 
 	texture = app->tex->Load(texturePath);
 	isDead = false;
@@ -167,7 +181,7 @@ bool Player::Start() {
 	return true;
 }
 
-void Player::animationLogic()
+void Player::AnimationLogic()
 {
 	//Two side input "security check"
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
@@ -448,7 +462,7 @@ void Player::animationLogic()
 	}
 }
 
-void Player::movementLogic()
+void Player::MovementLogic()
 {
 	if (!app->debug->godMode)
 	{
@@ -501,6 +515,7 @@ void Player::movementLogic()
 		{
 			if (pbody->body->GetLinearVelocity().x > 0.5f)
 				pbody->body->ApplyForce(b2Vec2(-pbody->body->GetLinearVelocity().x * idleDampenMultiplier, 0.0f), pbody->body->GetWorldCenter(), true);
+
 			if (pbody->body->GetLinearVelocity().x < -0.5f)
 				pbody->body->ApplyForce(b2Vec2(-pbody->body->GetLinearVelocity().x * idleDampenMultiplier, 0.0f), pbody->body->GetWorldCenter(), true);
 		}
@@ -509,21 +524,25 @@ void Player::movementLogic()
 	{
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 			pbody->body->SetLinearVelocity(b2Vec2(0.0f, -5.0f));
+
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
 			pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 			pbody->body->SetLinearVelocity(b2Vec2(-5.0f, 0.0f));
+
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP)
 			pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
 
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 			pbody->body->SetLinearVelocity(b2Vec2(0.0f, 5.0f));
+
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_UP)
 			pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
 
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 			pbody->body->SetLinearVelocity(b2Vec2(5.0f, 0.0f));
+
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP)
 			pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
 	}
@@ -532,12 +551,13 @@ void Player::movementLogic()
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y - (height / 2));
 }
 
-void Player::normalsCheck()
+void Player::NormalsCheck()
 {
 	//Raycast from player to collision
 	if (app->physics->world->GetContactList() == NULL) { normal_x = 0.0f; normal_y = 0.0f; }
 
-	for (b2Contact* contact = app->physics->world->GetContactList(); contact; contact = contact->GetNext()) {
+	for (b2Contact* contact = app->physics->world->GetContactList(); contact; contact = contact->GetNext()) 
+	{
 
 		ListItem<PhysBody*>* c = app->scene->boxes.start;
 
@@ -574,29 +594,36 @@ void Player::normalsCheck()
 	if (normal_x == -1.0f && normal_y == 0.0f) { currentJumps = maxJumps; }
 }
 
-void Player::SetSpawn(iPoint position, iPoint cameraPosition) {
-	if (spawn.x != position.x || spawn.y != position.y) {
+void Player::SetSpawn(iPoint position, iPoint cameraPosition)
+{
+	if (spawn.x != position.x || spawn.y != position.y)
+	{
 		spawn = position;
 	}
-	if (!app->debug->debugCamera) {
+
+	if (!app->debug->debugCamera) 
+	{
 		if (app->render->camera.x != cameraPosition.x ||
-			app->render->camera.y != cameraPosition.y) {
+			app->render->camera.y != cameraPosition.y) 
+		{
 			app->render->camera.x = cameraPosition.x;
 			app->render->camera.y = cameraPosition.y;
 		}
 	}
 }
 
-void Player::TeleportTo(iPoint position) {
+void Player::TeleportTo(iPoint position)
+{
 	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0.0f);
 	pbody->body->ApplyForce(b2Vec2(0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
 }
 
-void Player::levelSelector()
+void Player::LevelSelector()
 {
 	iPoint newSpawnPoint;
 	iPoint newCameraPosition;
-	switch (level) {
+	switch (level)
+	{
 
 	case 1:
 		newSpawnPoint.x = 100;
@@ -618,11 +645,12 @@ void Player::levelSelector()
 		break;
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
 		if (level > 1)
 		{
 			level--;
-			levelSelector();
+			LevelSelector();
 			TeleportTo(spawn);
 		}
 	}
@@ -632,7 +660,7 @@ void Player::levelSelector()
 		if (level < 2)
 		{
 			level++;
-			levelSelector();
+			LevelSelector();
 			TeleportTo(spawn);
 		}
 	}
@@ -640,10 +668,10 @@ void Player::levelSelector()
 
 bool Player::Update()
 {
-	animationLogic(); //This call must go before decreasing currentJumps in order for jump animations to trigger properly
-	movementLogic();
-	normalsCheck();
-	levelSelector();
+	AnimationLogic(); //This call must go before decreasing currentJumps in order for jump animations to trigger properly
+	MovementLogic();
+	NormalsCheck();
+	LevelSelector();
 
 	currentAnim->Update();
 	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
@@ -656,7 +684,8 @@ bool Player::CleanUp()
 	return true;
 }
 
-void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
+void Player::OnCollision(PhysBody* physA, PhysBody* physB)
+{
 	switch (physB->ctype)
 	{
 	case ColliderType::ITEM:
@@ -686,6 +715,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	}
 }
 
-void Player::DeathAnimation() {
+void Player::DeathAnimation()
+{
 
 }

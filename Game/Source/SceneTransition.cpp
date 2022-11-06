@@ -23,7 +23,10 @@ Scene_Transition::Scene_Transition() : Module()
 }
 
 // Destructor
-Scene_Transition::~Scene_Transition() {}
+Scene_Transition::~Scene_Transition() 
+{
+
+}
 
 // Called before render is available
 bool Scene_Transition::Awake(pugi::xml_node& config)
@@ -50,14 +53,11 @@ bool Scene_Transition::PreUpdate()
 // Called each loop iteration
 bool Scene_Transition::Update(float dt)
 {
-	if (app->entityManager->IsEnabled()) {
-		app->entityManager->Disable();
-	}
-
+	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
+	
 	app->ftb->SceneFadeToBlack(this, app->scene, 25.0f);
 
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		return false;
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) return false;
 
 	return true;
 }

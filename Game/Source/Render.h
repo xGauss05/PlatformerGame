@@ -24,13 +24,16 @@ public:
 
 	// Called each loop iteration
 	bool PreUpdate();
+
 	bool Update(float dt);
+
 	bool PostUpdate();
 
 	// Called before quitting
 	bool CleanUp();
 
 	void SetViewPort(const SDL_Rect& rect);
+
 	void ResetViewPort();
 
 	// Drawing
@@ -42,6 +45,7 @@ public:
 	// Set background color
 	void SetBackgroundColor(SDL_Color color);
 
+	// Load&Save state
 	bool LoadState(pugi::xml_node&);
 	bool SaveState(pugi::xml_node&);
 

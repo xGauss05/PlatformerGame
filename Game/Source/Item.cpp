@@ -14,7 +14,10 @@ Item::Item() : Entity(EntityType::ITEM)
 	name.Create("item");
 }
 
-Item::~Item() {}
+Item::~Item() 
+{
+
+}
 
 bool Item::Awake() {
 
@@ -55,12 +58,12 @@ bool Item::CleanUp()
 	return true;
 }
 
-void Item::OnCollision(PhysBody* physA, PhysBody* physB) {
-	//if (body->body->)
+void Item::OnCollision(PhysBody* physA, PhysBody* physB) 
+{
+
 }
 
-
-void Item::DeathAnimation() {
+void Item::DeathAnimation() 
+{
 	app->audio->PlayFx(pickUpFx);
-	// sfx? delete entity?
 }

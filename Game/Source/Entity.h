@@ -68,11 +68,15 @@ public:
 		}
 	}
 
-	virtual void OnCollision(PhysBody* physA, PhysBody* physB) {
-
+	virtual void OnCollision(PhysBody* physA, PhysBody* physB) 
+	{
+		
 	};
 
-	virtual void DeathAnimation() = 0;
+	virtual void DeathAnimation() 
+	{
+
+	}
 
 public:
 

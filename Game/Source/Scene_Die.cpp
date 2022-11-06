@@ -22,7 +22,10 @@ Scene_Die::Scene_Die() : Module()
 }
 
 // Destructor
-Scene_Die::~Scene_Die() {}
+Scene_Die::~Scene_Die() 
+{
+
+}
 
 // Called before render is available
 bool Scene_Die::Awake(pugi::xml_node& config)
@@ -67,7 +70,8 @@ bool Scene_Die::PreUpdate()
 // Called each loop iteration
 bool Scene_Die::Update(float dt)
 {
-	if (!app->scene->IsEnabled() && !hasRecovered) {
+	if (!app->scene->IsEnabled() && !hasRecovered)
+	{
 		oldposition.x = app->render->camera.x;
 		oldposition.y = app->render->camera.y;
 		app->render->camera.x = 0;
@@ -75,11 +79,11 @@ bool Scene_Die::Update(float dt)
 		hasRecovered = true;
 	}
 
-	if (app->entityManager->IsEnabled()) {
-		app->entityManager->Disable();
-	}
+	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
 
-	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected) {
+
+	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected) 
+	{
 		if (choice == 2) {
 			choice = 0;
 		}
@@ -88,24 +92,26 @@ bool Scene_Die::Update(float dt)
 		}
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && !hasSelected) {
-		if (choice == 0) {
+	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && !hasSelected) 
+	{
+		if (choice == 0) 
+		{
 			choice = 2;
 		}
-		else {
+		else 
+		{
 			choice--;
 		}
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN ||
-		app->input->GetMouseButtonDown(SDL_BUTTON_LEFT)) {
+		app->input->GetMouseButtonDown(SDL_BUTTON_LEFT)) 
+	{
 
-		if (!hasSelected) {
-			hasSelected = !hasSelected;
-			//app->audio->PlayFx(selected);
-		}
-
-		switch (choice) {
+		if (!hasSelected) hasSelected = !hasSelected;
+			
+		switch (choice) 
+		{
 		case 0:
 			hasRecovered = false;
 			app->ftb->SceneFadeToBlack(this, app->scene, 0);
@@ -129,7 +135,8 @@ bool Scene_Die::Update(float dt)
 
 	if (y > 775) choice = 2;
 	
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) 
+	{
 		hasRecovered = false;
 		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0);
 	}
@@ -149,7 +156,8 @@ bool Scene_Die::PostUpdate()
 
 	int x = 630;
 	int y;
-	switch (choice) {
+	switch (choice) 
+	{
 	case 0:
 		y = 575;
 		break;
@@ -162,6 +170,7 @@ bool Scene_Die::PostUpdate()
 	default:
 		break;
 	}
+
 	int a, b;
 	app->input->GetMousePosition(a, b);
 	rect = currentPointerAnim->GetCurrentFrame();

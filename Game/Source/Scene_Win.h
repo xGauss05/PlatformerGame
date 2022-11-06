@@ -38,14 +38,15 @@ public:
 
 public:
 
-
 private:
+
 	SDL_Texture* background;
 	const char* background_texturePath;
 
 	high_resolution_clock::time_point start;
 	high_resolution_clock::time_point currentTime;
 	milliseconds elapsed;
+
 };
 
 #endif __SCENE_WIN_H__

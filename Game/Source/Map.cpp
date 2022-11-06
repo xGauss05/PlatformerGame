@@ -21,7 +21,9 @@ Map::Map() : Module(), mapLoaded(false)
 
 // Destructor
 Map::~Map()
-{}
+{
+
+}
 
 // Called before render is available
 bool Map::Awake(pugi::xml_node& config)
@@ -37,13 +39,13 @@ bool Map::Awake(pugi::xml_node& config)
 
 void Map::Draw()
 {
-    if(mapLoaded == false)
-        return;
+    if(mapLoaded == false) return;
 
     ListItem<MapLayer*>* mapLayerItem;
     mapLayerItem = mapData.maplayers.start;
 
-    while (mapLayerItem != NULL) {
+    while (mapLayerItem != NULL) 
+    {
 
         if (mapLayerItem->data->properties.GetProperyValue("draw") == true)
         {

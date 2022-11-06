@@ -17,19 +17,24 @@ public:
 	
 	virtual ~Player();
 
-	void initAnims();
+	void InitAnims();
 
 	bool Awake();
 
 	bool Start();
 
-	void animationLogic();
-	void movementLogic();
-	void normalsCheck();
+	void AnimationLogic();
+
+	void MovementLogic();
+
+	void NormalsCheck();
 	
 	void SetSpawn(iPoint position, iPoint cameraPosition);
+
 	void TeleportTo(iPoint position);
-	void levelSelector();
+
+	void LevelSelector();
+
 	bool Update();
 
 	bool CleanUp();
@@ -39,6 +44,7 @@ public:
 	void DeathAnimation();
 
 public:
+
 	bool isDead = false;
 	int maxJumps;
 	int currentJumps;

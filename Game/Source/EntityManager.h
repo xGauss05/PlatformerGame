@@ -33,8 +33,6 @@ public:
 
 	void AddEntity(Entity* entity);
 
-	//void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
-
 public:
 
 	List<Entity*> entities;
