@@ -624,6 +624,7 @@ void Player::SetSpawn(iPoint position, iPoint cameraPosition)
 
 void Player::TeleportTo(iPoint position)
 {
+	pbody->body->SetLinearVelocity(b2Vec2(0, 0));
 	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0.0f);
 	pbody->body->ApplyForce(b2Vec2(0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
 }
@@ -690,6 +691,14 @@ bool Player::Update()
 
 bool Player::CleanUp()
 {
+	app->tex->UnLoad(texture);
+
+	texturePath = nullptr;
+	
+	currentAnim = nullptr;
+
+	RELEASE(pbody);
+
 	return true;
 }
 

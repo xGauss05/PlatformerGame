@@ -38,6 +38,10 @@ bool Saw::Update()
 
 bool Saw::CleanUp()
 {
+	app->tex->UnLoad(texture);
+
+	texturePath = nullptr;
+
 	return true;
 }
 

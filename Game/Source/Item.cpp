@@ -55,6 +55,11 @@ bool Item::Update()
 
 bool Item::CleanUp()
 {
+	app->tex->UnLoad(texture);
+
+	delete pbody;
+	pbody = nullptr;
+
 	return true;
 }
 

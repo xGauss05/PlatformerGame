@@ -157,7 +157,13 @@ bool Scene_Level1::PostUpdate()
 bool Scene_Level1::CleanUp()
 {
 	LOG("Freeing Scene_Level1");
-	
+	app->tex->UnLoad(sawTexture);
+	player = nullptr;
+	boxes.Clear();
+	saws.Clear();
+
+	app->font->UnLoad(font);
+
 	return true;
 }
 

@@ -208,6 +208,12 @@ bool Physics::CleanUp()
 	return true;
 }
 
+PhysBody::~PhysBody()
+{
+	// Destroy the associated Box2D body
+	body->GetWorld()->DestroyBody(body);
+}
+
 void PhysBody::GetPosition(int& x, int& y) const
 {
 	b2Vec2 pos = body->GetPosition();
