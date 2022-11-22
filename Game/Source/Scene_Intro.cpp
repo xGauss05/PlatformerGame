@@ -38,7 +38,7 @@ bool Scene_Intro::Start()
 {
 	background = app->tex->Load(background_texturePath);
 	start = high_resolution_clock::now();
-	SDL_ShowCursor(SDL_DISABLE);
+	//SDL_ShowCursor(SDL_DISABLE);
 
 	return true;
 }

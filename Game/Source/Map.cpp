@@ -37,6 +37,49 @@ bool Map::Awake(pugi::xml_node& config)
     return ret;
 }
 
+bool Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
+{
+    bool ret = false;
+    ListItem<MapLayer*>* item;
+    item = mapData.maplayers.start;
+
+    for (item = mapData.maplayers.start; item != NULL; item = item->next)
+    {
+        MapLayer* layer = item->data;
+
+        if (layer->properties.GetProperty("Navigation") == NULL || !layer->properties.GetProperty("Navigation")->value)
+            continue;
+
+        uchar* map = new uchar[layer->width * layer->height];
+        memset(map, 1, layer->width * layer->height);
+
+        for (int y = 0; y < mapData.height; ++y)
+        {
+            for (int x = 0; x < mapData.width; ++x)
+            {
+                int i = (y * layer->width) + x;
+
+                int tileId = layer->Get(x, y);
+                TileSet* tileset = (tileId > 0) ? GetTilesetFromTileId(tileId) : NULL;
+
+                if (tileset != NULL)
+                {
+                    map[i] = (tileId - tileset->firstgid) > 0 ? 0 : 1;
+                }
+            }
+        }
+
+        *buffer = map;
+        width = mapData.width;
+        height = mapData.height;
+        ret = true;
+
+        break;
+    }
+
+    return ret;
+}
+
 void Map::Draw()
 {
     if(mapLoaded == false) return;
@@ -47,7 +90,7 @@ void Map::Draw()
     while (mapLayerItem != NULL) 
     {
 
-        if (mapLayerItem->data->properties.GetProperyValue("draw") == true)
+        if (mapLayerItem->data->properties.GetProperty("draw") != NULL && mapLayerItem->data->properties.GetProperty("draw")->value)
         {
             for (int x = 0; x < mapLayerItem->data->width; x++)
             {
@@ -58,7 +101,7 @@ void Map::Draw()
                     TileSet* tileset = GetTilesetFromTileId(gid); // (!!) we are using always the first tileset in the list
 
                     SDL_Rect r = tileset->GetTileRect(gid);
-                    iPoint pos = MapToWorld(x, y);
+                    iPoint pos = MapToScreen(x, y);
 
                     SDL_Texture* opacity_texture = tileset->texture;
 
@@ -77,12 +120,39 @@ void Map::Draw()
     }
 }
 
-iPoint Map::MapToWorld(int x, int y) const
+//Translates x, y coordinates from map positions to screen coordinates
+iPoint Map::MapToScreen(int x, int y) const
 {
     iPoint ret;
 
     ret.x = x * mapData.tileWidth;
     ret.y = y * mapData.tileHeight;
+
+    return ret;
+}
+
+//Obtain map positions from screen coordinates
+iPoint Map::ScreenToMap(int x, int y)
+{
+    iPoint ret(0, 0);
+
+    if (mapData.type == MAPTYPE_ORTHOGONAL)
+    {
+        ret.x = x / mapData.tileWidth;
+        ret.y = y / mapData.tileHeight;
+    }
+    else if (mapData.type == MAPTYPE_ISOMETRIC)
+    {
+        float halfWidth = mapData.tileWidth * 0.5f;
+        float halfHeight = mapData.tileHeight * 0.5f;
+        ret.x = int((x / halfWidth + y / halfHeight) / 2);
+        ret.y = int((y / halfHeight - x / halfWidth) / 2);
+    }
+    else
+    {
+        LOG("Unknown map type");
+        ret.x = x; ret.y = y;
+    }
 
     return ret;
 }
@@ -234,6 +304,16 @@ bool Map::LoadMap(pugi::xml_node mapFile)
         mapData.width = map.attribute("width").as_int();
         mapData.tileHeight = map.attribute("tileheight").as_int();
         mapData.tileWidth = map.attribute("tilewidth").as_int();
+    }
+
+    mapData.type = MAPTYPE_UNKNOWN;
+    if ((SString)map.attribute("orientation").as_string() == "isometric")
+    {
+        mapData.type = MAPTYPE_ISOMETRIC;
+    }
+    if ((SString)map.attribute("orientation").as_string() == "orthogonal")
+    {
+        mapData.type = MAPTYPE_ORTHOGONAL;
     }
 
     return ret;
@@ -401,19 +481,19 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
     return ret;
 }
 
-bool Properties::GetProperyValue(SString name)
+Properties::Property* Properties::GetProperty(const char* name)
 {
-    bool value = false;
+    ListItem<Property*>* item = list.start;
+    Property* p = NULL;
 
-    ListItem<Property*>* p = list.start;
-    while (p != NULL)
+    while (item)
     {
-        if (p->data->name == name)
-        {
-            value = p->data->value;
+        if (item->data->name == name) {
+            p = item->data;
             break;
         }
-        p = p->next;
+        item = item->next;
     }
-    return value;
+
+    return p;
 }

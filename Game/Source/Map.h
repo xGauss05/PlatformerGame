@@ -41,7 +41,7 @@ struct Properties
 	};
 	List<Property*> list;
 
-	bool GetProperyValue(SString name);
+	Property* GetProperty(const char* name);
 };
 
 struct MapLayer
@@ -92,6 +92,9 @@ public:
     // Called before render is available
     bool Awake(pugi::xml_node& conf);
 
+	//Create walkability map for pathfinding
+	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
+
     // Called each loop iteration
     void Draw();
 
@@ -101,7 +104,9 @@ public:
     // Load new map
     bool Load();
 
-	iPoint MapToWorld(int x, int y) const;
+	iPoint MapToScreen(int x, int y) const;
+
+	iPoint Map::ScreenToMap(int x, int y);
 
 private:
 

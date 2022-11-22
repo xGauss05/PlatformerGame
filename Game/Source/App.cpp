@@ -11,6 +11,7 @@
 #include "Scene_Die.h"
 #include "EntityManager.h"
 #include "Map.h"
+#include "Pathfinding.h"
 #include "Physics.h"
 #include "FadeToBlack.h"
 #include "Fonts.h"
@@ -40,6 +41,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene_die = new Scene_Die();
 	entityManager = new EntityManager();
 	map = new Map();
+	pathfinding = new PathFinding();
 	physics = new Physics();
 	ftb = new FadeToBlack();
 	debug = new Debug();
@@ -60,6 +62,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(scene_die);
 	AddModule(entityManager);
 	AddModule(map);
+	AddModule(pathfinding);
 	AddModule(ftb);
 
 	// Render last to swap buffer

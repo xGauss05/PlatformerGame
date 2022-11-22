@@ -52,6 +52,12 @@ private:
 	Animation sawAnim;
 	int font = 0;
 
+	// L12: Debug pathfing
+	iPoint origin;
+	bool originSelected = false;
+
+	SDL_Texture* mouseTileTex = nullptr;
+	SDL_Texture* originTex = nullptr;
 };
 
 #endif __SCENE_LEVEL1_H__

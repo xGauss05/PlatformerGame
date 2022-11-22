@@ -63,7 +63,7 @@ bool Scene_Menu::Start()
 	pointer = app->tex->Load(pointer_texturePath);
 	selector = app->tex->Load(selector_texturePath);
 	choice = 0;
-	SDL_ShowCursor(SDL_DISABLE);
+	//SDL_ShowCursor(SDL_DISABLE);
 	app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
 
 	app->win->SetTitle("Super Metal Boy");

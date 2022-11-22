@@ -23,6 +23,7 @@ class Scene_Win;
 class Scene_Die;
 class EntityManager;
 class Map;
+class PathFinding;
 class Physics;
 class FadeToBlack;
 class Fonts;
@@ -101,6 +102,7 @@ public:
 	EntityManager* entityManager;
 	Physics* physics;
 	Map* map;
+	PathFinding* pathfinding;
 	FadeToBlack* ftb;
 	Fonts* font;
 	Debug* debug;
