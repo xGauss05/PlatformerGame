@@ -49,6 +49,7 @@ public:
 	int maxJumps;
 	int currentJumps;
 	int level = 1;
+	bool doorReached = false;
 	int dieFx;
 	int landingFx;
 	int jumpFx;

@@ -111,7 +111,6 @@
     <ClCompile Include="Source\Physics.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Saw.cpp" />
-    <ClCompile Include="Source\SceneTransition.cpp" />
     <ClCompile Include="Source\Scene_Die.cpp" />
     <ClCompile Include="Source\Scene_Intro.cpp" />
     <ClCompile Include="Source\Scene_Level1.cpp" />
@@ -132,7 +131,6 @@
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Queue.h" />
     <ClInclude Include="Source\Saw.h" />
-    <ClInclude Include="Source\SceneTransition.h" />
     <ClInclude Include="Source\Scene_Die.h" />
     <ClInclude Include="Source\Scene_Intro.h" />
     <ClInclude Include="Source\Scene_Level1.h" />

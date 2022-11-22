@@ -7,7 +7,6 @@
 #include "Scene_Intro.h"
 #include "Scene_Menu.h"
 #include "Scene_Level1.h"
-#include "SceneTransition.h"
 #include "Scene_Win.h"
 #include "Scene_Die.h"
 #include "EntityManager.h"
@@ -37,7 +36,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene_intro = new Scene_Intro();
 	scene_menu = new Scene_Menu();
 	scene = new Scene_Level1();
-	transition = new Scene_Transition();
 	scene_win = new Scene_Win();
 	scene_die = new Scene_Die();
 	entityManager = new EntityManager();
@@ -58,7 +56,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(scene_intro);
 	AddModule(scene_menu);
 	AddModule(scene);
-	AddModule(transition);
 	AddModule(scene_win);
 	AddModule(scene_die);
 	AddModule(entityManager);

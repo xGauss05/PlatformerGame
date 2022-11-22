@@ -5,7 +5,6 @@
 #include "Input.h"
 #include "Render.h"
 #include "Scene_Level1.h"
-#include "SceneTransition.h"
 #include "Scene_Win.h"
 #include "Scene_Die.h"
 #include "Log.h"
@@ -686,6 +685,12 @@ bool Player::Update()
 	currentAnim->Update();
 	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
 
+	if (doorReached)
+	{
+		TeleportTo(spawn);
+		doorReached = false;
+	}
+
 	return true;
 }
 
@@ -722,7 +727,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB)
 		{
 			app->audio->PlayFx(dieFx);
 			app->entityManager->Disable();
-			app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 10.0f);
+			app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 40.0f);
 		}
 		break;
 	case ColliderType::GOAL:
@@ -731,7 +736,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB)
 		app->audio->PlayFx(goalFx);
 		if (app->scene->player->level < 5)
 		{
-			app->ftb->SceneFadeToBlack(app->scene, app->transition, 0.0f);
+			doorReached = true;
 		}
 		else
 		{
