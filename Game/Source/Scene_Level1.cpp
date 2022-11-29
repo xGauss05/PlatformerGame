@@ -25,7 +25,7 @@ Scene_Level1::Scene_Level1() : Module()
 }
 
 // Destructor
-Scene_Level1::~Scene_Level1() 
+Scene_Level1::~Scene_Level1()
 {
 
 }
@@ -101,39 +101,34 @@ bool Scene_Level1::PreUpdate()
 // Called each loop iteration
 bool Scene_Level1::Update(float dt)
 {
-	if (!app->entityManager->IsEnabled()) 
-	{
-		app->entityManager->Enable();
-		player->LevelSelector();
-		player->TeleportTo(player->spawn);
-	}
+	if (!app->entityManager->IsEnabled()) app->entityManager->Enable();
 
 	if (app->scene_die->IsEnabled()) app->scene_die->Disable();
-	
+
 	if (app->scene_menu->IsEnabled()) app->scene_menu->Disable();
-	
+
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveGameRequest();
 
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadGameRequest();
 
-	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) 
+	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 	{
 		app->audio->PlayFx(player->dieFx);
 		app->ftb->SceneFadeToBlack(this, app->scene_die, 40.0f);
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) app->ftb->SceneFadeToBlack(this, app->scene_win, 0);
-	
+
 	// Draw map
 	app->map->Draw();
 
 	for (int i = 0; i < saws.Count(); i++)
 	{
 		sawAnim.Update();
-		app->render->DrawTexture(sawTexture, 
-								 METERS_TO_PIXELS(saws.At(i)->data->body->GetPosition().x) - 32,
-								 METERS_TO_PIXELS(saws.At(i)->data->body->GetPosition().y) - 32,
-								 &(sawAnim.GetCurrentFrame()));
+		app->render->DrawTexture(sawTexture,
+			METERS_TO_PIXELS(saws.At(i)->data->body->GetPosition().x) - 32,
+			METERS_TO_PIXELS(saws.At(i)->data->body->GetPosition().y) - 32,
+			&(sawAnim.GetCurrentFrame()));
 	}
 
 	if (player->level == 1)
@@ -149,12 +144,12 @@ bool Scene_Level1::Update(float dt)
 		app->font->BlitText(820, 300, 0, "Press SPACE mid-air to do a double jump");
 	}
 
-	#pragma region Pathfinding testing
+#pragma region Pathfinding testing
 
 	int mouseX, mouseY;
 	app->input->GetMousePosition(mouseX, mouseY);
 	iPoint mouseTile = app->map->ScreenToMap(mouseX - app->render->camera.x,
-											 mouseY - app->render->camera.y);
+		mouseY - app->render->camera.y);
 
 	//Convert again the tile coordinates to world coordinates to render the texture of the tile
 	iPoint highlightedTileWorld = app->map->MapToScreen(mouseTile.x, mouseTile.y);
@@ -188,7 +183,7 @@ bool Scene_Level1::Update(float dt)
 	iPoint originScreen = app->map->MapToScreen(origin.x, origin.y);
 	app->render->DrawTexture(originTex, originScreen.x, originScreen.y);
 
-	#pragma endregion
+#pragma endregion
 
 
 	return true;
@@ -199,10 +194,9 @@ bool Scene_Level1::PostUpdate()
 {
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) 
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 	{
-		player->level = 1;
-		player->TeleportTo(player->spawn);
+		player->Reset();
 		app->ftb->SceneFadeToBlack(this, app->scene_menu, 20.0f);
 	}
 
@@ -228,7 +222,7 @@ bool Scene_Level1::LoadState(pugi::xml_node& data)
 	int x = data.child("player").attribute("x").as_int();
 	int y = data.child("player").attribute("y").as_int();
 
-	player->pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(x),PIXEL_TO_METERS(y)),0.0f);
+	player->pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y)), 0.0f);
 	player->level = data.child("player").attribute("level").as_int();
 
 	return true;

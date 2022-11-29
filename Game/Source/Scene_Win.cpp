@@ -52,11 +52,6 @@ bool Scene_Win::PreUpdate()
 // Called each loop iteration
 bool Scene_Win::Update(float dt)
 {
-
-	if (app->render->camera.x != 0) app->render->camera.x = 0;
-
-	if (app->render->camera.y != 0) app->render->camera.y = 0;
-
 	if (app->entityManager->IsEnabled()) {
 		app->entityManager->Disable();
 
@@ -68,6 +63,7 @@ bool Scene_Win::Update(float dt)
 
 	if (elapsed >= milliseconds(5000))
 	{
+		app->scene->player->Reset();
 		app->ftb->SceneFadeToBlack(this, app->scene_menu, 100.0f);
 	}
 
@@ -81,7 +77,7 @@ bool Scene_Win::Update(float dt)
 bool Scene_Win::PostUpdate()
 {
 	bool ret = true;
-	app->render->DrawTexture(background, 0, 0, NULL);
+	app->render->DrawTexture(background, app->render->camera.x * -1, app->render->camera.y, NULL);
 
 	return ret;
 }

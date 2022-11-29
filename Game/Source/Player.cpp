@@ -675,6 +675,12 @@ void Player::LevelSelector()
 	}
 }
 
+void Player::Reset() {
+	level = 1;
+	LevelSelector();
+	TeleportTo(spawn);
+}
+
 bool Player::Update()
 {
 	AnimationLogic(); //This call must go before decreasing currentJumps in order for jump animations to trigger properly
@@ -694,6 +700,7 @@ bool Player::Update()
 	if (isDead) {
 		app->audio->PlayFx(dieFx);
 		app->entityManager->Disable();
+		TeleportTo(spawn);
 		app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 0);
 		isDead = false;
 	}

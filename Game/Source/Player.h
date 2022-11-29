@@ -35,6 +35,8 @@ public:
 
 	void LevelSelector();
 
+	void Reset();
+
 	bool Update();
 
 	bool CleanUp();

@@ -7,7 +7,7 @@
 #include "Scene_Menu.h"
 #include "Scene_Intro.h"
 #include "FadeToBlack.h"
-
+#include "EntityManager.h"
 #include "Defs.h"
 #include "Log.h"
 
@@ -52,15 +52,14 @@ bool Scene_Intro::PreUpdate()
 // Called each loop iteration
 bool Scene_Intro::Update(float dt)
 {
+	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
+
 	currentTime = high_resolution_clock::now();
 
 	elapsed = duration_cast<milliseconds>(currentTime - start);
 
-	if (elapsed >= milliseconds(3000))
-	{
-		app->ftb->SceneFadeToBlack(this, app->scene_menu, 25.0f);
-	}
-
+	if (elapsed >= milliseconds(3000)) app->ftb->SceneFadeToBlack(this, app->scene_menu, 25.0f);
+	
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) return false;
 
 	return true;

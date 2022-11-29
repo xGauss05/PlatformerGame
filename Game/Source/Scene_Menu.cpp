@@ -22,7 +22,7 @@ Scene_Menu::Scene_Menu() : Module()
 }
 
 // Destructor
-Scene_Menu::~Scene_Menu() 
+Scene_Menu::~Scene_Menu()
 {
 
 }
@@ -51,7 +51,7 @@ bool Scene_Menu::Awake(pugi::xml_node& config)
 	pointer_texturePath = config.child("pointer").attribute("texturepath").as_string();
 	bool ret = true;
 
-	
+
 
 	return ret;
 }
@@ -80,53 +80,53 @@ bool Scene_Menu::PreUpdate()
 // Called each loop iteration
 bool Scene_Menu::Update(float dt)
 {
-	if (app->render->camera.x != 0) app->render->camera.x = 0;
+
 	if (app->scene->player->level != 1) app->scene->player->level = 1;
 
 	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
-	
-	if (app->scene->IsEnabled()) app->scene->Disable();
-	
-	if (app->scene_die->IsEnabled()) app->scene_die->Disable();
-	
 
-	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected) 
+	if (app->scene->IsEnabled()) app->scene->Disable();
+
+	if (app->scene_die->IsEnabled()) app->scene_die->Disable();
+
+
+	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected)
 	{
 		if (choice == 1) {
 			choice = 0;
 		}
-		else 
+		else
 		{
 			choice++;
 		}
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && !hasSelected) 
+	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && !hasSelected)
 	{
-		if (choice == 0) 
+		if (choice == 0)
 		{
 			choice = 1;
 		}
-		else 
+		else
 		{
 			choice--;
 		}
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN ||
-		app->input->GetMouseButtonDown(SDL_BUTTON_LEFT)) 
+		app->input->GetMouseButtonDown(SDL_BUTTON_LEFT))
 	{
 
-		if (!hasSelected) 
+		if (!hasSelected)
 		{
 			hasSelected = !hasSelected;
 			app->audio->PlayFx(selectedFx);
 		}
 
-		switch (choice) 
+		switch (choice)
 		{
 		case 0:
-			
+
 			app->ftb->SceneFadeToBlack(this, app->scene, 45.0f);
 			break;
 		case 1:
@@ -156,11 +156,11 @@ bool Scene_Menu::PostUpdate()
 	rect.h = 20;
 	rect.w = 20;
 
-	app->render->DrawTexture(background, 0, 0, NULL);
+	app->render->DrawTexture(background, app->render->camera.x * -1, app->render->camera.y, NULL);
 
-	int x = 175;
+	int x = app->render->camera.x * -1 + 175;
 	int y;
-	switch (choice) 
+	switch (choice)
 	{
 	case 0:
 		y = 455;
@@ -171,7 +171,7 @@ bool Scene_Menu::PostUpdate()
 	default:
 		break;
 	}
-	
+
 	app->render->DrawTexture(selector, x, y);
 	int a, b;
 	app->input->GetMousePosition(a, b);
@@ -191,6 +191,6 @@ bool Scene_Menu::CleanUp()
 	delete pointer;
 	background = nullptr;
 	delete background;
-	
+
 	return true;
 }
