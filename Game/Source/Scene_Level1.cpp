@@ -69,13 +69,6 @@ bool Scene_Level1::Start()
 
 	sawTexture = app->tex->Load(saw_texturePath);
 
-	//Pathfinding tests
-	// Texture to highligh mouse position 
-	mouseTileTex = app->tex->Load("Assets/Maps/path.png");
-	// Texture to show path origin 
-	originTex = app->tex->Load("Assets/Maps/x.png");
-
-
 	bool retLoad = app->map->Load();
 
 	// Create walkability map
@@ -143,49 +136,6 @@ bool Scene_Level1::Update(float dt)
 		app->font->BlitText(1135, 670, 0, "a wall to jump off of it");
 		app->font->BlitText(820, 300, 0, "Press SPACE mid-air to do a double jump");
 	}
-
-#pragma region Pathfinding testing
-
-	int mouseX, mouseY;
-	app->input->GetMousePosition(mouseX, mouseY);
-	iPoint mouseTile = app->map->ScreenToMap(mouseX - app->render->camera.x,
-		mouseY - app->render->camera.y);
-
-	//Convert again the tile coordinates to world coordinates to render the texture of the tile
-	iPoint highlightedTileWorld = app->map->MapToScreen(mouseTile.x, mouseTile.y);
-	app->render->DrawTexture(mouseTileTex, highlightedTileWorld.x, highlightedTileWorld.y);
-
-	//Test compute path function
-	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
-	{
-		if (originSelected == true)
-		{
-			app->pathfinding->CreatePath(origin, mouseTile);
-			originSelected = false;
-		}
-		else
-		{
-			origin = mouseTile;
-			originSelected = true;
-			app->pathfinding->ClearLastPath();
-		}
-	}
-
-	// L12: Get the latest calculated path and draw
-	const DynArray<iPoint>* path = app->pathfinding->GetLastPath();
-	for (uint i = 0; i < path->Count(); ++i)
-	{
-		iPoint pos = app->map->MapToScreen(path->At(i)->x, path->At(i)->y);
-		app->render->DrawTexture(mouseTileTex, pos.x, pos.y);
-	}
-
-	// L12: Debug pathfinding
-	iPoint originScreen = app->map->MapToScreen(origin.x, origin.y);
-	app->render->DrawTexture(originTex, originScreen.x, originScreen.y);
-
-#pragma endregion
-
-
 	return true;
 }
 
