@@ -85,10 +85,8 @@ public:
 	bool active = true;
 	pugi::xml_node parameters;
 	PhysBody* collider = nullptr;
-	// Possible properties, it depends on how generic we
-	// want our Entity class, maybe it's not renderable...
 	iPoint position;       
-	bool renderable = true;
+
 };
 
 #endif // __ENTITY_H__

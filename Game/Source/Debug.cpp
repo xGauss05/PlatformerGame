@@ -14,79 +14,80 @@
 
 using namespace std;
 
-Debug::Debug() : Module() 
+Debug::Debug() : Module()
 {
 	debug = false;
 	name.Create("debug");
 }
 
-Debug::~Debug() 
+Debug::~Debug()
 {
 
 }
 
-bool Debug::Start() 
+bool Debug::Start()
 {
 	debug = false;
 	return true;
 }
 
-bool Debug::Update(float dt) 
+bool Debug::Update(float dt)
 {
-	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-	{
-		if (app->scene->player->level > 1)
-		{
-			app->scene->player->level--;
-			app->scene->player->LevelSelector();
-			app->scene->player->TeleportTo(app->scene->player->spawn);
-		}
-	}
-	//Pass level
-	if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
-	{
-		if (app->scene->player->level < 4)
-		{
-			app->scene->player->level++;
-			app->scene->player->LevelSelector();
-			app->scene->player->TeleportTo(app->scene->player->spawn);
-		}
-	}
-
 	if (app->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) debug = !debug;
 
-	if (debug) 
+	if (debug)
 	{
+		if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		{
+			if (app->scene->player->level > 1)
+			{
+				app->scene->player->level--;
+				app->scene->player->LevelSelector();
+				app->scene->player->TeleportTo(app->scene->player->spawn);
+			}
+		}
+		//Pass level
+		if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+		{
+			if (app->scene->player->level < 4)
+			{
+				app->scene->player->level++;
+				app->scene->player->LevelSelector();
+				app->scene->player->TeleportTo(app->scene->player->spawn);
+			}
+		}
 		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) variables = !variables;
 
 		if (app->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) debugCamera = !debugCamera;
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
-	{
-		app->scene->player->TeleportTo(app->scene->player->spawn);
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) hitboxes = !hitboxes;
-
-	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
-	{
-		godMode = !godMode;
-		if (godMode)
+		if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		{
-			app->scene->player->pbody->body->SetGravityScale(0.0f);
-			app->scene->player->pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+			app->scene->player->TeleportTo(app->scene->player->spawn);
 		}
-		else
+		if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) hitboxes = !hitboxes;
+
+		if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		{
-			app->scene->player->pbody->body->SetGravityScale(1.0f);
+			godMode = !godMode;
+			if (godMode)
+			{
+				app->scene->player->pbody->body->SetGravityScale(0.0f);
+				app->scene->player->pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+			}
+			else
+			{
+				app->scene->player->pbody->body->SetGravityScale(1.0f);
+			}
 		}
 	}
+
+	
+
+	
 
 	return true;
 }
 
-bool Debug::PostUpdate() 
+bool Debug::PostUpdate()
 {
 
 	if (debug)
@@ -109,12 +110,12 @@ bool Debug::PostUpdate()
 	return true;
 }
 
-void Debug::DebugDraw() 
+void Debug::DebugDraw()
 {
 
-	if (variables) 
+	if (variables)
 	{
-		#pragma region Position debug
+#pragma region Position debug
 
 		app->font->BlitText(10, varBox + 0, 0, "PLAYER");
 
@@ -137,9 +138,9 @@ void Debug::DebugDraw()
 		app->font->BlitText(20, varBox + 70, 0, "Camera Y:");
 		app->font->BlitText(100, varBox + 70, 0, std::to_string(app->render->camera.y).c_str());
 
-		#pragma endregion
+#pragma endregion
 
-		#pragma region Normals Debug
+#pragma region Normals Debug
 
 		app->font->BlitText(10, varBox + 90, 0, "NORMALS ");
 
@@ -163,7 +164,7 @@ void Debug::DebugDraw()
 		app->font->BlitText(10, varBox + 180, 0, "LEVEL");
 		app->font->BlitText(100, varBox + 180, 0, std::to_string(app->scene->player->level).c_str());
 
-		#pragma endregion
+#pragma endregion
 	}
 
 	if (debugCamera)
