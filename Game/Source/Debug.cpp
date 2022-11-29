@@ -5,11 +5,16 @@
 #include "Render.h"
 
 #include "Player.h"
-#include "Render.h"
+#include "Textures.h"
 #include "Fonts.h"
 #include "EntityManager.h"
 #include "Physics.h"
+#include "Map.h"
+#include "Pathfinding.h"
 #include "Scene_Level1.h"
+
+#include "Defs.h"
+
 #include <string>
 
 using namespace std;
@@ -28,6 +33,11 @@ Debug::~Debug()
 bool Debug::Start()
 {
 	debug = false;
+
+	playerPathTex = app->tex->Load("Assets/Maps/path.png");
+	mousePathTex = app->tex->Load("Assets/Maps/manualPath.png");
+	xTex = app->tex->Load("Assets/Maps/x.png");
+
 	return true;
 }
 
@@ -181,6 +191,69 @@ void Debug::DebugDraw()
 		if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 			app->render->camera.x -= 1;
 	}
+
+#pragma region Pathfinding testing
+
+	int mouseX, mouseY;
+	app->input->GetMousePosition(mouseX, mouseY);
+	iPoint mouseTile = app->map->ScreenToMap(mouseX - app->render->camera.x,
+		mouseY - app->render->camera.y);
+
+	//Convert again the tile coordinates to world coordinates to render the texture of the tile
+	iPoint highlightedTileWorld = app->map->MapToScreen(mouseTile.x, mouseTile.y);
+	app->render->DrawTexture(xTex, highlightedTileWorld.x, highlightedTileWorld.y);
+
+	iPoint playerTile = app->map->ScreenToMap(METERS_TO_PIXELS(app->scene->player->pbody->body->GetPosition().x) - app->render->camera.x,
+		METERS_TO_PIXELS(app->scene->player->pbody->body->GetPosition().y) - app->render->camera.y);
+
+
+
+
+
+	app->pathfinding->CreatePath(mouseTile, playerTile);
+	playerPath.Clear();
+
+	const DynArray<iPoint>* path = app->pathfinding->GetLastPath();
+	for (uint i = 0; i < path->Count(); i++)
+	{
+		playerPath.PushBack(iPoint(path->At(i)->x, path->At(i)->y));
+	}
+
+	for (uint i = 0; i < playerPath.Count(); ++i)
+	{
+		iPoint pos = app->map->MapToScreen(playerPath.At(i)->x, playerPath.At(i)->y);
+		app->render->DrawTexture(playerPathTex, pos.x, pos.y);
+	}
+
+	//Test different path
+	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		if (originSelected == true)
+		{
+			app->pathfinding->CreatePath(origin, mouseTile);
+			mousePath.Clear();
+			path = app->pathfinding->GetLastPath();
+			for (uint i = 0; i < path->Count(); i++)
+			{
+				mousePath.PushBack(iPoint(path->At(i)->x, path->At(i)->y));
+			}
+
+			originSelected = false;
+		}
+		else
+		{
+			origin = mouseTile;
+			originSelected = true;
+			app->pathfinding->ClearLastPath();
+		}
+	}
+	for (uint i = 0; i < mousePath.Count(); ++i)
+	{
+		iPoint pos = app->map->MapToScreen(mousePath.At(i)->x, mousePath.At(i)->y);
+		app->render->DrawTexture(mousePathTex, pos.x, pos.y);
+	}
+
+#pragma endregion
 }
 
 void Debug::DrawHitboxes()

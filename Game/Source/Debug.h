@@ -2,8 +2,13 @@
 #define __MODULE_DEBUG_H__
 
 #include "Module.h"
+#include "Point.h"
+#include "DynArray.h"
+#include "List.h"
 
 #define DEBUG_BOX 225
+
+struct SDL_Texture;
 
 class Debug : public Module {
 public:
@@ -37,6 +42,18 @@ public:
 	bool godMode = false;
 
 	int varBox = 80;
+
+
+	DynArray<iPoint> playerPath;
+	DynArray<iPoint> mousePath;
+
+	//Pathfinding debug
+	iPoint origin;
+	bool originSelected = false;
+
+	SDL_Texture* playerPathTex = nullptr;
+	SDL_Texture* mousePathTex = nullptr;
+	SDL_Texture* xTex = nullptr;
 };
 
 #endif // __MODULE_DEBUG_H__
