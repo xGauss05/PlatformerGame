@@ -106,15 +106,12 @@ bool Scene_Level1::Update(float dt)
 		app->entityManager->Enable();
 		player->LevelSelector();
 		player->TeleportTo(player->spawn);
-		app->render->camera.x = 0;
-		app->render->camera.y = 0;
 	}
 
 	if (app->scene_die->IsEnabled()) app->scene_die->Disable();
 	
 	if (app->scene_menu->IsEnabled()) app->scene_menu->Disable();
 	
-
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveGameRequest();
 
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadGameRequest();
@@ -127,7 +124,6 @@ bool Scene_Level1::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) app->ftb->SceneFadeToBlack(this, app->scene_win, 0);
 	
-
 	// Draw map
 	app->map->Draw();
 
@@ -207,8 +203,6 @@ bool Scene_Level1::PostUpdate()
 	{
 		player->level = 1;
 		player->TeleportTo(player->spawn);
-		app->render->camera.x = 0;
-		app->render->camera.y = 0;
 		app->ftb->SceneFadeToBlack(this, app->scene_menu, 20.0f);
 	}
 

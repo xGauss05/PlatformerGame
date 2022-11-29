@@ -45,15 +45,16 @@ public:
 
 public:
 
-	bool isDead = false;
 	int maxJumps;
 	int currentJumps;
 	int level = 1;
+	bool isDead = false;
 	bool doorReached = false;
-	int dieFx;
-	int landingFx;
-	int jumpFx;
-	int goalFx;
+
+	// SFX indexes
+	int dieFx, landingFx, jumpFx,
+		goalFx;
+
 	iPoint spawn;
 
 	PhysBody* pbody;
@@ -66,17 +67,11 @@ private:
 
 	Animation* currentAnim = nullptr;
 
-	Animation rightIdle;
-	Animation rightRun;
-	Animation rightJump;
-	Animation rightFall;
-	Animation rightWall;
+	Animation rightIdle, rightRun, rightJump,
+			  rightFall, rightWall;
 
-	Animation leftIdle;
-	Animation leftRun;
-	Animation leftJump;
-	Animation leftFall;
-	Animation leftWall;
+	Animation leftIdle, leftRun, leftJump,
+			  leftFall, leftWall;
 	
 	//Movement variables
 	float movementForce = 10.0f;

@@ -52,9 +52,6 @@ bool Scene_Intro::PreUpdate()
 // Called each loop iteration
 bool Scene_Intro::Update(float dt)
 {
-	if (app->render->camera.x != 0) app->render->camera.x = 0;
-	if (app->render->camera.y != 0) app->render->camera.y = 0;
-
 	currentTime = high_resolution_clock::now();
 
 	elapsed = duration_cast<milliseconds>(currentTime - start);
@@ -74,7 +71,7 @@ bool Scene_Intro::PostUpdate()
 {
 	bool ret = true;
 
-	app->render->DrawTexture(background, 0, 0, NULL);
+	app->render->DrawTexture(background, app->render->camera.x*-1, app->render->camera.y, NULL);
 
 	return ret;
 }

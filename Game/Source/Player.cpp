@@ -691,6 +691,13 @@ bool Player::Update()
 		doorReached = false;
 	}
 
+	if (isDead) {
+		app->audio->PlayFx(dieFx);
+		app->entityManager->Disable();
+		app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 0);
+		isDead = false;
+	}
+
 	return true;
 }
 
@@ -725,9 +732,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB)
 		LOG("Collision SAW");
 		if (!app->debug->godMode)
 		{
-			app->audio->PlayFx(dieFx);
-			app->entityManager->Disable();
-			app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 40.0f);
+			isDead = true;
 		}
 		break;
 	case ColliderType::GOAL:

@@ -22,7 +22,7 @@ Scene_Die::Scene_Die() : Module()
 }
 
 // Destructor
-Scene_Die::~Scene_Die() 
+Scene_Die::~Scene_Die()
 {
 
 }
@@ -69,16 +69,10 @@ bool Scene_Die::PreUpdate()
 // Called each loop iteration
 bool Scene_Die::Update(float dt)
 {
-	if (app->render->camera.x = 0)
-	{
-		app->render->camera.x = 0;
-		app->render->camera.y = 0;
-	}
 
 	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
 
-
-	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected) 
+	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected)
 	{
 		if (choice == 2) {
 			choice = 0;
@@ -88,29 +82,28 @@ bool Scene_Die::Update(float dt)
 		}
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && !hasSelected) 
+	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && !hasSelected)
 	{
-		if (choice == 0) 
+		if (choice == 0)
 		{
 			choice = 2;
 		}
-		else 
+		else
 		{
 			choice--;
 		}
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN ||
-		app->input->GetMouseButtonDown(SDL_BUTTON_LEFT)) 
+		app->input->GetMouseButtonDown(SDL_BUTTON_LEFT))
 	{
 
 		if (!hasSelected) hasSelected = !hasSelected;
-			
-		switch (choice) 
+
+		switch (choice)
 		{
 		case 0:
-			app->entityManager->Enable();
-			app->ftb->SceneFadeToBlack(this, app->scene, 40.0f);
+			app->ftb->SceneFadeToBlack(this, app->scene, 0);
 			break;
 		case 1:
 			app->scene_menu->hasSelected = false;
@@ -120,7 +113,7 @@ bool Scene_Die::Update(float dt)
 			return false;
 		default:
 			break;
-		} 
+		}
 	}
 
 	int x, y;
@@ -130,8 +123,8 @@ bool Scene_Die::Update(float dt)
 	if (y > 675 && y < 775) choice = 1;
 
 	if (y > 775) choice = 2;
-	
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) 
+
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 	{
 		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0);
 	}
@@ -147,11 +140,11 @@ bool Scene_Die::PostUpdate()
 	rect.h = 20;
 	rect.w = 20;
 
-	app->render->DrawTexture(background, 0, 0, NULL);
+	app->render->DrawTexture(background, (app->render->camera.x)*-1, app->render->camera.y, NULL);
 
-	int x = 630;
+	int x = (app->render->camera.x)*-1 + 630;
 	int y;
-	switch (choice) 
+	switch (choice)
 	{
 	case 0:
 		y = 575;
