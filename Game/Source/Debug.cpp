@@ -206,9 +206,6 @@ void Debug::DebugDraw()
 	iPoint playerTile = app->map->ScreenToMap(METERS_TO_PIXELS(app->scene->player->pbody->body->GetPosition().x),
 											  METERS_TO_PIXELS(app->scene->player->pbody->body->GetPosition().y));
 
-	app->font->BlitText(20, 200, 0, std::to_string(playerTile.x).c_str());
-	app->font->BlitText(20, 210, 0, std::to_string(playerTile.y).c_str());
-
 
 	//Player path
 	app->pathfinding->CreatePath(mouseTile, playerTile);
