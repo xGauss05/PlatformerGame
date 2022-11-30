@@ -197,19 +197,20 @@ void Debug::DebugDraw()
 	int mouseX, mouseY;
 	app->input->GetMousePosition(mouseX, mouseY);
 	iPoint mouseTile = app->map->ScreenToMap(mouseX - app->render->camera.x,
-		mouseY - app->render->camera.y);
+											 mouseY - app->render->camera.y);
 
 	//Convert again the tile coordinates to world coordinates to render the texture of the tile
 	iPoint highlightedTileWorld = app->map->MapToScreen(mouseTile.x, mouseTile.y);
 	app->render->DrawTexture(xTex, highlightedTileWorld.x, highlightedTileWorld.y);
 
-	iPoint playerTile = app->map->ScreenToMap(METERS_TO_PIXELS(app->scene->player->pbody->body->GetPosition().x) - app->render->camera.x,
-		METERS_TO_PIXELS(app->scene->player->pbody->body->GetPosition().y) - app->render->camera.y);
+	iPoint playerTile = app->map->ScreenToMap(METERS_TO_PIXELS(app->scene->player->pbody->body->GetPosition().x),
+											  METERS_TO_PIXELS(app->scene->player->pbody->body->GetPosition().y));
+
+	app->font->BlitText(20, 200, 0, std::to_string(playerTile.x).c_str());
+	app->font->BlitText(20, 210, 0, std::to_string(playerTile.y).c_str());
 
 
-
-
-
+	//Player path
 	app->pathfinding->CreatePath(mouseTile, playerTile);
 	playerPath.Clear();
 
@@ -225,7 +226,7 @@ void Debug::DebugDraw()
 		app->render->DrawTexture(playerPathTex, pos.x, pos.y);
 	}
 
-	//Test different path
+	//Mouse path
 	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
 		if (originSelected == true)
