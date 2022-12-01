@@ -40,10 +40,10 @@ bool Scene_Level1::Awake(pugi::xml_node& config)
 	player->parameters = config.child("player");
 
 	// iterate all objects in the scene
-	for (pugi::xml_node itemNode = config.child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
+	for (pugi::xml_node enemyNode = config.child("enemy"); enemyNode; enemyNode = enemyNode.next_sibling("enemy"))
 	{
-		Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
-		item->parameters = itemNode;
+		Enemy_Fly* enemy = (Enemy_Fly*)app->entityManager->CreateEntity(EntityType::ENEMY_FLY);
+		enemy->parameters = enemyNode;
 	}
 	this->active = false;
 

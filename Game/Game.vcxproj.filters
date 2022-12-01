@@ -73,6 +73,9 @@
     <ClCompile Include="Source\Pathfinding.cpp">
       <Filter>Modules\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Enemy_Fly.cpp">
+      <Filter>Application\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -173,6 +176,9 @@
     </ClInclude>
     <ClInclude Include="Source\Pathfinding.h">
       <Filter>Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy_Fly.h">
+      <Filter>Application\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

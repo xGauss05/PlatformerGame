@@ -554,7 +554,8 @@ void Player::MovementLogic()
 void Player::NormalsCheck()
 {
 	//Raycast from player to collision
-	if (app->physics->world->GetContactList() == NULL) { normal_x = 0.0f; normal_y = 0.0f; }
+
+	bool playerCollision = false;
 
 	for (b2Contact* contact = app->physics->world->GetContactList(); contact; contact = contact->GetNext()) 
 	{
@@ -563,44 +564,57 @@ void Player::NormalsCheck()
 
 		while (c != NULL)
 		{
-			if (contact->GetFixtureA() == c->data->body->GetFixtureList())
+			if (contact->GetFixtureB() == this->pbody->body->GetFixtureList())
 			{
-				if (app->debug->hitboxes)
+				//Check collisions only with the player
+				if (contact->GetFixtureA() == c->data->body->GetFixtureList())
 				{
-					app->render->DrawLine(METERS_TO_PIXELS(this->pbody->body->GetPosition().x),
-						METERS_TO_PIXELS(this->pbody->body->GetPosition().y),
-						METERS_TO_PIXELS(c->data->body->GetPosition().x),
-						METERS_TO_PIXELS(c->data->body->GetPosition().y),
-						0, 255, 0, 255);
-				}
+					playerCollision = true;
 
-				b2RayCastInput input;
-				b2RayCastOutput output;
+					if (app->debug->hitboxes)
+					{
+						app->render->DrawLine(METERS_TO_PIXELS(this->pbody->body->GetPosition().x),
+							METERS_TO_PIXELS(this->pbody->body->GetPosition().y),
+							METERS_TO_PIXELS(c->data->body->GetPosition().x),
+							METERS_TO_PIXELS(c->data->body->GetPosition().y),
+							0, 255, 0, 255);
+					}
 
-				input.p1.Set(this->pbody->body->GetPosition().x, this->pbody->body->GetPosition().y);
-				input.p2.Set(c->data->body->GetPosition().x, c->data->body->GetPosition().y);
-				input.maxFraction = 1.0f;
+					b2RayCastInput input;
+					b2RayCastOutput output;
 
-				c->data->body->GetFixtureList()->RayCast(&output, input, 0);
+					input.p1.Set(this->pbody->body->GetPosition().x, this->pbody->body->GetPosition().y);
+					input.p2.Set(c->data->body->GetPosition().x, c->data->body->GetPosition().y);
+					input.maxFraction = 1.0f;
 
-				if (c->data->ctype == ColliderType::LIMIT)
-				{
-					normal_x = 0.0f;
-					normal_y = 0.0f;
-				}
-				else
-				{
-					normal_x = output.normal.x;
-					normal_y = output.normal.y;
+					c->data->body->GetFixtureList()->RayCast(&output, input, 0);
+
+					if (c->data->ctype == ColliderType::LIMIT)
+					{
+						normal_x = 0.0f;
+						normal_y = 0.0f;
+					}
+					else
+					{
+						normal_x = output.normal.x;
+						normal_y = output.normal.y;
+					}
 				}
 			}
 			c = c->next;
 		}
 	}
 
-	if (normal_x == 0.0f && normal_y == -1.0f) { currentJumps = maxJumps; }
-	if (normal_x == 1.0f && normal_y == 0.0f) { currentJumps = maxJumps; }
-	if (normal_x == -1.0f && normal_y == 0.0f) { currentJumps = maxJumps; }
+	if (playerCollision == true)
+	{
+		if (normal_x == 0.0f && normal_y == -1.0f) { currentJumps = maxJumps; }
+		if (normal_x == 1.0f && normal_y == 0.0f) { currentJumps = maxJumps; }
+		if (normal_x == -1.0f && normal_y == 0.0f) { currentJumps = maxJumps; }
+	}
+	else
+	{
+		normal_x = 0.0f; normal_y = 0.0f;
+	}
 }
 
 void Player::SetSpawn(iPoint position, iPoint cameraPosition)
