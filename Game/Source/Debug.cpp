@@ -66,13 +66,13 @@ bool Debug::Update(float dt)
 				app->scene->player->TeleportTo(app->scene->player->spawn);
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) variables = !variables;
-
-		if (app->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) debugCamera = !debugCamera;
 		if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		{
 			app->scene->player->TeleportTo(app->scene->player->spawn);
 		}
+		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) variables = !variables;
+
+		if (app->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) debugCamera = !debugCamera;
 		if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) hitboxes = !hitboxes;
 
 		if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
@@ -90,10 +90,6 @@ bool Debug::Update(float dt)
 		}
 	}
 
-	
-
-	
-
 	return true;
 }
 
@@ -102,12 +98,16 @@ bool Debug::PostUpdate()
 
 	if (debug)
 	{
-		app->font->BlitText(10, 10, 0, "Press F5 to SAVE the current game state");
-		app->font->BlitText(10, 20, 0, "Press F6 to LOAD the current game state");
-		app->font->BlitText(10, 30, 0, "Press F7 to show game VARIABLES");
-		app->font->BlitText(10, 40, 0, "Press F8 to move the CAMERA freely");
-		app->font->BlitText(10, 50, 0, "Press F9 to view COLLIDERS");
-		app->font->BlitText(10, 60, 0, "Press F10 to activate GOD MODE");
+		app->font->BlitText(10, 10, 0, "Press F1 to GO BACK to the previous level");
+		app->font->BlitText(10, 20, 0, "Press F2 to GO FORWARD to the next level");
+		app->font->BlitText(10, 30, 0, "Press F3 to RESET the current level");
+		app->font->BlitText(10, 40, 0, "Press F5 to SAVE the current game state");
+		app->font->BlitText(10, 50, 0, "Press F6 to LOAD the current game state");
+		app->font->BlitText(10, 60, 0, "Press F7 to show game VARIABLES");
+		app->font->BlitText(10, 70, 0, "Press F8 to move the CAMERA freely");
+		app->font->BlitText(10, 80, 0, "Press F9 to view COLLIDERS");
+		app->font->BlitText(10, 90, 0, "Press F10 to activate GOD MODE");
+		app->font->BlitText(10, 100, 0, "Press F11 to Enable/Disable FPS cap to 30 (NYI)");
 
 		DebugDraw();
 	}
