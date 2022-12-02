@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Point.h"
+#include "Pathfinding.h"
 #include "SDL/include/SDL.h"
 
 struct SDL_Texture;
@@ -32,6 +33,8 @@ private:
 
 	SDL_Texture* texture;
 	const char* texturePath;
+
+	DynArray<iPoint> pathToPlayer;
 
 };
 
