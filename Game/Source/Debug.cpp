@@ -88,6 +88,9 @@ bool Debug::Update(float dt)
 				app->scene->player->pbody->body->SetGravityScale(1.0f);
 			}
 		}
+		if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) limitFps = !limitFps;
+		
+		
 	}
 
 	return true;
@@ -107,7 +110,7 @@ bool Debug::PostUpdate()
 		app->font->BlitText(10, 70, 0, "Press F8 to move the CAMERA freely");
 		app->font->BlitText(10, 80, 0, "Press F9 to view COLLIDERS");
 		app->font->BlitText(10, 90, 0, "Press F10 to activate GOD MODE");
-		app->font->BlitText(10, 100, 0, "Press F11 to Enable/Disable FPS cap to 30 (NYI)");
+		app->font->BlitText(10, 100, 0, "Press F11 to Enable/Disable FPS cap to 30");
 
 		DebugDraw();
 	}
@@ -252,6 +255,13 @@ void Debug::DebugDraw()
 	}
 
 #pragma endregion
+
+	if (limitFps) {
+		if (targetFPS != 30) targetFPS = 30;
+	}
+	else {
+		if (targetFPS != 60) targetFPS = 60;
+	}
 }
 
 void Debug::DrawHitboxes()

@@ -6,6 +6,9 @@
 #include "DynArray.h"
 #include "List.h"
 
+#include <chrono>
+using namespace std::chrono;
+
 #define DEBUG_BOX 225
 
 struct SDL_Texture;
@@ -40,9 +43,13 @@ public:
 	bool hitboxes = false;
 	bool debugCamera = false;
 	bool godMode = false;
-
+	bool limitFps = false;
 	int varBox = 80;
 
+	microseconds elapsedCycle;
+	microseconds elapsedFrame;
+	int targetFPS = 60;
+	double FPS;
 
 	DynArray<iPoint> playerPath;
 	DynArray<iPoint> mousePath;
