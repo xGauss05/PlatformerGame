@@ -7,6 +7,9 @@
 #include "Debug.h"
 #include "SDL/include/SDL.h"
 
+#include <chrono>
+using namespace std::chrono;
+
 struct SDL_Texture;
 
 class Player : public Entity
@@ -55,7 +58,7 @@ public:
 
 	// SFX indexes
 	int dieFx, landingFx, jumpFx,
-		goalFx;
+		goalFx, dashFx;
 
 	iPoint spawn;
 
@@ -66,7 +69,7 @@ private:
 	SDL_Texture* texture;
 	const char* texturePath;
 	int width = 64, height = 88;
-
+	bool dashing = false;
 	Animation* currentAnim = nullptr;
 
 	Animation rightIdle, rightRun, rightJump,
@@ -84,6 +87,10 @@ private:
 
 	float normal_x = 0.0f, normal_y = 0.0f;
 
+	high_resolution_clock::time_point start;
+	high_resolution_clock::time_point currentTime;
+	milliseconds elapsed;
+	milliseconds dashDuration;
 	friend void Debug::DebugDraw();
 };
 

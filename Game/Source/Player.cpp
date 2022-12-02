@@ -153,6 +153,7 @@ bool Player::Awake()
 	jumpFx = app->audio->LoadFx(parameters.attribute("jumpFxpath").as_string());
 	landingFx = app->audio->LoadFx(parameters.attribute("landingFxpath").as_string());
 	goalFx = app->audio->LoadFx(parameters.attribute("goalFxpath").as_string());
+	dashFx = app->audio->LoadFx(parameters.attribute("dashFxpath").as_string());
 	InitAnims();
 
 	return true;
@@ -483,6 +484,23 @@ void Player::MovementLogic()
 		//Left
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
+			//Dash
+			if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && elapsed >= milliseconds(3000)) {
+
+				pbody->body->SetLinearVelocity(b2Vec2(-25.0f, 0));
+				pbody->body->SetGravityScale(0);
+				app->audio->PlayFx(dashFx);
+				start = high_resolution_clock::now();
+				dashing = true;
+			}
+			currentTime = high_resolution_clock::now();
+			dashDuration = elapsed = duration_cast<milliseconds>(currentTime - start);
+			if (dashDuration >= milliseconds(250) && dashing) {
+				pbody->body->SetLinearVelocity(b2Vec2(0, 0));
+				dashing = false;
+				pbody->body->SetGravityScale(1);
+			}
+
 			if (pbody->body->GetLinearVelocity().x > 0.5f)
 			{
 				//Opposite direction dampening
@@ -497,7 +515,24 @@ void Player::MovementLogic()
 
 		//Right
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		{
+		{	
+			//Dash
+			if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && elapsed >= milliseconds(3000)) {
+				pbody->body->SetLinearVelocity(b2Vec2(25.0f, 0));
+				app->audio->PlayFx(dashFx);
+				pbody->body->SetGravityScale(0);
+				start = high_resolution_clock::now();
+				dashing = true;
+			}
+			currentTime = high_resolution_clock::now();
+			dashDuration = elapsed = duration_cast<milliseconds>(currentTime - start);
+
+			if (dashDuration >= milliseconds(250) && dashing) {
+				pbody->body->SetLinearVelocity(b2Vec2(0, 0));
+				dashing = false;
+				pbody->body->SetGravityScale(1);
+			}
+
 			if (pbody->body->GetLinearVelocity().x < -0.5f)
 			{
 				//Opposite direction dampening
@@ -509,6 +544,7 @@ void Player::MovementLogic()
 					pbody->body->ApplyForce(b2Vec2(movementForce, 0.0f), pbody->body->GetWorldCenter(), true);
 			}
 		}
+
 
 		//General dampening
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && app->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE)
@@ -557,7 +593,7 @@ void Player::NormalsCheck()
 
 	bool playerCollision = false;
 
-	for (b2Contact* contact = app->physics->world->GetContactList(); contact; contact = contact->GetNext()) 
+	for (b2Contact* contact = app->physics->world->GetContactList(); contact; contact = contact->GetNext())
 	{
 
 		ListItem<PhysBody*>* c = app->scene->boxes.start;
@@ -624,10 +660,10 @@ void Player::SetSpawn(iPoint position, iPoint cameraPosition)
 		spawn = position;
 	}
 
-	if (!app->debug->debugCamera) 
+	if (!app->debug->debugCamera)
 	{
 		if (app->render->camera.x != cameraPosition.x ||
-			app->render->camera.y != cameraPosition.y) 
+			app->render->camera.y != cameraPosition.y)
 		{
 			app->render->camera.x = cameraPosition.x;
 			app->render->camera.y = cameraPosition.y;
@@ -727,7 +763,7 @@ bool Player::CleanUp()
 	app->tex->UnLoad(texture);
 
 	texturePath = nullptr;
-	
+
 	currentAnim = nullptr;
 
 	RELEASE(pbody);
