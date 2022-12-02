@@ -32,7 +32,6 @@ private:
 
 	SDL_Texture* texture;
 	const char* texturePath;
-	PhysBody* pbody;
 
 };
 

@@ -62,8 +62,6 @@ public:
 
 	iPoint spawn;
 
-	PhysBody* pbody;
-
 private:
 
 	SDL_Texture* texture;

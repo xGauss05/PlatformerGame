@@ -31,17 +31,21 @@ bool Enemy_Fly::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
-	pbody = app->physics->CreateCircle(position.x, position.y, 10, DYNAMIC);
+	pbody = app->physics->CreateRectangle(PIXEL_TO_METERS(5000), PIXEL_TO_METERS(400), 40, 88, DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::ENEMY;
+
+	b2MassData* data = new b2MassData; data->center = b2Vec2((float)40 / 2, (float)88 / 2); data->I = 0.0f; data->mass = 0.1f;
+	pbody->body->SetMassData(data);
+	delete data;
 
 	return true;
 }
 
 bool Enemy_Fly::Update()
 {
-	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x - (32 / 2));
-	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y - (32 / 2));
+	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x - (40 / 2));
+	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y - (88 / 2));
 	app->render->DrawTexture(texture, position.x, position.y);
 
 	return true;
