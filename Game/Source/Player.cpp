@@ -148,6 +148,7 @@ bool Player::Awake()
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
+	dashTexturePath = parameters.child("dash").attribute("texturepath").as_string();
 	maxJumps = parameters.attribute("maxJumps").as_int();
 	dieFx = app->audio->LoadFx(parameters.attribute("dieFxpath").as_string());
 	jumpFx = app->audio->LoadFx(parameters.attribute("jumpFxpath").as_string());
@@ -163,16 +164,16 @@ bool Player::Start()
 {
 
 	texture = app->tex->Load(texturePath);
+	dashSkill = app->tex->Load(dashTexturePath);
 	isDead = false;
 	currentJumps = maxJumps;
 	spawn.x = 100;
 	spawn.y = 450;
 	pbody = app->physics->CreateRectangle(0, 0, 40, height, DYNAMIC);
-
 	pbody->listener = this;
 	pbody->body->SetFixedRotation(true);
 	pbody->ctype = ColliderType::PLAYER;
-
+	dashIndicator = 3;
 	//Changing the body's mass to fit the game physics
 	b2MassData* data = new b2MassData; data->center = b2Vec2((float)width / 2, (float)height / 2); data->I = 0.0f; data->mass = 0.390625f;
 	pbody->body->SetMassData(data);
@@ -485,20 +486,12 @@ void Player::MovementLogic()
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
 			//Dash
-			if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && elapsed >= milliseconds(3000)) {
-
+			if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && dashCooldown >= milliseconds(3000)) {
 				pbody->body->SetLinearVelocity(b2Vec2(-25.0f, 0));
 				pbody->body->SetGravityScale(0);
 				app->audio->PlayFx(dashFx);
 				start = high_resolution_clock::now();
 				dashing = true;
-			}
-			currentTime = high_resolution_clock::now();
-			dashDuration = elapsed = duration_cast<milliseconds>(currentTime - start);
-			if (dashDuration >= milliseconds(250) && dashing) {
-				pbody->body->SetLinearVelocity(b2Vec2(0, 0));
-				dashing = false;
-				pbody->body->SetGravityScale(1);
 			}
 
 			if (pbody->body->GetLinearVelocity().x > 0.5f)
@@ -515,22 +508,14 @@ void Player::MovementLogic()
 
 		//Right
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		{	
+		{
 			//Dash
-			if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && elapsed >= milliseconds(3000)) {
+			if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && dashCooldown >= milliseconds(3000)) {
 				pbody->body->SetLinearVelocity(b2Vec2(25.0f, 0));
-				app->audio->PlayFx(dashFx);
 				pbody->body->SetGravityScale(0);
+				app->audio->PlayFx(dashFx);
 				start = high_resolution_clock::now();
 				dashing = true;
-			}
-			currentTime = high_resolution_clock::now();
-			dashDuration = elapsed = duration_cast<milliseconds>(currentTime - start);
-
-			if (dashDuration >= milliseconds(250) && dashing) {
-				pbody->body->SetLinearVelocity(b2Vec2(0, 0));
-				dashing = false;
-				pbody->body->SetGravityScale(1);
 			}
 
 			if (pbody->body->GetLinearVelocity().x < -0.5f)
@@ -737,9 +722,27 @@ bool Player::Update()
 	MovementLogic();
 	NormalsCheck();
 	LevelSelector();
-
+	
 	currentAnim->Update();
 	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
+	
+	currentTime = high_resolution_clock::now();
+	dashDuration = dashCooldown = duration_cast<milliseconds>(currentTime - start);
+
+	if (dashDuration >= milliseconds(250) && dashing) {
+		pbody->body->SetLinearVelocity(b2Vec2(0, 0));
+		pbody->body->SetGravityScale(1);
+		dashing = false;
+	}
+
+	if (dashCooldown.count() < 3000) {
+		SDL_SetTextureAlphaMod(dashSkill, (float)((dashCooldown.count() / 3000.0f)) * 255.0f);
+	}
+	else {
+		SDL_SetTextureAlphaMod(dashSkill, 255.0f);
+	}
+	
+	app->render->DrawTexture(dashSkill, 5, 700, NULL);
 
 	if (doorReached)
 	{

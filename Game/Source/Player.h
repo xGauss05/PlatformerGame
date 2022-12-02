@@ -65,7 +65,9 @@ public:
 private:
 
 	SDL_Texture* texture;
+	SDL_Texture* dashSkill;
 	const char* texturePath;
+	const char* dashTexturePath;
 	int width = 64, height = 88;
 	bool dashing = false;
 	Animation* currentAnim = nullptr;
@@ -87,8 +89,10 @@ private:
 
 	high_resolution_clock::time_point start;
 	high_resolution_clock::time_point currentTime;
-	milliseconds elapsed;
+	milliseconds dashCooldown;
 	milliseconds dashDuration;
+
+	int dashIndicator;
 	friend void Debug::DebugDraw();
 };
 
