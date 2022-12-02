@@ -85,7 +85,7 @@ public:
 	EntityType type;
 	bool active = true;
 	pugi::xml_node parameters;
-	PhysBody* collider = nullptr;
+	PhysBody* pbody = nullptr;
 	iPoint position;       
 
 };
