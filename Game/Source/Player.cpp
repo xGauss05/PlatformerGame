@@ -722,10 +722,10 @@ bool Player::Update()
 	MovementLogic();
 	NormalsCheck();
 	LevelSelector();
-	
+
 	currentAnim->Update();
 	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
-	
+
 	currentTime = high_resolution_clock::now();
 	dashDuration = dashCooldown = duration_cast<milliseconds>(currentTime - start);
 
@@ -741,8 +741,8 @@ bool Player::Update()
 	else {
 		SDL_SetTextureAlphaMod(dashSkill, 255.0f);
 	}
-	
-	app->render->DrawTexture(dashSkill, 5, 700, NULL);
+
+	app->render->DrawTexture(dashSkill, (app->render->camera.x)*-1 + 5, app->render->camera.y + 700, NULL);
 
 	if (doorReached)
 	{
