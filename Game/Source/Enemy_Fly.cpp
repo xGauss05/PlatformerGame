@@ -10,6 +10,8 @@
 #include "Physics.h"
 #include "Map.h"
 
+#include "Fonts.h"
+
 Enemy_Fly::Enemy_Fly() : Entity(EntityType::ENEMY_FLY)
 {
 	name.Create("enemy");
@@ -77,22 +79,47 @@ bool Enemy_Fly::Update()
 	int dirX = pathToPlayer.At(1)->x - pathToPlayer.At(0)->x;
 	int dirY = pathToPlayer.At(1)->y - pathToPlayer.At(0)->y;
 
+		app->render->DrawLine(app->map->MapToScreen(pathToPlayer.At(0)->x, pathToPlayer.At(0)->y).x,
+							  app->map->MapToScreen(pathToPlayer.At(0)->x, pathToPlayer.At(0)->y).y, 
+							  app->map->MapToScreen(pathToPlayer.At(1)->x, pathToPlayer.At(1)->y).x, 
+							  app->map->MapToScreen(pathToPlayer.At(1)->x, pathToPlayer.At(1)->y).y, 0, 255, 0, 255);
+	
+
 	if (dirX > 0)
 	{
-		pbody->body->ApplyForce(b2Vec2(1.0f, 0.0f), pbody->body->GetWorldCenter(), true);
+		if (pbody->body->GetLinearVelocity().x < speedCap)
+		{
+			pbody->body->ApplyForce(b2Vec2(3.0f, 0.0f), pbody->body->GetWorldCenter(), true);
+		}
+		app->font->BlitText(200, 200, 0, "Must go right");
 	}
-	else
+	else if (dirX < 0)
 	{
-		pbody->body->ApplyForce(b2Vec2(-1.0f, 0.0f), pbody->body->GetWorldCenter(), true);
+		if (pbody->body->GetLinearVelocity().x > -speedCap)
+		{
+			pbody->body->ApplyForce(b2Vec2(-3.0f, 0.0f), pbody->body->GetWorldCenter(), true);
+		}
+		app->font->BlitText(200, 200, 0, "Must go left");
 	}
 	if (dirY > 0)
 	{
-		pbody->body->ApplyForce(b2Vec2(0.0f, 1.0f), pbody->body->GetWorldCenter(), true);
+		if (pbody->body->GetLinearVelocity().y < speedCap)
+		{
+			pbody->body->ApplyForce(b2Vec2(0.0f, 3.0f), pbody->body->GetWorldCenter(), true);
+		}
+		app->font->BlitText(300, 200, 0, "Must go down");
 	}
-	else
+	else if (dirY < 0)
 	{
-		pbody->body->ApplyForce(b2Vec2(0.0f, -1.0f), pbody->body->GetWorldCenter(), true);
+		if (pbody->body->GetLinearVelocity().y > -speedCap)
+		{
+			pbody->body->ApplyForce(b2Vec2(0.0f, -3.0f), pbody->body->GetWorldCenter(), true);
+		}
+		app->font->BlitText(300, 200, 0, "Must go up");
 	}
+
+	app->font->BlitText(200, 300, 0, std::to_string(pbody->body->GetLinearVelocity().x).c_str());
+	app->font->BlitText(200, 310, 0, std::to_string(pbody->body->GetLinearVelocity().y).c_str());
 
 	return true;
 }
