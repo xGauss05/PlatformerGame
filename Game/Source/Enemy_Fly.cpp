@@ -149,7 +149,13 @@ bool Enemy_Fly::CleanUp()
 
 void Enemy_Fly::OnCollision(PhysBody* physA, PhysBody* physB)
 {
-
+	if (physB->ctype == ColliderType::PLAYER)
+	{
+		if (app->scene->player->dashing == true)
+		{
+			this->Disable();
+		}
+	}
 }
 
 void Enemy_Fly::DeathAnimation()

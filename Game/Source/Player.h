@@ -55,6 +55,7 @@ public:
 	int level = 1;
 	bool isDead = false;
 	bool doorReached = false;
+	bool dashing = false;
 
 	// SFX indexes
 	int dieFx, landingFx, jumpFx,
@@ -69,7 +70,7 @@ private:
 	const char* texturePath;
 	const char* dashTexturePath;
 	int width = 64, height = 88;
-	bool dashing = false;
+
 	Animation* currentAnim = nullptr;
 
 	Animation rightIdle, rightRun, rightJump,
