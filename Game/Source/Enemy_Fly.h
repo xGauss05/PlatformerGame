@@ -34,7 +34,7 @@ private:
 	SDL_Texture* texture;
 	const char* texturePath;
 
-	float speedCap = 5.0f;
+	float speedCap = 6.0f;
 
 	DynArray<iPoint> pathToPlayer;
 
