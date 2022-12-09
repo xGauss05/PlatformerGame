@@ -1,5 +1,5 @@
-#ifndef ___ENEMY_FLY_H__
-#define ___ENEMY_FLY_H__
+#ifndef ___ENEMY_WALK_H__
+#define ___ENEMY_WALK_H__
 
 #include "Entity.h"
 #include "Point.h"
@@ -8,12 +8,12 @@
 
 struct SDL_Texture;
 
-class Enemy_Fly : public Entity
+class Enemy_Walk : public Entity
 {
 public:
 
-	Enemy_Fly();
-	virtual ~Enemy_Fly();
+	Enemy_Walk();
+	virtual ~Enemy_Walk();
 
 	bool Awake();
 
@@ -37,8 +37,9 @@ private:
 	float speedCap = 6.0f;
 
 	DynArray<iPoint> pathToPlayer;
+	bool jumping = false;
 
 	bool pendingToDelete = false;
 };
 
-#endif // ___ENEMY_FLY_H__
+#endif // ___ENEMY_WALK_H__

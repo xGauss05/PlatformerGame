@@ -100,6 +100,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Debug.cpp" />
     <ClCompile Include="Source\Enemy_Fly.cpp" />
+    <ClCompile Include="Source\Enemy_Walk.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\FadeToBlack.cpp" />
     <ClCompile Include="Source\Fonts.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Source\Enemy_Fly.h" />
+    <ClInclude Include="Source\Enemy_Walk.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
     <ClInclude Include="Source\FadeToBlack.h" />

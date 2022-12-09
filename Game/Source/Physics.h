@@ -31,6 +31,7 @@ enum class ColliderType {
 	ITEM,
 	PLATFORM,
 	LIMIT,
+	JUMPTRIGGER,
 	SAW,
 	GOAL,
 	ENEMY,

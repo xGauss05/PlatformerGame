@@ -12,6 +12,7 @@ enum class EntityType
 	ITEM,
 	SAW,
 	ENEMY_FLY,
+	ENEMY_WALK,
 	UNKNOWN
 };
 

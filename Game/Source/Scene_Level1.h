@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Item.h"
 #include "Enemy_Fly.h"
+#include "Enemy_Walk.h"
 #include "Animation.h"
 
 struct SDL_Texture;

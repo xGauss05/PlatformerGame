@@ -76,6 +76,9 @@
     <ClCompile Include="Source\Enemy_Fly.cpp">
       <Filter>Application\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Enemy_Walk.cpp">
+      <Filter>Application\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -178,6 +181,9 @@
       <Filter>Modules\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="Source\Enemy_Fly.h">
+      <Filter>Application\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy_Walk.h">
       <Filter>Application\Entities</Filter>
     </ClInclude>
   </ItemGroup>

@@ -64,6 +64,7 @@ public:
 	iPoint spawn;
 
 private:
+	bool tmp = false;
 
 	SDL_Texture* texture;
 	SDL_Texture* dashSkill;

@@ -14,7 +14,7 @@
 
 Enemy_Fly::Enemy_Fly() : Entity(EntityType::ENEMY_FLY)
 {
-	name.Create("enemy");
+	name.Create("enemy_fly");
 }
 
 Enemy_Fly::~Enemy_Fly()
@@ -34,7 +34,7 @@ bool Enemy_Fly::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
-	pbody = app->physics->CreateRectangle(PIXEL_TO_METERS(5000), PIXEL_TO_METERS(5000), 40, 88, DYNAMIC);
+	pbody = app->physics->CreateRectangle(PIXEL_TO_METERS(position.x * 10), PIXEL_TO_METERS(position.y * 10), 40, 88, DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::ENEMY;
 
@@ -134,6 +134,8 @@ bool Enemy_Fly::Update()
 	//app->font->BlitText(200, 320, 0, std::to_string(pbody->body->GetLinearVelocity().x).c_str());
 	//app->font->BlitText(200, 330, 0, std::to_string(pbody->body->GetLinearVelocity().y).c_str());
 
+	if (pendingToDelete) { Disable(); }
+
 	return true;
 }
 
@@ -141,6 +143,7 @@ bool Enemy_Fly::CleanUp()
 {
 	app->tex->UnLoad(texture);
 
+	pendingToDelete = false;
 	delete pbody;
 	pbody = nullptr;
 
@@ -153,7 +156,7 @@ void Enemy_Fly::OnCollision(PhysBody* physA, PhysBody* physB)
 	{
 		if (app->scene->player->dashing == true)
 		{
-			this->Disable();
+			pendingToDelete = true;
 		}
 	}
 }
