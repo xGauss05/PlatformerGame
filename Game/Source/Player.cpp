@@ -24,6 +24,11 @@ Player::Player() : Entity(EntityType::PLAYER)
 	name.Create("Player");
 }
 
+Player::~Player()
+{
+
+}
+
 void Player::InitAnims()
 {
 	//Right idle
@@ -134,11 +139,6 @@ void Player::InitAnims()
 	}
 
 	currentAnim = &rightIdle;
-}
-
-Player::~Player()
-{
-
 }
 
 bool Player::Awake()

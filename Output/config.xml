@@ -49,7 +49,7 @@
       <pushback x="128" y="0" width="64" height="64"/>
     </saw>
     
-    <enemy_fly x="500" y="300" texturepath="Assets/Textures/enemy_fly_placeholder.png"/>
+    <enemy_fly x="500" y="300" texturepath="Assets/Textures/enemy_fly.png"/>
     <enemy_walk x="600" y="500" texturepath="Assets/Textures/enemy_walk_placeholder.png"/>
     
     <player x="100" y="450" texturepath="Assets/Textures/Spritesheet.png"
