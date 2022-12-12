@@ -22,11 +22,40 @@ Enemy_Walk::~Enemy_Walk()
 
 }
 
+void Enemy_Walk::InitAnims()
+{
+	rightMove.PushBack({ 9,19,30,18 });
+	rightMove.PushBack({ 57,19,30,18 });
+	rightMove.PushBack({ 105,19,30,18 });
+	rightMove.PushBack({ 153,19,30,18 });
+	rightMove.PushBack({ 201,19,30,18 });
+	rightMove.PushBack({ 249,19,30,18 });
+	rightMove.PushBack({ 297,19,30,18 });
+	rightMove.PushBack({ 345,19,30,18 });
+	rightMove.speed = 0.1f;
+	rightMove.loop = true;
+
+	leftMove.PushBack({ 9,0,30,18 });
+	leftMove.PushBack({ 57,0,30,18 });
+	leftMove.PushBack({ 105,0,30,18 });
+	leftMove.PushBack({ 153,0,30,18 });
+	leftMove.PushBack({ 201,0,30,18 });
+	leftMove.PushBack({ 249,0,30,18 });
+	leftMove.PushBack({ 297,0,30,18 });
+	leftMove.PushBack({ 345,0,30,18 });
+	leftMove.speed = 0.1f;
+	leftMove.loop = true;
+
+	currentAnim = &rightMove;
+}
+
 bool Enemy_Walk::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
+
+	InitAnims();
 	return true;
 }
 
@@ -34,10 +63,10 @@ bool Enemy_Walk::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
-	pbody = app->physics->CreateRectangle(PIXEL_TO_METERS(position.x * 10), PIXEL_TO_METERS(position.y * 10), 40, 88, DYNAMIC);
+	pbody = app->physics->CreateRectangle(PIXEL_TO_METERS(position.x * 10), PIXEL_TO_METERS(position.y * 10), 30, 18, DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::ENEMY;
-
+	dieFx = app->audio->LoadFx("Assets/Audio/Fx/enemy_die.wav");
 	b2MassData* data = new b2MassData; data->center = b2Vec2((float)40 / 2, (float)88 / 2); data->I = 0.0f; data->mass = 0.1f;
 	pbody->body->SetMassData(data);
 	delete data;
@@ -47,10 +76,10 @@ bool Enemy_Walk::Start() {
 
 bool Enemy_Walk::Update()
 {
-	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x - (40 / 2));
-	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y - (88 / 2));
-	app->render->DrawTexture(texture, position.x, position.y);
-
+	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x - (30 / 2));
+	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y - (18 / 2));
+	currentAnim->Update();
+	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
 
 	if (jumping)
 	{
@@ -80,8 +109,13 @@ void Enemy_Walk::OnCollision(PhysBody* physA, PhysBody* physB)
 	{
 		if (app->scene->player->dashing == true)
 		{
+			app->audio->PlayFx(dieFx);
 			pendingToDelete = true;
 		}
+	}
+	else 
+	{
+		if (!app->debug->godMode) app->scene->player->isDead = true;
 	}
 
 	if (physB->ctype == ColliderType::JUMPTRIGGER)

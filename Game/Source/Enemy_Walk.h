@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Point.h"
+#include "Animation.h"
 #include "Pathfinding.h"
 #include "SDL/include/SDL.h"
 
@@ -14,6 +15,8 @@ public:
 
 	Enemy_Walk();
 	virtual ~Enemy_Walk();
+
+	void InitAnims();
 
 	bool Awake();
 
@@ -29,10 +32,15 @@ public:
 
 public:
 
+	int dieFx;
+
 private:
 
 	SDL_Texture* texture;
 	const char* texturePath;
+
+	Animation* currentAnim = nullptr;
+	Animation leftMove, rightMove;
 
 	float speedCap = 6.0f;
 

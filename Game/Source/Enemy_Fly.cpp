@@ -35,7 +35,6 @@ void Enemy_Fly::InitAnims()
 	leftMove.PushBack({ 48,30,39,29 });
 	leftMove.PushBack({ 96,30,39,29 });
 	leftMove.PushBack({ 144,30,39,29 });
-
 	leftMove.speed = 0.1f;
 	leftMove.loop = true;
 
@@ -57,7 +56,7 @@ bool Enemy_Fly::Start() {
 
 	//initialize textures
 	texture = app->tex->Load(texturePath);
-	pbody = app->physics->CreateRectangle(PIXEL_TO_METERS(position.x * 10), PIXEL_TO_METERS(position.y * 10), 40, 88, DYNAMIC);
+	pbody = app->physics->CreateRectangle(PIXEL_TO_METERS(position.x * 10), PIXEL_TO_METERS(position.y * 10), 39, 29, DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::ENEMY;
 	dieFx = app->audio->LoadFx("Assets/Audio/Fx/enemy_die.wav");
@@ -72,8 +71,8 @@ bool Enemy_Fly::Start() {
 
 bool Enemy_Fly::Update()
 {
-	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x - (40 / 2));
-	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y - (88 / 2));
+	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x - (39 / 2));
+	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y - (29 / 2));
 	currentAnim->Update();
 	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
 
@@ -187,6 +186,10 @@ void Enemy_Fly::OnCollision(PhysBody* physA, PhysBody* physB)
 		{
 			app->audio->PlayFx(dieFx);
 			pendingToDelete = true;
+		}
+		else 
+		{
+			if (!app->debug->godMode) app->scene->player->isDead = true;
 		}
 	}
 }
