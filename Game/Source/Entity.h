@@ -85,6 +85,7 @@ public:
 	SString name;
 	EntityType type;
 	bool active = true;
+	int level;
 	pugi::xml_node parameters;
 	PhysBody* pbody = nullptr;
 	iPoint position;       

@@ -52,7 +52,7 @@ public:
 
 	int maxJumps;
 	int currentJumps;
-	int level = 1;
+	
 	bool isDead = false;
 	bool doorReached = false;
 	bool dashing = false;
