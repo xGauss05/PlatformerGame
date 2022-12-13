@@ -113,10 +113,10 @@ void Enemy_Walk::OnCollision(PhysBody* physA, PhysBody* physB)
 			app->audio->PlayFx(dieFx);
 			pendingToDelete = true;
 		}
-	}
-	else 
-	{
-		if (!app->debug->godMode) app->scene->player->isDead = true;
+		else
+		{
+			if (!app->debug->godMode) app->scene->player->isDead = true;
+		}
 	}
 
 	if (physB->ctype == ColliderType::JUMPTRIGGER)
