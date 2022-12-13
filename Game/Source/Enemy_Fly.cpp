@@ -56,7 +56,7 @@ bool Enemy_Fly::Start() {
 
 	//initialize textures
 	texture = app->tex->Load(texturePath);
-	pbody = app->physics->CreateRectangle(PIXEL_TO_METERS(position.x * 10), PIXEL_TO_METERS(position.y * 10), 39, 29, DYNAMIC);
+	pbody = app->physics->CreateRectangle(position.x, position.y, 39, 29, DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::ENEMY;
 	dieFx = app->audio->LoadFx("Assets/Audio/Fx/enemy_die.wav");

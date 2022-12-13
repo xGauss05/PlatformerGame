@@ -64,7 +64,7 @@ bool Enemy_Walk::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
-	pbody = app->physics->CreateRectangle(PIXEL_TO_METERS(position.x * 10), PIXEL_TO_METERS(position.y * 10), 30, 18, DYNAMIC);
+	pbody = app->physics->CreateRectangle(position.x, position.y, 30, 18, DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::ENEMY;
 	dieFx = app->audio->LoadFx("Assets/Audio/Fx/enemy_die.wav");
