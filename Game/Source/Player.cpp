@@ -746,11 +746,15 @@ bool Player::Update()
 
 	if (doorReached)
 	{
+		app->entityManager->ReviveAllEntities();
+		app->entityManager->TeleportToSpawnAllEntities();
 		TeleportTo(spawn);
 		doorReached = false;
 	}
 
 	if (isDead) {
+		app->entityManager->ReviveAllEntities();
+		app->entityManager->TeleportToSpawnAllEntities();
 		app->audio->PlayFx(dieFx);
 		app->entityManager->Disable();
 		TeleportTo(spawn);

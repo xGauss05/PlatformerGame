@@ -53,6 +53,8 @@ bool Enemy_Walk::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
+	spawn.x = position.x;
+	spawn.y = position.y;
 	texturePath = parameters.attribute("texturepath").as_string();
 	level = parameters.attribute("level").as_int();
 
@@ -63,8 +65,8 @@ bool Enemy_Walk::Awake() {
 bool Enemy_Walk::Start() {
 
 	//initilize textures
-	spawn.x = position.x;
-	spawn.y = position.y;
+	needsToSpawn = false;
+	isDead = false;
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateRectangle(position.x, position.y, 30, 18, DYNAMIC);
 	pbody->listener = this;
@@ -90,13 +92,21 @@ bool Enemy_Walk::Update()
 	currentAnim->Update();
 	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
 
+	if (needsToSpawn) {
+		TeleportTo(spawn);
+		needsToSpawn = false;
+	}
+	
 	if (jumping)
 	{
 		pbody->body->ApplyForce(b2Vec2(30.0f, -40.0f), pbody->body->GetWorldCenter(), true);
 		jumping = false;
 	}
 
-	if (pendingToDelete) { Disable(); }
+	if (pendingToDelete) {
+		isDead = true;
+		Disable();
+	}
 
 	return true;
 }

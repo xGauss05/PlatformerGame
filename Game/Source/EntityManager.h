@@ -33,6 +33,10 @@ public:
 
 	void AddEntity(Entity* entity);
 
+	void ReviveAllEntities();
+
+	void TeleportToSpawnAllEntities();
+
 public:
 
 	List<Entity*> entities;

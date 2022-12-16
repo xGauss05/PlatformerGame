@@ -92,6 +92,7 @@ public:
 	EntityType type;
 	bool active = true;
 	bool isDead;
+	bool needsToSpawn = false;
 	int level;
 	pugi::xml_node parameters;
 	PhysBody* pbody = nullptr;
