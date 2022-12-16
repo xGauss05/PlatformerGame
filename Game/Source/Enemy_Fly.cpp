@@ -108,67 +108,71 @@ bool Enemy_Fly::Update()
 	}
 
 	//Movement
-	int dirX = pathToPlayer.At(1)->x - pathToPlayer.At(0)->x;
-	int dirY = pathToPlayer.At(1)->y - pathToPlayer.At(0)->y;
-
-	app->render->DrawLine(app->map->MapToScreen(pathToPlayer.At(0)->x, pathToPlayer.At(0)->y).x,
-		app->map->MapToScreen(pathToPlayer.At(0)->x, pathToPlayer.At(0)->y).y,
-		app->map->MapToScreen(pathToPlayer.At(1)->x, pathToPlayer.At(1)->y).x,
-		app->map->MapToScreen(pathToPlayer.At(1)->x, pathToPlayer.At(1)->y).y, 0, 255, 0, 255);
-
-
-	if (dirX > 0)
+	if (pathToPlayer.Count() > 1)
 	{
-		if (pbody->body->GetLinearVelocity().x < speedCap)
+		int dirX = pathToPlayer.At(1)->x - pathToPlayer.At(0)->x;
+		int dirY = pathToPlayer.At(1)->y - pathToPlayer.At(0)->y;
+
+
+		app->render->DrawLine(app->map->MapToScreen(pathToPlayer.At(0)->x, pathToPlayer.At(0)->y).x,
+			app->map->MapToScreen(pathToPlayer.At(0)->x, pathToPlayer.At(0)->y).y,
+			app->map->MapToScreen(pathToPlayer.At(1)->x, pathToPlayer.At(1)->y).x,
+			app->map->MapToScreen(pathToPlayer.At(1)->x, pathToPlayer.At(1)->y).y, 0, 255, 0, 255);
+
+
+		if (dirX > 0)
 		{
-			if (currentAnim != &rightMove) currentAnim = &rightMove;
+			if (pbody->body->GetLinearVelocity().x < speedCap)
+			{
+				if (currentAnim != &rightMove) currentAnim = &rightMove;
 
-			pbody->body->ApplyForce(b2Vec2(2.0f, 0.0f), pbody->body->GetWorldCenter(), true);
+				pbody->body->ApplyForce(b2Vec2(2.0f, 0.0f), pbody->body->GetWorldCenter(), true);
+			}
+			//app->font->BlitText(200, 200, 0, "Must go right");
 		}
-		//app->font->BlitText(200, 200, 0, "Must go right");
-	}
-	else if (dirX < 0)
-	{
-		if (pbody->body->GetLinearVelocity().x > -speedCap)
+		else if (dirX < 0)
 		{
-			if (currentAnim != &leftMove) currentAnim = &leftMove;
+			if (pbody->body->GetLinearVelocity().x > -speedCap)
+			{
+				if (currentAnim != &leftMove) currentAnim = &leftMove;
 
-			pbody->body->ApplyForce(b2Vec2(-2.0f, 0.0f), pbody->body->GetWorldCenter(), true);
+				pbody->body->ApplyForce(b2Vec2(-2.0f, 0.0f), pbody->body->GetWorldCenter(), true);
+			}
+			//app->font->BlitText(200, 200, 0, "Must go left");
 		}
-		//app->font->BlitText(200, 200, 0, "Must go left");
-	}
-	else
-	{
-		//app->font->BlitText(200, 350, 0, "X is 0;");
-		pbody->body->ApplyForce(b2Vec2(-pbody->body->GetLinearVelocity().x * 0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
-	}
-
-	if (dirY > 0)
-	{
-		if (pbody->body->GetLinearVelocity().y < speedCap)
+		else
 		{
-			pbody->body->ApplyForce(b2Vec2(0.0f, 2.0f), pbody->body->GetWorldCenter(), true);
+			//app->font->BlitText(200, 350, 0, "X is 0;");
+			pbody->body->ApplyForce(b2Vec2(-pbody->body->GetLinearVelocity().x * 0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
 		}
-		//app->font->BlitText(300, 200, 0, "Must go down");
-	}
-	else if (dirY < 0)
-	{
-		if (pbody->body->GetLinearVelocity().y > -speedCap)
-		{
-			pbody->body->ApplyForce(b2Vec2(0.0f, -2.0f), pbody->body->GetWorldCenter(), true);
-		}
-		//app->font->BlitText(300, 200, 0, "Must go up");
-	}
-	else
-	{
-		//app->font->BlitText(200, 350, 0, "Y is 0;");
-		pbody->body->ApplyForce(b2Vec2(0.0f, -pbody->body->GetLinearVelocity().y * 0.1f), pbody->body->GetWorldCenter(), true);
-	}
 
-	//app->font->BlitText(200, 300, 0, std::to_string(dirX).c_str());
-	//app->font->BlitText(200, 310, 0, std::to_string(dirY).c_str());
-	//app->font->BlitText(200, 320, 0, std::to_string(pbody->body->GetLinearVelocity().x).c_str());
-	//app->font->BlitText(200, 330, 0, std::to_string(pbody->body->GetLinearVelocity().y).c_str());
+		if (dirY > 0)
+		{
+			if (pbody->body->GetLinearVelocity().y < speedCap)
+			{
+				pbody->body->ApplyForce(b2Vec2(0.0f, 2.0f), pbody->body->GetWorldCenter(), true);
+			}
+			//app->font->BlitText(300, 200, 0, "Must go down");
+		}
+		else if (dirY < 0)
+		{
+			if (pbody->body->GetLinearVelocity().y > -speedCap)
+			{
+				pbody->body->ApplyForce(b2Vec2(0.0f, -2.0f), pbody->body->GetWorldCenter(), true);
+			}
+			//app->font->BlitText(300, 200, 0, "Must go up");
+		}
+		else
+		{
+			//app->font->BlitText(200, 350, 0, "Y is 0;");
+			pbody->body->ApplyForce(b2Vec2(0.0f, -pbody->body->GetLinearVelocity().y * 0.1f), pbody->body->GetWorldCenter(), true);
+		}
+
+		//app->font->BlitText(200, 300, 0, std::to_string(dirX).c_str());
+		//app->font->BlitText(200, 310, 0, std::to_string(dirY).c_str());
+		//app->font->BlitText(200, 320, 0, std::to_string(pbody->body->GetLinearVelocity().x).c_str());
+		//app->font->BlitText(200, 330, 0, std::to_string(pbody->body->GetLinearVelocity().y).c_str());
+	}
 
 	if (pendingToDelete) { 
 		isDead = true;
