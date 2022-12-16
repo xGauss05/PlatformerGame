@@ -23645,8 +23645,18 @@
   <object id="545" x="6151" y="713" width="51" height="119"/>
  </objectgroup>
  <objectgroup id="12" name="Jump_Triggers">
-  <object id="550" x="539" y="731" width="10" height="10"/>
-  <object id="552" x="667" y="731" width="10" height="10"/>
+  <object id="550" x="539" y="731" width="10" height="10">
+   <properties>
+    <property name="x" type="int" value="40"/>
+    <property name="y" type="int" value="-70"/>
+   </properties>
+  </object>
+  <object id="552" x="667" y="731" width="10" height="10">
+   <properties>
+    <property name="x" type="int" value="-40"/>
+    <property name="y" type="int" value="-70"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="6" name="Spikes">
   <object id="406" x="544" y="923" width="128" height="5"/>

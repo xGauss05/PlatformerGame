@@ -58,6 +58,8 @@ public:
 	b2Body* body;
 	Entity* listener;
 	ColliderType ctype;
+
+	b2Vec2 impulse;
 };
 
 // Module --------------------------------------

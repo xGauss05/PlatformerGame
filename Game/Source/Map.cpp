@@ -444,6 +444,10 @@ bool Map::LoadColliders(pugi::xml_node mapFile)
                     collider.attribute("y").as_int() + collider.attribute("height").as_int() / 2,
                     collider.attribute("width").as_int(),
                     collider.attribute("height").as_int(), STATIC);
+
+                box->impulse.x = collider.child("properties").child("property").attribute("value").as_int();
+                box->impulse.y = collider.child("properties").child("property").next_sibling().attribute("value").as_int();
+
                 box->ctype = ColliderType::JUMPTRIGGER;
                 app->scene->boxes.Add(box);
             }

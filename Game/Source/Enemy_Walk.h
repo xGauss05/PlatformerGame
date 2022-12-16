@@ -48,6 +48,7 @@ private:
 
 	DynArray<iPoint> pathToPlayer;
 	bool jumping = false;
+	iPoint lastImpulse;
 
 	bool pendingToDelete = false;
 };

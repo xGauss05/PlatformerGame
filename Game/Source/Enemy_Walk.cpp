@@ -73,6 +73,7 @@ bool Enemy_Walk::Start() {
 	b2MassData* data = new b2MassData; data->center = b2Vec2((float)40 / 2, (float)88 / 2); data->I = 0.0f; data->mass = 0.1f;
 	pbody->body->SetMassData(data);
 	delete data;
+	lastImpulse = iPoint(0, 0);
 
 	return true;
 }
@@ -92,7 +93,7 @@ bool Enemy_Walk::Update()
 
 	if (jumping)
 	{
-		pbody->body->ApplyForce(b2Vec2(30.0f, -40.0f), pbody->body->GetWorldCenter(), true);
+		pbody->body->ApplyForce(b2Vec2(lastImpulse.x,lastImpulse.y), pbody->body->GetWorldCenter(), true);
 		jumping = false;
 	}
 
@@ -129,6 +130,8 @@ void Enemy_Walk::OnCollision(PhysBody* physA, PhysBody* physB)
 
 	if (physB->ctype == ColliderType::JUMPTRIGGER)
 	{
+		lastImpulse.x = physB->impulse.x;
+		lastImpulse.y = physB->impulse.y;
 		jumping = true;
 	}
 }
