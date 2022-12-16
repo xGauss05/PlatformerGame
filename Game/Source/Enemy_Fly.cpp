@@ -45,6 +45,8 @@ bool Enemy_Fly::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
+	spawn.x = position.x;
+	spawn.y = position.y;
 	texturePath = parameters.attribute("texturepath").as_string();
 	level = parameters.attribute("level").as_int();
 	InitAnims();
@@ -55,9 +57,8 @@ bool Enemy_Fly::Awake() {
 bool Enemy_Fly::Start() {
 
 	//initialize textures
+	needsToSpawn = false;
 	isDead = false;
-	spawn.x = position.x;
-	spawn.y = position.y;
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateRectangle(position.x, position.y, 39, 29, DYNAMIC);
 	pbody->listener = this;
@@ -174,12 +175,15 @@ bool Enemy_Fly::Update()
 		//app->font->BlitText(200, 330, 0, std::to_string(pbody->body->GetLinearVelocity().y).c_str());
 	}
 
+	if (needsToSpawn) {
+		TeleportTo(spawn);
+		needsToSpawn = false;
+	}
+
 	if (pendingToDelete) { 
 		isDead = true;
 		Disable(); 
 	}
-
-
 
 	return true;
 }

@@ -132,6 +132,25 @@ void EntityManager::AddEntity(Entity* entity)
 	if (entity != nullptr) entities.Add(entity);
 }
 
+void EntityManager::ReviveAllEntities() {
+	ListItem<Entity*>* item;
+	Entity* pEntity = NULL;
+	for (item = entities.start; item != NULL; item = item->next) {
+		pEntity = item->data;
+		pEntity->isDead = false;
+	}
+}
+
+void EntityManager::TeleportToSpawnAllEntities() {
+	ListItem<Entity*>* item;
+	Entity* pEntity = NULL;
+	for (item = entities.start; item != NULL; item = item->next) {
+		pEntity = item->data;
+		pEntity->needsToSpawn = true;
+	}
+}
+
+
 bool EntityManager::Update(float dt)
 {
 	bool ret = true;
@@ -142,11 +161,14 @@ bool EntityManager::Update(float dt)
 	{
 		pEntity = item->data;
 		if (pEntity != app->scene->player) {
-			if (pEntity->level != app->scene->player->level) {
-				if (pEntity->active != false) pEntity->Disable();
+			if (pEntity->level != app->scene->player->level) { // check if they're on the same level
+				if (pEntity->active != false) pEntity->Disable(); // if they are active, disable them
 			}
-			else {
-				if (pEntity->active != true) pEntity->Enable();
+			else { // if they're not on the same level
+				if (pEntity->active != true) {
+					if (!pEntity->isDead) pEntity->Enable(); // if they are not active, enable them
+				}
+					
 			}
 		}
 

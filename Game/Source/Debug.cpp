@@ -51,6 +51,8 @@ bool Debug::Update(float dt)
 		{
 			if (app->scene->player->level > 1)
 			{
+				app->entityManager->ReviveAllEntities();
+				app->entityManager->TeleportToSpawnAllEntities();
 				app->scene->player->level--;
 				app->scene->player->LevelSelector();
 				app->scene->player->TeleportTo(app->scene->player->spawn);
@@ -61,19 +63,25 @@ bool Debug::Update(float dt)
 		{
 			if (app->scene->player->level < 4)
 			{
+				app->entityManager->ReviveAllEntities();
+				app->entityManager->TeleportToSpawnAllEntities();
 				app->scene->player->level++;
 				app->scene->player->LevelSelector();
 				app->scene->player->TeleportTo(app->scene->player->spawn);
 			}
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
-		{
+		if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
+			app->entityManager->ReviveAllEntities();
+			app->entityManager->TeleportToSpawnAllEntities();
 			app->scene->player->TeleportTo(app->scene->player->spawn);
 		}
+			
+		
 		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) variables = !variables;
 
 		if (app->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) debugCamera = !debugCamera;
+
 		if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) hitboxes = !hitboxes;
 
 		if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
