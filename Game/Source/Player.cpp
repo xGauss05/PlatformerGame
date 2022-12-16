@@ -163,7 +163,7 @@ bool Player::Awake()
 
 bool Player::Start()
 {
-
+	isDead = false;
 	texture = app->tex->Load(texturePath);
 	dashSkill = app->tex->Load(dashTexturePath);
 	isDead = false;
@@ -657,8 +657,7 @@ void Player::SetSpawn(iPoint position, iPoint cameraPosition)
 	}
 }
 
-void Player::TeleportTo(iPoint position)
-{
+void Player::TeleportTo(iPoint position) {
 	pbody->body->SetLinearVelocity(b2Vec2(0, 0));
 	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0.0f);
 	pbody->body->ApplyForce(b2Vec2(0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
@@ -711,7 +710,7 @@ void Player::LevelSelector()
 	}
 }
 
-void Player::Reset() {
+void Player::ResetGame() {
 	level = 1;
 	LevelSelector();
 	TeleportTo(spawn);
@@ -743,7 +742,7 @@ bool Player::Update()
 		SDL_SetTextureAlphaMod(dashSkill, 255.0f);
 	}
 
-	app->render->DrawTexture(dashSkill, (app->render->camera.x)*-1 + 5, app->render->camera.y + 700, NULL);
+	app->render->DrawTexture(dashSkill, (app->render->camera.x) * -1 + 5, app->render->camera.y + 700, NULL);
 
 	if (doorReached)
 	{
@@ -791,10 +790,8 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB)
 		break;
 	case ColliderType::SAW:
 		LOG("Collision SAW");
-		if (!app->debug->godMode)
-		{
-			isDead = true;
-		}
+		if (!app->debug->godMode) isDead = true;
+
 		break;
 	case ColliderType::GOAL:
 		LOG("Collision GOAL");

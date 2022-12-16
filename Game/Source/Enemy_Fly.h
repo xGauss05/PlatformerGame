@@ -22,6 +22,8 @@ public:
 
 	bool Start();
 
+	void TeleportTo(iPoint position);
+
 	bool Update();
 
 	bool CleanUp();

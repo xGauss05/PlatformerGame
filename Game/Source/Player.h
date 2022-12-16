@@ -38,7 +38,7 @@ public:
 
 	void LevelSelector();
 
-	void Reset();
+	void ResetGame();
 
 	bool Update();
 
@@ -52,16 +52,13 @@ public:
 
 	int maxJumps;
 	int currentJumps;
-	
-	bool isDead = false;
+
 	bool doorReached = false;
 	bool dashing = false;
 
 	// SFX indexes
 	int dieFx, landingFx, jumpFx,
 		goalFx, dashFx;
-
-	iPoint spawn;
 
 private:
 	bool tmp = false;

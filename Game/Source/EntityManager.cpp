@@ -99,8 +99,8 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		break;
 
 	case EntityType::ENEMY_FLY:
-			entity = new Enemy_Fly();
-			break;
+		entity = new Enemy_Fly();
+		break;
 	case EntityType::ENEMY_WALK:
 		entity = new Enemy_Walk();
 		break;
@@ -141,6 +141,14 @@ bool EntityManager::Update(float dt)
 	for (item = entities.start; item != NULL && ret == true; item = item->next)
 	{
 		pEntity = item->data;
+		if (pEntity != app->scene->player) {
+			if (pEntity->level != app->scene->player->level) {
+				if (pEntity->active != false) pEntity->Disable();
+			}
+			else {
+				if (pEntity->active != true) pEntity->Enable();
+			}
+		}
 
 		if (pEntity->active == false) continue;
 		ret = item->data->Update();

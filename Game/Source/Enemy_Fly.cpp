@@ -55,6 +55,9 @@ bool Enemy_Fly::Awake() {
 bool Enemy_Fly::Start() {
 
 	//initialize textures
+	isDead = false;
+	spawn.x = position.x;
+	spawn.y = position.y;
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateRectangle(position.x, position.y, 39, 29, DYNAMIC);
 	pbody->listener = this;
@@ -67,6 +70,12 @@ bool Enemy_Fly::Start() {
 	pbody->body->SetGravityScale(0.0f);
 
 	return true;
+}
+
+void Enemy_Fly::TeleportTo(iPoint position) {
+	pbody->body->SetLinearVelocity(b2Vec2(0, 0));
+	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0.0f);
+	pbody->body->ApplyForce(b2Vec2(0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
 }
 
 bool Enemy_Fly::Update()
@@ -161,7 +170,11 @@ bool Enemy_Fly::Update()
 	//app->font->BlitText(200, 320, 0, std::to_string(pbody->body->GetLinearVelocity().x).c_str());
 	//app->font->BlitText(200, 330, 0, std::to_string(pbody->body->GetLinearVelocity().y).c_str());
 
-	if (pendingToDelete) { Disable(); }
+	if (pendingToDelete) { 
+		isDead = true;
+		Disable(); 
+	}
+
 
 
 	return true;

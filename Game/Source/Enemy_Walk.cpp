@@ -63,6 +63,8 @@ bool Enemy_Walk::Awake() {
 bool Enemy_Walk::Start() {
 
 	//initilize textures
+	spawn.x = position.x;
+	spawn.y = position.y;
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateRectangle(position.x, position.y, 30, 18, DYNAMIC);
 	pbody->listener = this;
@@ -73,6 +75,12 @@ bool Enemy_Walk::Start() {
 	delete data;
 
 	return true;
+}
+
+void Enemy_Walk::TeleportTo(iPoint position) {
+	pbody->body->SetLinearVelocity(b2Vec2(0, 0));
+	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0.0f);
+	pbody->body->ApplyForce(b2Vec2(0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
 }
 
 bool Enemy_Walk::Update()
@@ -127,4 +135,5 @@ void Enemy_Walk::OnCollision(PhysBody* physA, PhysBody* physB)
 
 void Enemy_Walk::DeathAnimation()
 {
+
 }

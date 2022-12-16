@@ -66,6 +66,7 @@ bool Debug::Update(float dt)
 				app->scene->player->TeleportTo(app->scene->player->spawn);
 			}
 		}
+
 		if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		{
 			app->scene->player->TeleportTo(app->scene->player->spawn);

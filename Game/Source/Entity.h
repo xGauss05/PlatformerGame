@@ -70,25 +70,32 @@ public:
 		}
 	}
 
-	virtual void OnCollision(PhysBody* physA, PhysBody* physB) 
+	virtual void OnCollision(PhysBody* physA, PhysBody* physB)
 	{
-		
+
 	};
 
-	virtual void DeathAnimation() 
+	void Entity::TeleportTo(iPoint position) {
+		
+
+	}
+
+	virtual void DeathAnimation()
 	{
 
 	}
 
 public:
 
+	iPoint spawn;
 	SString name;
 	EntityType type;
 	bool active = true;
+	bool isDead;
 	int level;
 	pugi::xml_node parameters;
 	PhysBody* pbody = nullptr;
-	iPoint position;       
+	iPoint position;
 
 };
 

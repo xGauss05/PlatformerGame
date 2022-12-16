@@ -63,7 +63,7 @@ bool Scene_Win::Update(float dt)
 
 	if (elapsed >= milliseconds(5000))
 	{
-		app->scene->player->Reset();
+		app->scene->player->ResetGame();
 		app->ftb->SceneFadeToBlack(this, app->scene_menu, 100.0f);
 	}
 

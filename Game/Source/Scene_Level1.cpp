@@ -151,7 +151,7 @@ bool Scene_Level1::PostUpdate()
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 	{
-		player->Reset();
+		player->ResetGame();
 		app->ftb->SceneFadeToBlack(this, app->scene_menu, 20.0f);
 	}
 
