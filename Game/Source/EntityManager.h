@@ -37,6 +37,12 @@ public:
 
 	void TeleportToSpawnAllEntities();
 
+	bool LoadState(pugi::xml_node& data);
+
+	bool SaveState(pugi::xml_node& data);
+
+	void ActivateEnemies();
+
 public:
 
 	List<Entity*> entities;

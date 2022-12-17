@@ -69,6 +69,7 @@ bool Enemy_Fly::Start() {
 	delete data;
 
 	pbody->body->SetGravityScale(0.0f);
+	TeleportTo(spawn);
 
 	return true;
 }

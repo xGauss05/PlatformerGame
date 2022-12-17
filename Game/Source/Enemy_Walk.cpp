@@ -76,6 +76,7 @@ bool Enemy_Walk::Start() {
 	pbody->body->SetMassData(data);
 	delete data;
 	lastImpulse = iPoint(0, 0);
+	TeleportTo(spawn);
 
 	return true;
 }
@@ -104,6 +105,7 @@ bool Enemy_Walk::Update()
 		pbody->body->ApplyForce(b2Vec2(lastImpulse.x, -lastImpulse.y), pbody->body->GetWorldCenter(), true);
 		jumping = false;
 	}
+
 	if (stop)
 	{
 		pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
