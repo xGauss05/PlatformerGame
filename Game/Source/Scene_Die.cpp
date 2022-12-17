@@ -107,6 +107,7 @@ bool Scene_Die::Update(float dt)
 			break;
 		case 1:
 			app->scene_menu->hasSelected = false;
+			app->scene->player->ResetGame();
 			app->ftb->SceneFadeToBlack(this, app->scene_menu, 45.0f);
 			break;
 		case 2:
@@ -126,6 +127,7 @@ bool Scene_Die::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 	{
+		app->scene->player->ResetGame();
 		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0);
 	}
 

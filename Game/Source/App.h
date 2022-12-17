@@ -130,4 +130,4 @@ private:
 
 extern App* app;
 
-#endif	// __APP_H__
+#endif // __APP_H__
