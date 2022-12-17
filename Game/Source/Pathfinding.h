@@ -49,15 +49,15 @@ public:
 	// Utility: return the walkability value of a tile
 	uchar GetTileAt(const iPoint& pos) const;
 
-private:
-
+public:
+	// all map walkability values [0..255]
+	uchar* map;
 	// size of the map
 	uint width;
 	uint height;
 
-	// all map walkability values [0..255]
-	uchar* map;
-
+private:
+	
 	// we store the created path here
 	DynArray<iPoint> lastPath;
 };
@@ -83,7 +83,7 @@ struct PathNode
 	// Fills a list (PathList) of all valid adjacent pathnodes
 	uint FindWalkableAdjacents(PathList& list_to_fill) const;
 	// Calculates this tile score
-	int Score() const;
+	int Score(iPoint currentTile) const;
 	// Calculate the F for a specific destination tile
 	int CalculateF(const iPoint& destination);
 };
