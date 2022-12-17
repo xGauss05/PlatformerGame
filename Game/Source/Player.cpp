@@ -735,14 +735,15 @@ bool Player::Update()
 		dashing = false;
 	}
 
-	if (dashCooldown.count() < 3000) {
-		SDL_SetTextureAlphaMod(dashSkill, (float)((dashCooldown.count() / 3000.0f)) * 255.0f);
-	}
-	else {
-		SDL_SetTextureAlphaMod(dashSkill, 255.0f);
-	}
 
-	app->render->DrawTexture(dashSkill, (app->render->camera.x) * -1 + 5, app->render->camera.y + 700, NULL);
+	int filling = 100;
+	if (dashCooldown.count() < 3000) {
+		//SDL_SetTextureAlphaMod(dashSkill, (float)((dashCooldown.count() / 3000.0f)) * 255.0f);
+		filling = (dashCooldown.count() / 3000.0f) * 100;
+	}
+	SDL_Rect rect({ 1450,780,filling,100 });
+	app->render->DrawRectangle(rect, 10, 10, 10, 150, true, false);
+	app->render->DrawTexture(dashSkill, -app->render->camera.x + 1450, -app->render->camera.y + 780, NULL);
 
 	if (doorReached)
 	{

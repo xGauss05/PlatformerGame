@@ -58,8 +58,9 @@ public:
 	iPoint origin;
 	bool originSelected = false;
 
+	SDL_Texture* enemyPathTex = nullptr;
 	SDL_Texture* playerPathTex = nullptr;
-	SDL_Texture* mousePathTex = nullptr;
+	SDL_Texture* manualPathTex = nullptr;
 	SDL_Texture* xTex = nullptr;
 };
 

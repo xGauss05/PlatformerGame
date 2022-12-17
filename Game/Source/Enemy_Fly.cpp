@@ -106,7 +106,7 @@ bool Enemy_Fly::Update()
 	for (uint i = 0; i < pathToPlayer.Count(); ++i)
 	{
 		iPoint pos = app->map->MapToScreen(pathToPlayer.At(i)->x, pathToPlayer.At(i)->y);
-		app->render->DrawTexture(app->debug->playerPathTex, pos.x, pos.y);
+		app->render->DrawTexture(app->debug->enemyPathTex, pos.x, pos.y);
 	}
 
 	//Movement

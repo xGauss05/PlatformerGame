@@ -36,8 +36,9 @@ bool Debug::Start()
 {
 	debug = false;
 
-	playerPathTex = app->tex->Load("Assets/Maps/path.png");
-	mousePathTex = app->tex->Load("Assets/Maps/manualPath.png");
+	enemyPathTex = app->tex->Load("Assets/Maps/enemyPath.png");
+	playerPathTex = app->tex->Load("Assets/Maps/playerPath.png");
+	manualPathTex = app->tex->Load("Assets/Maps/manualPath.png");
 	xTex = app->tex->Load("Assets/Maps/x.png");
 
 	return true;
@@ -274,7 +275,7 @@ void Debug::DebugDraw()
 	for (uint i = 0; i < mousePath.Count(); ++i)
 	{
 		iPoint pos = app->map->MapToScreen(mousePath.At(i)->x, mousePath.At(i)->y);
-		app->render->DrawTexture(mousePathTex, pos.x, pos.y);
+		app->render->DrawTexture(manualPathTex, pos.x, pos.y);
 	}
 
 #pragma endregion
