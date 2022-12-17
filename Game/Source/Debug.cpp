@@ -12,6 +12,8 @@
 #include "Map.h"
 #include "Pathfinding.h"
 #include "Scene_Level1.h"
+#include "Scene_Win.h"
+#include "FadeToBlack.h"
 
 #include "Defs.h"
 
@@ -75,7 +77,10 @@ bool Debug::Update(float dt)
 			app->entityManager->ActivateEnemies();
 			app->scene->player->TeleportTo(app->scene->player->spawn);
 		}
+
+		if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveGameRequest();
 			
+		if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadGameRequest();
 		
 		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) variables = !variables;
 
@@ -96,8 +101,12 @@ bool Debug::Update(float dt)
 				app->scene->player->pbody->body->SetGravityScale(1.0f);
 			}
 		}
+
 		if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) limitFps = !limitFps;
 		
+		if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) app->scene->player->isDead = true;
+
+		if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) app->ftb->SceneFadeToBlack(this, app->scene_win, 0);
 		
 	}
 
@@ -112,15 +121,21 @@ bool Debug::PostUpdate()
 		app->font->BlitText(10, 10, 0, "Press F1 to GO BACK to the previous level");
 		app->font->BlitText(10, 20, 0, "Press F2 to GO FORWARD to the next level");
 		app->font->BlitText(10, 30, 0, "Press F3 to RESET the current level");
-		app->font->BlitText(10, 40, 0, "Press F5 to SAVE the current game state");
-		app->font->BlitText(10, 50, 0, "Press F6 to LOAD the current game state");
-		app->font->BlitText(10, 60, 0, "Press F7 to show game VARIABLES");
-		app->font->BlitText(10, 70, 0, "Press F8 to move the CAMERA freely");
-		app->font->BlitText(10, 80, 0, "Press F9 to view COLLIDERS");
-		app->font->BlitText(10, 90, 0, "Press F10 to activate GOD MODE");
-		app->font->BlitText(10, 100, 0, "Press F11 to Enable/Disable FPS cap to 30");
+		app->font->BlitText(10, 40, 0, "Press F4 to DISABLE debug mode");
+		app->font->BlitText(10, 50, 0, "Press F5 to SAVE the current game state");
+		app->font->BlitText(10, 60, 0, "Press F6 to LOAD the current game state");
+		app->font->BlitText(10, 70, 0, "Press F7 to show game VARIABLES");
+		app->font->BlitText(10, 80, 0, "Press F8 to move the CAMERA freely");
+		app->font->BlitText(10, 90, 0, "Press F9 to view COLLIDERS");
+		app->font->BlitText(10, 100, 0, "Press F10 to activate GOD MODE");
+		app->font->BlitText(10, 110, 0, "Press F11 to Enable/Disable FPS cap to 30");
+		app->font->BlitText(320, 10, 0, "Press O to instantly WIN");
+		app->font->BlitText(320, 20, 0, "Press P to kill the player");
 
 		DebugDraw();
+	}
+	else {
+		app->font->BlitText(10, 10, 0, "Press F4 to ENABLE debug mode");
 	}
 
 	if (hitboxes)

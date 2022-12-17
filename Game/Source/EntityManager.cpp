@@ -191,6 +191,7 @@ bool EntityManager::Update(float dt)
 
 bool EntityManager::LoadState(pugi::xml_node& data)
 {
+	ActivateEnemies();
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
 	pugi::xml_node node = data.child("enemy");
@@ -206,6 +207,8 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 					pEntity->pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(node.attribute("x").as_int()),
 						PIXEL_TO_METERS(node.attribute("y").as_int())),
 						0.0f);
+					pEntity->pbody->body->SetLinearVelocity(b2Vec2(node.attribute("x_velocity").as_float(),
+																	node.attribute("y_velocity").as_float()));
 				}
 				else
 				{ // information says is not active
@@ -222,10 +225,12 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 					position.x = node.attribute("x").as_int();
 					position.y = node.attribute("y").as_int();
 					pEntity->TeleportTo(position);
+					pEntity->pbody->body->SetLinearVelocity(b2Vec2(node.attribute("x_velocity").as_float(),
+						node.attribute("y_velocity").as_float()));
 					pEntity->isDead = node.attribute("isDead").as_bool();
 				}
 			}
-			node.next_sibling("enemy");
+			node = node.next_sibling("enemy");
 		}
 	}
 
@@ -245,6 +250,8 @@ bool EntityManager::SaveState(pugi::xml_node& data)
 			if (!pEntity->isDead) {
 				node.append_attribute("x") = METERS_TO_PIXELS(pEntity->pbody->body->GetPosition().x);
 				node.append_attribute("y") = METERS_TO_PIXELS(pEntity->pbody->body->GetPosition().y);
+				node.append_attribute("x_velocity") = pEntity->pbody->body->GetLinearVelocity().x;
+				node.append_attribute("y_velocity") = pEntity->pbody->body->GetLinearVelocity().y;
 			}
 			node.append_attribute("isDead") = pEntity->isDead;
 			node.append_attribute("active") = pEntity->active;

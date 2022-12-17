@@ -10,13 +10,13 @@
 	<scene_intro />
 	<scene_menu />
 	<scene_level1>
-		<player x="857" y="633" level="1" />
+		<player x="880" y="691" level="1" />
 	</scene_level1>
 	<scene_win />
 	<scene_die />
 	<entitymanager>
-		<enemy isDead="true" active="false" />
-		<enemy x="760" y="726" isDead="false" active="true" />
+		<enemy x="614" y="547" x_velocity="6.29030943" y_velocity="1.68258297" isDead="false" active="true" />
+		<enemy x="582" y="657" x_velocity="6.66666698" y_velocity="-5" isDead="false" active="true" />
 	</entitymanager>
 	<map />
 	<pathfinding />

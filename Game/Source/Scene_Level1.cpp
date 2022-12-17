@@ -105,18 +105,6 @@ bool Scene_Level1::Update(float dt)
 
 	if (app->scene_menu->IsEnabled()) app->scene_menu->Disable();
 
-	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveGameRequest();
-
-	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadGameRequest();
-
-	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
-	{
-		app->audio->PlayFx(player->dieFx);
-		app->ftb->SceneFadeToBlack(this, app->scene_die, 40.0f);
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) app->ftb->SceneFadeToBlack(this, app->scene_win, 0);
-
 	// Draw map
 	app->map->Draw();
 

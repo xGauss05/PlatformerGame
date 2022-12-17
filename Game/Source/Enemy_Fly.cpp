@@ -182,7 +182,7 @@ bool Enemy_Fly::Update()
 	}
 
 	if (pendingToDelete) { 
-		//isDead = true;
+		isDead = true;
 		Disable(); 
 	}
 
