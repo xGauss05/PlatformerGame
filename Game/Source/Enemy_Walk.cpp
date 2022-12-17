@@ -178,6 +178,7 @@ bool Enemy_Walk::Update()
 		isDead = true;
 		Disable();
 	}
+	
 
 	//This is only for testing
 	/*if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
