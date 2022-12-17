@@ -44,10 +44,12 @@ private:
 	Animation* currentAnim = nullptr;
 	Animation leftMove, rightMove;
 
-	float speedCap = 6.0f;
+	float speedCap = 3.0f;
 
 	DynArray<iPoint> pathToPlayer;
 	bool jumping = false;
+	bool stop = false;
+	bool airborn = false;
 	iPoint lastImpulse;
 
 	bool pendingToDelete = false;

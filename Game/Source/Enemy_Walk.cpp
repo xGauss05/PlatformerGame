@@ -100,14 +100,99 @@ bool Enemy_Walk::Update()
 	
 	if (jumping)
 	{
-		pbody->body->ApplyForce(b2Vec2(lastImpulse.x,lastImpulse.y), pbody->body->GetWorldCenter(), true);
+		pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+		pbody->body->ApplyForce(b2Vec2(lastImpulse.x, -lastImpulse.y), pbody->body->GetWorldCenter(), true);
 		jumping = false;
+	}
+	if (stop)
+	{
+		pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+		stop = false;
 	}
 
 	if (pendingToDelete) {
 		isDead = true;
 		Disable();
 	}
+
+	
+
+	if (!airborn)
+	{
+		//Pathfinding
+
+		iPoint entityTile = app->map->ScreenToMap(METERS_TO_PIXELS(this->pbody->body->GetPosition().x),
+			METERS_TO_PIXELS(this->pbody->body->GetPosition().y));
+		iPoint playerTile = app->map->ScreenToMap(METERS_TO_PIXELS(app->scene->player->pbody->body->GetPosition().x),
+			METERS_TO_PIXELS(app->scene->player->pbody->body->GetPosition().y));
+
+		app->pathfinding->CreatePath(entityTile, playerTile);
+		pathToPlayer.Clear();
+
+		const DynArray<iPoint>* path = app->pathfinding->GetLastPath();
+		for (uint i = 0; i < path->Count(); i++)
+		{
+			pathToPlayer.PushBack(iPoint(path->At(i)->x, path->At(i)->y));
+		}
+
+		for (uint i = 0; i < pathToPlayer.Count(); ++i)
+		{
+			iPoint pos = app->map->MapToScreen(pathToPlayer.At(i)->x, pathToPlayer.At(i)->y);
+			app->render->DrawTexture(app->debug->playerPathTex, pos.x, pos.y);
+		}
+
+		//Movement
+		if (pathToPlayer.Count() > 1)
+		{
+			int dirX = pathToPlayer.At(1)->x - pathToPlayer.At(0)->x;
+
+			if (dirX > 0)
+			{
+				if (pbody->body->GetLinearVelocity().x < speedCap)
+				{
+					if (currentAnim != &rightMove) currentAnim = &rightMove;
+
+					pbody->body->ApplyForce(b2Vec2(2.0f, 0.0f), pbody->body->GetWorldCenter(), true);
+				}
+				//app->font->BlitText(200, 200, 0, "Must go right");
+			}
+			else if (dirX < 0)
+			{
+				if (pbody->body->GetLinearVelocity().x > -speedCap)
+				{
+					if (currentAnim != &leftMove) currentAnim = &leftMove;
+
+					pbody->body->ApplyForce(b2Vec2(-2.0f, 0.0f), pbody->body->GetWorldCenter(), true);
+				}
+				//app->font->BlitText(200, 200, 0, "Must go left");
+			}
+			else
+			{
+				//app->font->BlitText(200, 350, 0, "X is 0;");
+				pbody->body->ApplyForce(b2Vec2(-pbody->body->GetLinearVelocity().x * 0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
+			}
+
+			//app->font->BlitText(200, 300, 0, std::to_string(dirX).c_str());
+			//app->font->BlitText(200, 310, 0, std::to_string(dirY).c_str());
+			//app->font->BlitText(200, 320, 0, std::to_string(pbody->body->GetLinearVelocity().x).c_str());
+			//app->font->BlitText(200, 330, 0, std::to_string(pbody->body->GetLinearVelocity().y).c_str());
+		}
+	}
+	
+
+	//This is only for testing
+	/*if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	{
+		pbody->body->ApplyForce(b2Vec2(-1.0f, 0.0f), pbody->body->GetWorldCenter(), true);
+	}
+	if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	{
+		pbody->body->ApplyForce(b2Vec2(1.0f, 0.0f), pbody->body->GetWorldCenter(), true);
+	}
+	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	{
+		pbody->body->ApplyForce(b2Vec2(0.0f, -5.0f), pbody->body->GetWorldCenter(), true);
+	}*/
 
 	return true;
 }
@@ -143,6 +228,13 @@ void Enemy_Walk::OnCollision(PhysBody* physA, PhysBody* physB)
 		lastImpulse.x = physB->impulse.x;
 		lastImpulse.y = physB->impulse.y;
 		jumping = true;
+		airborn = true;
+	}
+
+	if (physB->ctype == ColliderType::PLATFORM)
+	{
+		stop = true;
+		airborn = false;
 	}
 }
 

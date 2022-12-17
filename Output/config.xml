@@ -56,7 +56,7 @@
     <!--Level 3-->
     <enemy_fly x="4000" y="300" level="3" texturepath="Assets/Textures/enemy_fly.png"/>
     <!--Level 4-->
-    <enemy_fly x="6000" y="300" level="4" texturepath="Assets/Textures/enemy_fly.png"/>
+    <enemy_walk x="5400" y="700" level="4" texturepath="Assets/Textures/enemy_walk.png"/>
     
     <player x="100" y="450" texturepath="Assets/Textures/Spritesheet.png"
             maxJumps="1" dieFxpath="Assets/Audio/Fx/hurt.wav" landingFxpath="Assets/Audio/Fx/landing.wav"
