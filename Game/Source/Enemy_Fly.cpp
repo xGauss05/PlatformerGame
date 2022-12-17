@@ -69,6 +69,7 @@ bool Enemy_Fly::Start() {
 	delete data;
 
 	pbody->body->SetGravityScale(0.0f);
+	TeleportTo(spawn);
 
 	return true;
 }
@@ -181,7 +182,7 @@ bool Enemy_Fly::Update()
 	}
 
 	if (pendingToDelete) { 
-		isDead = true;
+		//isDead = true;
 		Disable(); 
 	}
 

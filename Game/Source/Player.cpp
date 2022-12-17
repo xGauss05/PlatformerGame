@@ -746,8 +746,7 @@ bool Player::Update()
 
 	if (doorReached)
 	{
-		app->entityManager->ReviveAllEntities();
-		app->entityManager->TeleportToSpawnAllEntities();
+		app->entityManager->ActivateEnemies();
 		TeleportTo(spawn);
 		doorReached = false;
 	}

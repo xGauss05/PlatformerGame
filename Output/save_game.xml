@@ -10,15 +10,18 @@
 	<scene_intro />
 	<scene_menu />
 	<scene_level1>
-		<player x="5774" y="155" level="4" />
+		<player x="857" y="633" level="1" />
 	</scene_level1>
-	<scene_transition />
 	<scene_win />
 	<scene_die />
-	<entitymanager />
+	<entitymanager>
+		<enemy isDead="true" active="false" />
+		<enemy x="760" y="726" isDead="false" active="true" />
+	</entitymanager>
 	<map />
+	<pathfinding />
 	<fadetoblack />
 	<renderer>
-		<camera x="-4896" y="0" />
+		<camera x="0" y="0" />
 	</renderer>
 </save_state>

@@ -76,6 +76,7 @@ bool Enemy_Walk::Start() {
 	pbody->body->SetMassData(data);
 	delete data;
 	lastImpulse = iPoint(0, 0);
+	TeleportTo(spawn);
 
 	return true;
 }
@@ -104,18 +105,12 @@ bool Enemy_Walk::Update()
 		pbody->body->ApplyForce(b2Vec2(lastImpulse.x, -lastImpulse.y), pbody->body->GetWorldCenter(), true);
 		jumping = false;
 	}
+
 	if (stop)
 	{
 		pbody->body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
 		stop = false;
 	}
-
-	if (pendingToDelete) {
-		isDead = true;
-		Disable();
-	}
-
-	
 
 	if (!airborn)
 	{
@@ -178,7 +173,11 @@ bool Enemy_Walk::Update()
 			//app->font->BlitText(200, 330, 0, std::to_string(pbody->body->GetLinearVelocity().y).c_str());
 		}
 	}
-	
+
+	if (pendingToDelete) {
+		isDead = true;
+		Disable();
+	}
 
 	//This is only for testing
 	/*if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
