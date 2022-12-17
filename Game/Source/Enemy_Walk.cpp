@@ -110,13 +110,6 @@ bool Enemy_Walk::Update()
 		stop = false;
 	}
 
-	if (pendingToDelete) {
-		isDead = true;
-		Disable();
-	}
-
-	
-
 	if (!airborn)
 	{
 		//Pathfinding
@@ -177,6 +170,11 @@ bool Enemy_Walk::Update()
 			//app->font->BlitText(200, 320, 0, std::to_string(pbody->body->GetLinearVelocity().x).c_str());
 			//app->font->BlitText(200, 330, 0, std::to_string(pbody->body->GetLinearVelocity().y).c_str());
 		}
+	}
+
+	if (pendingToDelete) {
+		isDead = true;
+		Disable();
 	}
 	
 
