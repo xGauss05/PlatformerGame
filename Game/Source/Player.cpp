@@ -754,6 +754,7 @@ bool Player::Update()
 	if (isDead) {
 		app->entityManager->ReviveAllEntities();
 		app->entityManager->TeleportToSpawnAllEntities();
+		app->entityManager->ActivateEnemies();
 		app->audio->PlayFx(dieFx);
 		app->entityManager->Disable();
 		TeleportTo(spawn);
