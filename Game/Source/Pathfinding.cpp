@@ -98,9 +98,9 @@ ListItem<PathNode>* PathList::GetNodeLowestScore() const
 	ListItem<PathNode>* item = list.end;
 	while(item)
 	{
-		if(item->data.Score() < min)
+		if(item->data.Score(item->data.pos) < min)
 		{
-			min = item->data.Score();
+			min = item->data.Score(item->data.pos);
 			ret = item;
 		}
 		item = item->prev;
@@ -154,9 +154,15 @@ uint PathNode::FindWalkableAdjacents(PathList& listToFill) const
 // PathNode -------------------------------------------------------------------------
 // Calculates this tile score
 // ----------------------------------------------------------------------------------
-int PathNode::Score() const
+int PathNode::Score(iPoint currentTile) const
 {
-	return g + h;
+	int pref = 0;
+	if (app->pathfinding->GetTileAt(currentTile) == 2)
+	{
+		pref = -1000;
+	}
+
+	return g + h + pref;
 }
 
 // PathNode -------------------------------------------------------------------------
