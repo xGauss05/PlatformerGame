@@ -48,7 +48,6 @@ private:
 
 	DynArray<iPoint> pathToPlayer;
 
-	bool pendingToDelete = false;
 };
 
 #endif // ___ENEMY_FLY_H__

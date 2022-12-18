@@ -3,7 +3,6 @@
 
 #include "Module.h"
 #include "Player.h"
-#include "Item.h"
 #include "Enemy_Fly.h"
 #include "Enemy_Walk.h"
 #include "Animation.h"
@@ -38,6 +37,7 @@ public:
 	bool CleanUp();
 
 	bool LoadState(pugi::xml_node& data);
+
 	bool SaveState(pugi::xml_node& data);
 
 public:

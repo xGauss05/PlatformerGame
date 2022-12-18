@@ -37,6 +37,7 @@ public:
 
 
 private:
+
 	iPoint oldposition;
 
 	SDL_Texture* background;

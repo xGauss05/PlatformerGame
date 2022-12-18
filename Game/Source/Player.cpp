@@ -761,7 +761,7 @@ bool Player::Update()
 	if (isDead) {
 		dashAvailable = true;
 		app->entityManager->ReviveAllEntities();
-		app->entityManager->TeleportToSpawnAllEntities();
+		app->entityManager->NeedsToSpawnAllEntities();
 		app->entityManager->ActivateEnemies();
 		app->audio->PlayFx(dieFx);
 		app->entityManager->Disable();

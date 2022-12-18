@@ -29,19 +29,19 @@ public:
 	// Additional methods
 	Entity* CreateEntity(EntityType type);
 
-	void DestroyEntity(Entity* entity);
-
 	void AddEntity(Entity* entity);
+
+	void DestroyEntity(Entity* entity);
 
 	void ReviveAllEntities();
 
-	void TeleportToSpawnAllEntities();
+	void NeedsToSpawnAllEntities();
+
+	void ActivateEnemies();
 
 	bool LoadState(pugi::xml_node& data);
 
 	bool SaveState(pugi::xml_node& data);
-
-	void ActivateEnemies();
 
 public:
 

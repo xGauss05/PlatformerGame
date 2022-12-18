@@ -49,6 +49,7 @@ bool Enemy_Fly::Awake() {
 	spawn.y = position.y;
 	texturePath = parameters.attribute("texturepath").as_string();
 	level = parameters.attribute("level").as_int();
+
 	InitAnims();
 	return true;
 
@@ -56,25 +57,30 @@ bool Enemy_Fly::Awake() {
 
 bool Enemy_Fly::Start() {
 
-	//initialize textures
+	// Starting flags
 	needsToSpawn = false;
 	isDead = false;
+
 	texture = app->tex->Load(texturePath);
+	dieFx = app->audio->LoadFx("Assets/Audio/Fx/enemy_die.wav");
+
+	// Physical body
 	pbody = app->physics->CreateRectangle(position.x, position.y, 39, 29, DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::ENEMY;
-	dieFx = app->audio->LoadFx("Assets/Audio/Fx/enemy_die.wav");
 	b2MassData* data = new b2MassData; data->center = b2Vec2((float)40 / 2, (float)88 / 2); data->I = 0.0f; data->mass = 0.1f;
 	pbody->body->SetMassData(data);
 	delete data;
-
 	pbody->body->SetGravityScale(0.0f);
+	
+	// Initial position
 	TeleportTo(spawn);
 
 	return true;
 }
 
-void Enemy_Fly::TeleportTo(iPoint position) {
+void Enemy_Fly::TeleportTo(iPoint position) 
+{
 	pbody->body->SetLinearVelocity(b2Vec2(0, 0));
 	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0.0f);
 	pbody->body->ApplyForce(b2Vec2(0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
@@ -87,7 +93,7 @@ bool Enemy_Fly::Update()
 	currentAnim->Update();
 	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
 
-	//Pathfinding
+	// Pathfinding
 
 	iPoint entityTile = app->map->ScreenToMap(METERS_TO_PIXELS(this->pbody->body->GetPosition().x),
 		METERS_TO_PIXELS(this->pbody->body->GetPosition().y));
@@ -103,7 +109,7 @@ bool Enemy_Fly::Update()
 		pathToPlayer.PushBack(iPoint(path->At(i)->x, path->At(i)->y));
 	}
 
-	//Pathfinding debug visuals
+	// Pathfinding debug visuals
 	if (app->debug->debug && app->debug->paths)
 	{
 		for (uint i = 0; i < pathToPlayer.Count(); ++i)
@@ -113,7 +119,7 @@ bool Enemy_Fly::Update()
 		}
 	}
 
-	//Movement
+	// Movement
 	if (pathToPlayer.Count() > 1)
 	{
 		int dirX = pathToPlayer.At(1)->x - pathToPlayer.At(0)->x;
@@ -127,7 +133,6 @@ bool Enemy_Fly::Update()
 
 				pbody->body->ApplyForce(b2Vec2(2.0f, 0.0f), pbody->body->GetWorldCenter(), true);
 			}
-			//app->font->BlitText(200, 200, 0, "Must go right");
 		}
 		else if (dirX < 0)
 		{
@@ -137,11 +142,9 @@ bool Enemy_Fly::Update()
 
 				pbody->body->ApplyForce(b2Vec2(-2.0f, 0.0f), pbody->body->GetWorldCenter(), true);
 			}
-			//app->font->BlitText(200, 200, 0, "Must go left");
 		}
 		else
 		{
-			//app->font->BlitText(200, 350, 0, "X is 0;");
 			pbody->body->ApplyForce(b2Vec2(-pbody->body->GetLinearVelocity().x * 0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
 		}
 
@@ -151,7 +154,6 @@ bool Enemy_Fly::Update()
 			{
 				pbody->body->ApplyForce(b2Vec2(0.0f, 2.0f), pbody->body->GetWorldCenter(), true);
 			}
-			//app->font->BlitText(300, 200, 0, "Must go down");
 		}
 		else if (dirY < 0)
 		{
@@ -159,26 +161,21 @@ bool Enemy_Fly::Update()
 			{
 				pbody->body->ApplyForce(b2Vec2(0.0f, -2.0f), pbody->body->GetWorldCenter(), true);
 			}
-			//app->font->BlitText(300, 200, 0, "Must go up");
 		}
 		else
 		{
-			//app->font->BlitText(200, 350, 0, "Y is 0;");
 			pbody->body->ApplyForce(b2Vec2(0.0f, -pbody->body->GetLinearVelocity().y * 0.1f), pbody->body->GetWorldCenter(), true);
 		}
-
-		//app->font->BlitText(200, 300, 0, std::to_string(dirX).c_str());
-		//app->font->BlitText(200, 310, 0, std::to_string(dirY).c_str());
-		//app->font->BlitText(200, 320, 0, std::to_string(pbody->body->GetLinearVelocity().x).c_str());
-		//app->font->BlitText(200, 330, 0, std::to_string(pbody->body->GetLinearVelocity().y).c_str());
 	}
 
-	if (needsToSpawn) {
+	if (needsToSpawn) 
+	{
 		TeleportTo(spawn);
 		needsToSpawn = false;
 	}
 
-	if (pendingToDelete) { 
+	if (pendingToDelete)
+	{ 
 		isDead = true;
 		Disable(); 
 	}

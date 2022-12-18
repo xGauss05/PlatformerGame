@@ -1,6 +1,5 @@
 #include "EntityManager.h"
 #include "Player.h"
-#include "Item.h"
 #include "Saw.h"
 #include "App.h"
 #include "Textures.h"
@@ -42,7 +41,8 @@ bool EntityManager::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-bool EntityManager::Start() {
+bool EntityManager::Start() 
+{
 
 	bool ret = true;
 
@@ -90,10 +90,6 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		entity = new Player();
 		break;
 
-	case EntityType::ITEM:
-		entity = new Item();
-		break;
-
 	case EntityType::SAW:
 		entity = new Saw();
 		break;
@@ -101,6 +97,7 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	case EntityType::ENEMY_FLY:
 		entity = new Enemy_Fly();
 		break;
+
 	case EntityType::ENEMY_WALK:
 		entity = new Enemy_Walk();
 		break;
@@ -112,6 +109,11 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	AddEntity(entity);
 
 	return entity;
+}
+
+void EntityManager::AddEntity(Entity* entity)
+{
+	if (entity != nullptr) entities.Add(entity);
 }
 
 void EntityManager::DestroyEntity(Entity* entity)
@@ -127,28 +129,23 @@ void EntityManager::DestroyEntity(Entity* entity)
 	}
 }
 
-void EntityManager::AddEntity(Entity* entity)
-{
-	if (entity != nullptr) entities.Add(entity);
-}
-
 void EntityManager::ReviveAllEntities() {
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
-	for (item = entities.start; item != NULL; item = item->next) {
+	for (item = entities.start; item != NULL; item = item->next)
+	{
 		pEntity = item->data;
 		pEntity->isDead = false;
 	}
 }
 
-void EntityManager::TeleportToSpawnAllEntities() {
+void EntityManager::NeedsToSpawnAllEntities() {
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
-	for (item = entities.start; item != NULL; item = item->next) {
+	for (item = entities.start; item != NULL; item = item->next) 
+	{
 		pEntity = item->data;
-		if (pEntity != app->scene->player) {
-			pEntity->needsToSpawn = true;
-		}
+		if (pEntity != app->scene->player) pEntity->needsToSpawn = true;
 	}
 }
 
@@ -160,14 +157,15 @@ void EntityManager::ActivateEnemies() {
 	for (item = entities.start; item != NULL && ret == true; item = item->next)
 	{
 		pEntity = item->data;
-		if (pEntity != app->scene->player) {
-			if (pEntity->level != app->scene->player->level) { // check if they're on the same level
+		if (pEntity != app->scene->player) 
+		{
+			if (pEntity->level != app->scene->player->level)
+			{ // check if they're on the same level
 				if (pEntity->active != false) pEntity->Disable(); // if they are active, disable them
 			}
-			else { // if they are on the same level
-				if (pEntity->active != true) {
-					pEntity->Enable(); // if they are not active, enable them
-				}
+			else 
+			{ // if they are on the same level
+				if (pEntity->active != true) pEntity->Enable(); // if they are not active, enable them
 			}
 		}
 	}
@@ -195,20 +193,22 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
 	pugi::xml_node node = data.child("enemy");
-	for (item = entities.start; item != NULL; item = item->next) {
+	for (item = entities.start; item != NULL; item = item->next) 
+	{
 		pEntity = item->data;
 		if (pEntity != app->scene->player &&
-			pEntity->level == app->scene->player->level) {
+			pEntity->level == app->scene->player->level) 
+		{
 			bool isActiveInfo = node.attribute("active").as_bool();
 			if (pEntity->active) // entity is active
 			{
 				if (isActiveInfo)
 				{ // information says is active
 					pEntity->pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(node.attribute("x").as_int()),
-						PIXEL_TO_METERS(node.attribute("y").as_int())),
-						0.0f);
+															  PIXEL_TO_METERS(node.attribute("y").as_int())),
+															  0.0f);
 					pEntity->pbody->body->SetLinearVelocity(b2Vec2(node.attribute("x_velocity").as_float(),
-																	node.attribute("y_velocity").as_float()));
+																   node.attribute("y_velocity").as_float()));
 				}
 				else
 				{ // information says is not active
@@ -226,7 +226,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 					position.y = node.attribute("y").as_int();
 					pEntity->TeleportTo(position);
 					pEntity->pbody->body->SetLinearVelocity(b2Vec2(node.attribute("x_velocity").as_float(),
-						node.attribute("y_velocity").as_float()));
+																   node.attribute("y_velocity").as_float()));
 					pEntity->isDead = node.attribute("isDead").as_bool();
 				}
 			}
@@ -242,12 +242,15 @@ bool EntityManager::SaveState(pugi::xml_node& data)
 	pugi::xml_node node;
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
-	for (item = entities.start; item != NULL; item = item->next) {
+	for (item = entities.start; item != NULL; item = item->next)
+	{
 		pEntity = item->data;
 		if (pEntity != app->scene->player &&
-			pEntity->level == app->scene->player->level) {
+			pEntity->level == app->scene->player->level) 
+		{
 			node = data.append_child("enemy");
-			if (!pEntity->isDead) {
+			if (!pEntity->isDead) 
+			{
 				node.append_attribute("x") = METERS_TO_PIXELS(pEntity->pbody->body->GetPosition().x);
 				node.append_attribute("y") = METERS_TO_PIXELS(pEntity->pbody->body->GetPosition().y);
 				node.append_attribute("x_velocity") = pEntity->pbody->body->GetLinearVelocity().x;

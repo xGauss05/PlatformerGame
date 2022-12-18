@@ -52,11 +52,13 @@ bool Scene_Die::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool Scene_Die::Start()
 {
+	active = false;
+
 	background = app->tex->Load(background_texturePath);
 	selector = app->tex->Load(selector_texturePath);
 	pointer = app->tex->Load(pointer_texturePath);
+
 	choice = 0;
-	active = false;
 	return true;
 }
 
@@ -74,10 +76,12 @@ bool Scene_Die::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected)
 	{
-		if (choice == 2) {
+		if (choice == 2) 
+		{
 			choice = 0;
 		}
-		else {
+		else 
+		{
 			choice++;
 		}
 	}

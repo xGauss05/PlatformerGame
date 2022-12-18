@@ -50,6 +50,7 @@ bool Debug::Update(float dt)
 
 	if (debug)
 	{
+		// Previous level
 		if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		{
 			if (app->scene->player->level > 1)
@@ -60,7 +61,8 @@ bool Debug::Update(float dt)
 				app->scene->player->TeleportTo(app->scene->player->spawn);
 			}
 		}
-		//Pass level
+		
+		// Next level
 		if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		{
 			if (app->scene->player->level < 4)
@@ -72,23 +74,31 @@ bool Debug::Update(float dt)
 			}
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
+		// Reset level
+		if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) 
+		{
 			app->entityManager->ReviveAllEntities();
-			app->entityManager->TeleportToSpawnAllEntities();
+			app->entityManager->NeedsToSpawnAllEntities();
 			app->entityManager->ActivateEnemies();
 			app->scene->player->TeleportTo(app->scene->player->spawn);
 		}
 
+		// Save request
 		if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveGameRequest();
-			
+
+		// Load request
 		if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadGameRequest();
 		
+		// Enable/Disable variables
 		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) variables = !variables;
 
+		// Enable/Disable debug camera
 		if (app->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) debugCamera = !debugCamera;
 
+		// Enable/Disable hitboxes
 		if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) hitboxes = !hitboxes;
 
+		// Enable/Disable godmode
 		if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		{
 			godMode = !godMode;
@@ -103,22 +113,46 @@ bool Debug::Update(float dt)
 			}
 		}
 
+		// Enable/Disable FPS limit
 		if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) limitFps = !limitFps;
 		
+		// Insta-win
 		if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 		{
 			app->entityManager->ReviveAllEntities();
-			app->entityManager->TeleportToSpawnAllEntities();
+			app->entityManager->NeedsToSpawnAllEntities();
 			app->scene->player->ResetGame();
 			app->ftb->SceneFadeToBlack(app->scene, app->scene_win, 0.0f);
 		}
 		
+		// Insta-kill
 		if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) app->scene->player->isDead = true;
 
+		// Enable/Disable paths
 		if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) paths = !paths;
 
+		// Enable/Disable preference matrix
 		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) preferenceMatrix = !preferenceMatrix;
 		
+	}
+	else
+	{
+		if (variables != false) variables = false;
+
+		if (hitboxes != false) hitboxes = false;
+
+		if (debugCamera != false) debugCamera = false;
+
+		if (godMode != false) godMode = false;
+
+		if (limitFps != false) limitFps = false;
+
+		if (paths != false) paths = false;
+
+		if (preferenceMatrix != false) preferenceMatrix = false;
+
+		if (originSelected != false) originSelected = false;
+
 	}
 
 	return true;
@@ -148,8 +182,8 @@ bool Debug::PostUpdate()
 		app->font->BlitText(10, 110, 0, "Press F11 to Enable/Disable FPS cap to 30");
 
 		app->font->BlitText(320, 10, 0, "Press I to instantly WIN");
-		app->font->BlitText(320, 20, 0, "Press O to kill the player");
-		app->font->BlitText(320, 30, 0, "Press P to show paths");
+		app->font->BlitText(320, 20, 0, "Press O to KILL the player");
+		app->font->BlitText(320, 30, 0, "Press P to show PATHS");
 		app->font->BlitText(320, 40, 0, "Press M to show preference map");
 	}
 	else {
@@ -315,10 +349,12 @@ void Debug::DebugDraw()
 
 #pragma endregion
 
-	if (limitFps) {
+	if (limitFps) 
+	{
 		if (targetFPS != 30) targetFPS = 30;
 	}
-	else {
+	else 
+	{
 		if (targetFPS != 60) targetFPS = 60;
 	}
 }

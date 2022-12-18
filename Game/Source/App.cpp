@@ -123,7 +123,6 @@ bool App::Start()
 	item = modules.start;
 
 	while (item != NULL && ret == true)
-
 	{
 		ret = item->data->Start();
 		item = item->next;
@@ -161,11 +160,13 @@ bool App::LoadConfig()
 
 	pugi::xml_parse_result parseResult = configFile.load_file("config.xml");
 
-	if (parseResult) {
+	if (parseResult) 
+	{
 		ret = true;
 		configNode = configFile.child("config");
 	}
-	else {
+	else 
+	{
 		LOG("Error in App::LoadConfig(): %s", parseResult.description());
 	}
 
@@ -175,6 +176,7 @@ bool App::LoadConfig()
 // ---------------------------------------------
 void App::PrepareUpdate()
 {
+
 }
 
 // ---------------------------------------------
@@ -196,10 +198,8 @@ bool App::PreUpdate()
 	{
 		pModule = item->data;
 
-		if (pModule->active == false) {
-			continue;
-		}
-
+		if (pModule->active == false) continue;
+		
 		ret = item->data->PreUpdate();
 	}
 
@@ -218,9 +218,7 @@ bool App::DoUpdate()
 	{
 		pModule = item->data;
 
-		if (pModule->active == false) {
-			continue;
-		}
+		if (pModule->active == false) continue;
 
 		ret = item->data->Update(dt);
 	}
@@ -239,10 +237,8 @@ bool App::PostUpdate()
 	{
 		pModule = item->data;
 
-		if (pModule->active == false) {
-			continue;
-		}
-
+		if (pModule->active == false) continue;
+		 
 		ret = item->data->PostUpdate();
 	}
 

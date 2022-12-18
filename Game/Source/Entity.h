@@ -9,7 +9,6 @@
 enum class EntityType
 {
 	PLAYER,
-	ITEM,
 	SAW,
 	ENEMY_FLY,
 	ENEMY_WALK,
@@ -87,16 +86,17 @@ public:
 
 public:
 
-	iPoint spawn;
 	SString name;
 	EntityType type;
+	iPoint spawn;
+	iPoint position;
 	bool active = true;
 	bool isDead;
 	bool needsToSpawn = false;
+	bool pendingToDelete = false;
 	int level;
 	pugi::xml_node parameters;
 	PhysBody* pbody = nullptr;
-	iPoint position;
 
 };
 

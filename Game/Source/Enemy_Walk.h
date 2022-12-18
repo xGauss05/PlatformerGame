@@ -50,9 +50,8 @@ private:
 	bool jumping = false;
 	bool stop = false;
 	bool airborn = false;
-	iPoint lastImpulse;
 
-	bool pendingToDelete = false;
+	iPoint lastImpulse;
 };
 
 #endif // ___ENEMY_WALK_H__

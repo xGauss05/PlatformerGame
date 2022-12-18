@@ -125,9 +125,7 @@ void Map::Draw()
                 }
             }
         }
-
         mapLayerItem = mapLayerItem->next;
-
     }
 }
 
@@ -190,10 +188,8 @@ TileSet* Map::GetTilesetFromTileId(int gid) const
     while (item != NULL)
     {
         set = item->data;
-        if (gid < item->data->firstgid + item->data->tilecount)
-        {
-            break;
-        }
+        if (gid < item->data->firstgid + item->data->tilecount) break;
+        
         item = item->next;
     }
 
@@ -242,25 +238,15 @@ bool Map::Load()
         ret = false;
     }
 
-    if(ret == true)
-    {
-        ret = LoadMap(mapFileXML);
-    }
+    if(ret == true) ret = LoadMap(mapFileXML);
+    
 
-    if (ret == true)
-    {
-        ret = LoadTileSet(mapFileXML);
-    }
+    if (ret == true) ret = LoadTileSet(mapFileXML);
 
-    if (ret == true)
-    {
-        ret = LoadAllLayers(mapFileXML.child("map"));
-    }
-
-    if (ret == true)
-    {
-        ret = LoadColliders(mapFileXML.child("map"));
-    }
+    if (ret == true) ret = LoadAllLayers(mapFileXML.child("map"));
+    
+    if (ret == true) ret = LoadColliders(mapFileXML.child("map"));
+    
 
     if(ret == true)
     {
@@ -274,7 +260,8 @@ bool Map::Load()
         ListItem<TileSet*>* tileset;
         tileset = mapData.tilesets.start;
 
-        while (tileset != NULL) {
+        while (tileset != NULL) 
+        {
             LOG("name : %s firstgid : %d",tileset->data->name.GetString(), tileset->data->firstgid);
             LOG("tile width : %d tile height : %d", tileset->data->tileWidth, tileset->data->tileHeight);
             LOG("spacing : %d margin : %d", tileset->data->spacing, tileset->data->margin);
@@ -284,7 +271,8 @@ bool Map::Load()
         ListItem<MapLayer*>* mapLayer;
         mapLayer = mapData.maplayers.start;
 
-        while (mapLayer != NULL) {
+        while (mapLayer != NULL) 
+        {
             LOG("id : %d name : %s", mapLayer->data->id, mapLayer->data->name.GetString());
             LOG("Layer width : %d Layer height : %d", mapLayer->data->width, mapLayer->data->height);
             mapLayer = mapLayer->next;
@@ -310,7 +298,7 @@ bool Map::LoadMap(pugi::xml_node mapFile)
     }
     else
     {
-        //Load map general properties
+        // Load map general properties
         mapData.height = map.attribute("height").as_int();
         mapData.width = map.attribute("width").as_int();
         mapData.tileHeight = map.attribute("tileheight").as_int();
@@ -322,6 +310,7 @@ bool Map::LoadMap(pugi::xml_node mapFile)
     {
         mapData.type = MAPTYPE_ISOMETRIC;
     }
+
     if ((SString)map.attribute("orientation").as_string() == "orthogonal")
     {
         mapData.type = MAPTYPE_ORTHOGONAL;
@@ -515,7 +504,8 @@ Properties::Property* Properties::GetProperty(const char* name)
 
     while (item)
     {
-        if (item->data->name == name) {
+        if (item->data->name == name) 
+        {
             p = item->data;
             break;
         }

@@ -34,6 +34,7 @@ public:
 	bool CleanUp();
 
 public:
+
 	bool hasSelected = false;
 
 private:

@@ -31,7 +31,7 @@ Scene_Menu::~Scene_Menu()
 bool Scene_Menu::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene_Menu");
-
+	bool ret = true;
 
 	for (pugi::xml_node node = config.child("pointer").child("pushback"); node; node = node.next_sibling("pushback"))
 	{
@@ -49,9 +49,6 @@ bool Scene_Menu::Awake(pugi::xml_node& config)
 	background_texturePath = config.child("background").attribute("texturepath").as_string();
 	selector_texturePath = config.child("selector").attribute("texturepath").as_string();
 	pointer_texturePath = config.child("pointer").attribute("texturepath").as_string();
-	bool ret = true;
-
-
 
 	return ret;
 }
@@ -59,15 +56,15 @@ bool Scene_Menu::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool Scene_Menu::Start()
 {
+	active = false;
 	background = app->tex->Load(background_texturePath);
 	pointer = app->tex->Load(pointer_texturePath);
 	selector = app->tex->Load(selector_texturePath);
 	choice = 0;
-	//SDL_ShowCursor(SDL_DISABLE);
+	
 	app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
-
 	app->win->SetTitle("Super Metal Boy");
-	this->active = false;
+
 	return true;
 }
 
@@ -80,7 +77,6 @@ bool Scene_Menu::PreUpdate()
 // Called each loop iteration
 bool Scene_Menu::Update(float dt)
 {
-
 	if (app->scene->player->level != 1) app->scene->player->level = 1;
 
 	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
@@ -88,7 +84,6 @@ bool Scene_Menu::Update(float dt)
 	if (app->scene->IsEnabled()) app->scene->Disable();
 
 	if (app->scene_die->IsEnabled()) app->scene_die->Disable();
-
 
 	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected)
 	{

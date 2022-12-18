@@ -16,9 +16,6 @@
     <ClCompile Include="Source\EntityManager.cpp">
       <Filter>Application\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Item.cpp">
-      <Filter>Application\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scene_Level1.cpp">
       <Filter>Modules\Gameplay\Scenes</Filter>
     </ClCompile>
@@ -118,9 +115,6 @@
       <Filter>Application\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Entity.h">
-      <Filter>Application\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Item.h">
       <Filter>Application\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene_Level1.h">

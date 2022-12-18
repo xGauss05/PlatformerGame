@@ -77,7 +77,8 @@ bool Scene_Level1::Start()
 	bool retLoad = app->map->Load();
 
 	// Create walkability map
-	if (retLoad) {
+	if (retLoad) 
+	{
 		int w, h;
 		uchar* data = NULL;
 
@@ -142,7 +143,7 @@ bool Scene_Level1::PostUpdate()
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 	{
 		app->entityManager->ReviveAllEntities();
-		app->entityManager->TeleportToSpawnAllEntities();
+		app->entityManager->NeedsToSpawnAllEntities();
 		player->ResetGame();
 		app->ftb->SceneFadeToBlack(this, app->scene_menu, 20.0f);
 	}

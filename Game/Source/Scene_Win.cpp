@@ -23,7 +23,10 @@ Scene_Win::Scene_Win() : Module()
 }
 
 // Destructor
-Scene_Win::~Scene_Win() {}
+Scene_Win::~Scene_Win() 
+{
+
+}
 
 // Called before render is available
 bool Scene_Win::Awake(pugi::xml_node& config)
@@ -52,7 +55,8 @@ bool Scene_Win::PreUpdate()
 // Called each loop iteration
 bool Scene_Win::Update(float dt)
 {
-	if (app->entityManager->IsEnabled()) {
+	if (app->entityManager->IsEnabled()) 
+	{
 		app->entityManager->Disable();
 
 		start = high_resolution_clock::now();
