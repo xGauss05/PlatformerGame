@@ -49,14 +49,13 @@
       <pushback x="128" y="0" width="64" height="64"/>
     </saw>e
     <!--Level 1--> 
-    <enemy_fly x="1000" y="300" level="1" texturepath="Assets/Textures/enemy_fly.png"/>
     <enemy_walk x="800" y="700" level="1" texturepath="Assets/Textures/enemy_walk.png"/>
     <!--Level 2-->
     <enemy_fly x="3150" y="300" level="2" texturepath="Assets/Textures/enemy_fly.png"/>
     <!--Level 3-->
     <enemy_fly x="4000" y="300" level="3" texturepath="Assets/Textures/enemy_fly.png"/>
     <!--Level 4-->
-    <enemy_walk x="5400" y="700" level="4" texturepath="Assets/Textures/enemy_walk.png"/>
+    <enemy_walk x="5810" y="380" level="4" texturepath="Assets/Textures/enemy_walk.png"/>
     
     <player x="100" y="450" texturepath="Assets/Textures/Spritesheet.png"
             maxJumps="1" dieFxpath="Assets/Audio/Fx/hurt.wav" landingFxpath="Assets/Audio/Fx/landing.wav"

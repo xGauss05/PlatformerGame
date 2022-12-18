@@ -161,6 +161,10 @@ int PathNode::Score(iPoint currentTile) const
 	{
 		pref = -1000;
 	}
+	else if (app->pathfinding->GetTileAt(currentTile) == 3)
+	{
+		pref = +1000;
+	}
 
 	return g + h + pref;
 }

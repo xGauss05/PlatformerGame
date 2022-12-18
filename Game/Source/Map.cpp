@@ -68,6 +68,10 @@ bool Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
                     {
                         map[i] = 2;
                     }
+                    else if (tileId == 656)
+                    {
+                        map[i] = 3;
+                    }
                     else
                     {
                         map[i] = (tileId - tileset->firstgid) > 0 ? 0 : 1;

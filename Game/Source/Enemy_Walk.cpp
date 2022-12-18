@@ -141,7 +141,7 @@ bool Enemy_Walk::Update()
 		}
 
 		//Movement
-		if (pathToPlayer.Count() > 1)
+		if (pathToPlayer.Count() > 1 && app->scene->player->position.y > 80)
 		{
 			int dirX = pathToPlayer.At(1)->x - pathToPlayer.At(0)->x;
 
@@ -167,9 +167,7 @@ bool Enemy_Walk::Update()
 			}
 			else
 			{
-				//app->font->BlitText(200, 350, 0, "Soy tonto;");
-				//pbody->body->ApplyForce(b2Vec2(-pbody->body->GetLinearVelocity().x * 0.1f, 0.0f), pbody->body->GetWorldCenter(), true);
-				if (app->scene->player->pbody->body->GetPosition().x < this->pbody->body->GetPosition().x)
+				/*if (app->scene->player->pbody->body->GetPosition().x < this->pbody->body->GetPosition().x)
 				{
 					if (pbody->body->GetLinearVelocity().x < speedCap)
 					{
@@ -182,7 +180,7 @@ bool Enemy_Walk::Update()
 					{
 						pbody->body->ApplyForce(b2Vec2(2.0f, 0.0f), pbody->body->GetWorldCenter(), true);
 					}
-				}
+				}*/
 			}
 
 			//app->font->BlitText(200, 300, 0, std::to_string(dirX).c_str());
