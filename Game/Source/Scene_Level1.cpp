@@ -119,15 +119,16 @@ bool Scene_Level1::Update(float dt)
 
 	if (player->level == 1)
 	{
-		app->font->BlitText(130, 580, 0, "Use A and D to move");
-		app->font->BlitText(540, 630, 0, "Press SPACE to jump");
-		app->font->BlitText(1085, 690, 0, "Avoid sharp objects");
+		app->font->BlitText(app->render->camera.x + 130,  app->render->camera.y + 580, 0, "Use A and D to move");
+		app->font->BlitText(app->render->camera.x + 540,  app->render->camera.y + 630, 0, "Press SPACE to jump");
+		app->font->BlitText(app->render->camera.x + 1085, app->render->camera.y + 690, 0, "Avoid sharp objects");
 	}
 	if (player->level == 2)
 	{
-		app->font->BlitText(1150, 650, 0, "Press SPACE while on");
-		app->font->BlitText(1135, 670, 0, "a wall to jump off of it");
-		app->font->BlitText(820, 300, 0, "Press SPACE mid-air to do a double jump");
+		app->font->BlitText((app->render->camera.x + 1600) + 405, app->render->camera.y + 610, 0, "Dash into enemies to kill them");
+		app->font->BlitText((app->render->camera.x + 1600) + 1150, app->render->camera.y + 650, 0, "Press SPACE while on");
+		app->font->BlitText((app->render->camera.x + 1600) + 1135, app->render->camera.y + 670, 0, "a wall to jump off of it");
+		app->font->BlitText((app->render->camera.x + 1600) + 820,  app->render->camera.y + 300, 0, "Press SPACE mid-air to do a double jump");
 	}
 
 	return true;
