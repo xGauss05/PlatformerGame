@@ -107,7 +107,13 @@ bool Debug::Update(float dt)
 		
 		if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) app->scene->player->isDead = true;
 
-		if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) app->ftb->SceneFadeToBlack(this, app->scene_win, 0);
+		if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+		{
+			app->entityManager->ReviveAllEntities();
+			app->entityManager->TeleportToSpawnAllEntities();
+			app->scene->player->ResetGame();
+			app->ftb->SceneFadeToBlack(app->scene, app->scene_win, 0.0f);
+		}
 		
 	}
 

@@ -179,8 +179,8 @@ bool Player::Start()
 	b2MassData* data = new b2MassData; data->center = b2Vec2((float)width / 2, (float)height / 2); data->I = 0.0f; data->mass = 0.390625f;
 	pbody->body->SetMassData(data);
 	delete data;
-
 	TeleportTo(spawn);
+
 	return true;
 }
 
@@ -809,14 +809,8 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB)
 		LOG("Collision GOAL");
 		level++;
 		app->audio->PlayFx(goalFx);
-		if (app->scene->player->level < 5)
-		{
-			doorReached = true;
-		}
-		else
-		{
-			app->ftb->SceneFadeToBlack(app->scene, app->scene_win, 10.0f);
-		}
+		if (app->scene->player->level < 5) doorReached = true;
+		
 		break;
 	}
 }
