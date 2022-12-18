@@ -105,15 +105,19 @@ bool Debug::Update(float dt)
 
 		if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) limitFps = !limitFps;
 		
-		if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) app->scene->player->isDead = true;
-
-		if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+		if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 		{
 			app->entityManager->ReviveAllEntities();
 			app->entityManager->TeleportToSpawnAllEntities();
 			app->scene->player->ResetGame();
 			app->ftb->SceneFadeToBlack(app->scene, app->scene_win, 0.0f);
 		}
+		
+		if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) app->scene->player->isDead = true;
+
+		if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) paths = !paths;
+
+		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) preferenceMatrix = !preferenceMatrix;
 		
 	}
 
@@ -122,9 +126,15 @@ bool Debug::Update(float dt)
 
 bool Debug::PostUpdate()
 {
-
 	if (debug)
 	{
+		DebugDraw();
+
+		SDL_Rect rect({ 5,5,300,120 });
+		app->render->DrawRectangle(rect, 10, 10, 10, 150, true, false);
+		rect = SDL_Rect({ 305,5,250,50 });
+		app->render->DrawRectangle(rect, 10, 10, 10, 150, true, false);
+
 		app->font->BlitText(10, 10, 0, "Press F1 to GO BACK to the previous level");
 		app->font->BlitText(10, 20, 0, "Press F2 to GO FORWARD to the next level");
 		app->font->BlitText(10, 30, 0, "Press F3 to RESET the current level");
@@ -136,10 +146,11 @@ bool Debug::PostUpdate()
 		app->font->BlitText(10, 90, 0, "Press F9 to view COLLIDERS");
 		app->font->BlitText(10, 100, 0, "Press F10 to activate GOD MODE");
 		app->font->BlitText(10, 110, 0, "Press F11 to Enable/Disable FPS cap to 30");
-		app->font->BlitText(320, 10, 0, "Press O to instantly WIN");
-		app->font->BlitText(320, 20, 0, "Press P to kill the player");
 
-		DebugDraw();
+		app->font->BlitText(320, 10, 0, "Press I to instantly WIN");
+		app->font->BlitText(320, 20, 0, "Press O to kill the player");
+		app->font->BlitText(320, 30, 0, "Press P to show paths");
+		app->font->BlitText(320, 40, 0, "Press M to show preference map");
 	}
 	else {
 		app->font->BlitText(10, 10, 0, "Press F4 to ENABLE debug mode");
@@ -155,6 +166,21 @@ bool Debug::PostUpdate()
 
 void Debug::DebugDraw()
 {
+	if (preferenceMatrix)
+	{
+		iPoint currentPos = iPoint(11.0f, 11.0f);
+
+		for (int i = 0; i < app->pathfinding->height; i++)
+		{
+			for (int j = 0; j < app->pathfinding->width; j++)
+			{
+				app->font->BlitText(currentPos.x + app->render->camera.x, currentPos.y + app->render->camera.y, 0, std::to_string(app->pathfinding->map[app->pathfinding->width * i + j]).c_str());
+				currentPos.x += 32.0f;
+			}
+			currentPos.x = 11.0f;
+			currentPos.y += 32.0f;
+		}
+	}
 
 	if (variables)
 	{
@@ -227,61 +253,64 @@ void Debug::DebugDraw()
 
 #pragma region Pathfinding testing
 
-	int mouseX, mouseY;
-	app->input->GetMousePosition(mouseX, mouseY);
-	iPoint mouseTile = app->map->ScreenToMap(mouseX - app->render->camera.x,
-											 mouseY - app->render->camera.y);
-
-	//Convert again the tile coordinates to world coordinates to render the texture of the tile
-	iPoint highlightedTileWorld = app->map->MapToScreen(mouseTile.x, mouseTile.y);
-	app->render->DrawTexture(xTex, highlightedTileWorld.x, highlightedTileWorld.y);
-
-	iPoint playerTile = app->map->ScreenToMap(METERS_TO_PIXELS(app->scene->player->pbody->body->GetPosition().x),
-											  METERS_TO_PIXELS(app->scene->player->pbody->body->GetPosition().y));
-
-
-	//Player path
-	app->pathfinding->CreatePath(mouseTile, playerTile);
-	playerPath.Clear();
-
-	const DynArray<iPoint>* path = app->pathfinding->GetLastPath();
-	for (uint i = 0; i < path->Count(); i++)
+	if (debug && paths)
 	{
-		playerPath.PushBack(iPoint(path->At(i)->x, path->At(i)->y));
-	}
+		int mouseX, mouseY;
+		app->input->GetMousePosition(mouseX, mouseY);
+		iPoint mouseTile = app->map->ScreenToMap(mouseX - app->render->camera.x,
+			mouseY - app->render->camera.y);
 
-	for (uint i = 0; i < playerPath.Count(); ++i)
-	{
-		iPoint pos = app->map->MapToScreen(playerPath.At(i)->x, playerPath.At(i)->y);
-		app->render->DrawTexture(playerPathTex, pos.x, pos.y);
-	}
+		//Convert again the tile coordinates to world coordinates to render the texture of the tile
+		iPoint highlightedTileWorld = app->map->MapToScreen(mouseTile.x, mouseTile.y);
+		app->render->DrawTexture(xTex, highlightedTileWorld.x, highlightedTileWorld.y);
 
-	//Mouse path
-	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
-	{
-		if (originSelected == true)
+		iPoint playerTile = app->map->ScreenToMap(METERS_TO_PIXELS(app->scene->player->pbody->body->GetPosition().x),
+			METERS_TO_PIXELS(app->scene->player->pbody->body->GetPosition().y));
+
+
+		//Player path
+		app->pathfinding->CreatePath(mouseTile, playerTile);
+		playerPath.Clear();
+
+		const DynArray<iPoint>* path = app->pathfinding->GetLastPath();
+		for (uint i = 0; i < path->Count(); i++)
 		{
-			app->pathfinding->CreatePath(origin, mouseTile);
-			mousePath.Clear();
-			path = app->pathfinding->GetLastPath();
-			for (uint i = 0; i < path->Count(); i++)
+			playerPath.PushBack(iPoint(path->At(i)->x, path->At(i)->y));
+		}
+
+		for (uint i = 0; i < playerPath.Count(); ++i)
+		{
+			iPoint pos = app->map->MapToScreen(playerPath.At(i)->x, playerPath.At(i)->y);
+			app->render->DrawTexture(playerPathTex, pos.x, pos.y);
+		}
+
+		//Mouse path
+		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+		{
+			if (originSelected == true)
 			{
-				mousePath.PushBack(iPoint(path->At(i)->x, path->At(i)->y));
-			}
+				app->pathfinding->CreatePath(origin, mouseTile);
+				mousePath.Clear();
+				path = app->pathfinding->GetLastPath();
+				for (uint i = 0; i < path->Count(); i++)
+				{
+					mousePath.PushBack(iPoint(path->At(i)->x, path->At(i)->y));
+				}
 
-			originSelected = false;
+				originSelected = false;
+			}
+			else
+			{
+				origin = mouseTile;
+				originSelected = true;
+				app->pathfinding->ClearLastPath();
+			}
 		}
-		else
+		for (uint i = 0; i < mousePath.Count(); ++i)
 		{
-			origin = mouseTile;
-			originSelected = true;
-			app->pathfinding->ClearLastPath();
+			iPoint pos = app->map->MapToScreen(mousePath.At(i)->x, mousePath.At(i)->y);
+			app->render->DrawTexture(manualPathTex, pos.x, pos.y);
 		}
-	}
-	for (uint i = 0; i < mousePath.Count(); ++i)
-	{
-		iPoint pos = app->map->MapToScreen(mousePath.At(i)->x, mousePath.At(i)->y);
-		app->render->DrawTexture(manualPathTex, pos.x, pos.y);
 	}
 
 #pragma endregion
