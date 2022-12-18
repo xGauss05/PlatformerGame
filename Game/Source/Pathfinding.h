@@ -85,7 +85,7 @@ struct PathNode
 	// Calculates this tile score
 	int Score(iPoint currentTile) const;
 	// Calculate the F for a specific destination tile
-	int CalculateF(const iPoint& destination);
+	int CalculateF(const iPoint& destination, iPoint currentTile);
 };
 
 // ---------------------------------------------------------------------

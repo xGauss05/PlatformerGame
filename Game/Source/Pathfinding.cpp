@@ -172,12 +172,22 @@ int PathNode::Score(iPoint currentTile) const
 // PathNode -------------------------------------------------------------------------
 // Calculate the F for a specific destination tile
 // ----------------------------------------------------------------------------------
-int PathNode::CalculateF(const iPoint& destination)
+int PathNode::CalculateF(const iPoint& destination, iPoint currentTile)
 {
 	g = parent->g + 1;
 	h = pos.DistanceTo(destination);
 
-	return g + h;
+	int pref = 0;
+	if (app->pathfinding->GetTileAt(currentTile) == 2)
+	{
+		pref = -1000;
+	}
+	else if (app->pathfinding->GetTileAt(currentTile) == 3)
+	{
+		pref = +1000;
+	}
+
+	return g + h + pref;
 }
 
 // ----------------------------------------------------------------------------------
@@ -189,8 +199,13 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	int iterations = 0;
 
 	// L12: TODO 1: if origin or destination are not walkable, return -1
-	if (IsWalkable(origin) && IsWalkable(destination))
+	if (IsWalkable(origin))
 	{
+		if (!IsWalkable(destination))
+		{
+			return lastPath.Count();
+		}
+
 		// L12: TODO 2: Create two lists: open, close
 		PathList open;
 		PathList closed;
@@ -244,7 +259,7 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 				ListItem<PathNode>* adjacentInOpen = open.Find(item->data.pos);
 				if (adjacentInOpen == NULL)
 				{
-					item->data.CalculateF(destination);
+					item->data.CalculateF(destination, item->data.pos);
 					open.list.Add(item->data);
 				}
 				else
@@ -253,7 +268,7 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 					if (adjacentInOpen->data.g > item->data.g + 1)
 					{
 						adjacentInOpen->data.parent = item->data.parent;
-						adjacentInOpen->data.CalculateF(destination);
+						adjacentInOpen->data.CalculateF(destination, item->data.pos);
 					}
 				}
 			}
