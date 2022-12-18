@@ -103,10 +103,14 @@ bool Enemy_Fly::Update()
 		pathToPlayer.PushBack(iPoint(path->At(i)->x, path->At(i)->y));
 	}
 
-	for (uint i = 0; i < pathToPlayer.Count(); ++i)
+	//Pathfinding debug visuals
+	if (app->debug->debug && app->debug->paths)
 	{
-		iPoint pos = app->map->MapToScreen(pathToPlayer.At(i)->x, pathToPlayer.At(i)->y);
-		app->render->DrawTexture(app->debug->enemyPathTex, pos.x, pos.y);
+		for (uint i = 0; i < pathToPlayer.Count(); ++i)
+		{
+			iPoint pos = app->map->MapToScreen(pathToPlayer.At(i)->x, pathToPlayer.At(i)->y);
+			app->render->DrawTexture(app->debug->enemyPathTex, pos.x, pos.y);
+		}
 	}
 
 	//Movement
@@ -114,13 +118,6 @@ bool Enemy_Fly::Update()
 	{
 		int dirX = pathToPlayer.At(1)->x - pathToPlayer.At(0)->x;
 		int dirY = pathToPlayer.At(1)->y - pathToPlayer.At(0)->y;
-
-
-		app->render->DrawLine(app->map->MapToScreen(pathToPlayer.At(0)->x, pathToPlayer.At(0)->y).x,
-			app->map->MapToScreen(pathToPlayer.At(0)->x, pathToPlayer.At(0)->y).y,
-			app->map->MapToScreen(pathToPlayer.At(1)->x, pathToPlayer.At(1)->y).x,
-			app->map->MapToScreen(pathToPlayer.At(1)->x, pathToPlayer.At(1)->y).y, 0, 255, 0, 255);
-
 
 		if (dirX > 0)
 		{

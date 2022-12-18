@@ -44,7 +44,9 @@ public:
 	bool debugCamera = false;
 	bool godMode = false;
 	bool limitFps = false;
-	int varBox = 120;
+	bool paths = false;
+	bool preferenceMatrix = false;
+	int varBox = 130;
 
 	microseconds elapsedCycle;
 	microseconds elapsedFrame;

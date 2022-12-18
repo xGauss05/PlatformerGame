@@ -130,20 +130,6 @@ bool Scene_Level1::Update(float dt)
 		app->font->BlitText(820, 300, 0, "Press SPACE mid-air to do a double jump");
 	}
 
-	//Debug only
-	iPoint currentPos = iPoint(11.0f,11.0f);
-
-	for (int i = 0; i < app->pathfinding->height; i++)
-	{
-		for (int j = 0; j < app->pathfinding->width; j++)
-		{
-			app->font->BlitText(currentPos.x + app->render->camera.x, currentPos.y + app->render->camera.y, 0, std::to_string(app->pathfinding->map[app->pathfinding->width * i + j]).c_str());
-			currentPos.x += 32.0f;
-		}
-		currentPos.x = 11.0f;
-		currentPos.y += 32.0f;
-	}
-
 	return true;
 }
 

@@ -130,10 +130,14 @@ bool Enemy_Walk::Update()
 			pathToPlayer.PushBack(iPoint(path->At(i)->x, path->At(i)->y));
 		}
 
-		for (uint i = 0; i < pathToPlayer.Count(); ++i)
+		//Pathfinding debug visuals
+		if (app->debug->debug && app->debug->paths)
 		{
-			iPoint pos = app->map->MapToScreen(pathToPlayer.At(i)->x, pathToPlayer.At(i)->y);
-			app->render->DrawTexture(app->debug->enemyPathTex, pos.x, pos.y);
+			for (uint i = 0; i < pathToPlayer.Count(); ++i)
+			{
+				iPoint pos = app->map->MapToScreen(pathToPlayer.At(i)->x, pathToPlayer.At(i)->y);
+				app->render->DrawTexture(app->debug->enemyPathTex, pos.x, pos.y);
+			}
 		}
 
 		//Movement
