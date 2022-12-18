@@ -164,9 +164,9 @@ bool Player::Awake()
 bool Player::Start()
 {
 	isDead = false;
+	dashAvailable = true;
 	texture = app->tex->Load(texturePath);
 	dashSkill = app->tex->Load(dashTexturePath);
-	isDead = false;
 	currentJumps = maxJumps;
 	spawn.x = 100;
 	spawn.y = 450;
@@ -487,11 +487,12 @@ void Player::MovementLogic()
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
 			//Dash
-			if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && dashCooldown >= milliseconds(3000)) {
+			if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && dashAvailable) {
 				pbody->body->SetLinearVelocity(b2Vec2(-25.0f, 0));
 				pbody->body->SetGravityScale(0);
 				app->audio->PlayFx(dashFx);
 				start = high_resolution_clock::now();
+				dashAvailable = false;
 				dashing = true;
 			}
 
@@ -511,11 +512,12 @@ void Player::MovementLogic()
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 			//Dash
-			if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && dashCooldown >= milliseconds(3000)) {
+			if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && dashAvailable) {
 				pbody->body->SetLinearVelocity(b2Vec2(25.0f, 0));
 				pbody->body->SetGravityScale(0);
 				app->audio->PlayFx(dashFx);
 				start = high_resolution_clock::now();
+				dashAvailable = false;
 				dashing = true;
 			}
 
@@ -735,24 +737,29 @@ bool Player::Update()
 		dashing = false;
 	}
 
-
 	int filling = 100;
-	if (dashCooldown.count() < 3000) {
+	if (dashCooldown.count() < 3000 && !dashAvailable) {
 		//SDL_SetTextureAlphaMod(dashSkill, (float)((dashCooldown.count() / 3000.0f)) * 255.0f);
 		filling = (dashCooldown.count() / 3000.0f) * 100;
 	}
+	else {
+		dashAvailable = true;
+	}
+	
 	SDL_Rect rect({ 1450,780,filling,100 });
 	app->render->DrawRectangle(rect, 10, 10, 10, 150, true, false);
 	app->render->DrawTexture(dashSkill, -app->render->camera.x + 1450, -app->render->camera.y + 780, NULL);
 
 	if (doorReached)
 	{
+		dashAvailable = true;
 		app->entityManager->ActivateEnemies();
 		TeleportTo(spawn);
 		doorReached = false;
 	}
 
 	if (isDead) {
+		dashAvailable = true;
 		app->entityManager->ReviveAllEntities();
 		app->entityManager->TeleportToSpawnAllEntities();
 		app->entityManager->ActivateEnemies();

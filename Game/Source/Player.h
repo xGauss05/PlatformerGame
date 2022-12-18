@@ -55,13 +55,13 @@ public:
 
 	bool doorReached = false;
 	bool dashing = false;
+	bool dashAvailable = true;
 
 	// SFX indexes
 	int dieFx, landingFx, jumpFx,
 		goalFx, dashFx;
 
 private:
-	bool tmp = false;
 
 	SDL_Texture* texture;
 	SDL_Texture* dashSkill;
