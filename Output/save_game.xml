@@ -10,17 +10,17 @@
 	<scene_intro />
 	<scene_menu />
 	<scene_level1>
-		<player x="2298" y="691" level="2" />
+		<player x="466" y="558" velocity_x="-0.497504652" velocity_y="7.91666555" level="1" dashAvailable="false" />
 	</scene_level1>
 	<scene_win />
 	<scene_die />
 	<entitymanager>
-		<enemy isDead="true" active="false" />
+		<enemy x="700" y="726" x_velocity="-2.91666842" y_velocity="0" isDead="false" active="true" />
 	</entitymanager>
 	<map />
 	<pathfinding />
 	<fadetoblack />
 	<renderer>
-		<camera x="-1632" y="0" />
+		<camera x="0" y="0" />
 	</renderer>
 </save_state>

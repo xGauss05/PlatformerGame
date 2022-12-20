@@ -61,6 +61,11 @@ public:
 	int dieFx, landingFx, jumpFx,
 		goalFx, dashFx;
 
+	high_resolution_clock::time_point start;
+	high_resolution_clock::time_point currentTime;
+	milliseconds dashCooldown;
+	milliseconds dashDuration;
+
 private:
 
 	SDL_Texture* texture;
@@ -86,10 +91,7 @@ private:
 
 	float normal_x = 0.0f, normal_y = 0.0f;
 
-	high_resolution_clock::time_point start;
-	high_resolution_clock::time_point currentTime;
-	milliseconds dashCooldown;
-	milliseconds dashDuration;
+	
 
 	int dashIndicator;
 	friend void Debug::DebugDraw();

@@ -172,7 +172,9 @@ bool Scene_Level1::LoadState(pugi::xml_node& data)
 
 	player->pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y)), 0.0f);
 	player->level = data.child("player").attribute("level").as_int();
-
+	player->pbody->body->SetLinearVelocity(b2Vec2(data.child("player").attribute("velocity_x").as_float(),
+												 data.child("player").attribute("velocity_y").as_float()));
+	player->dashAvailable = data.child("player").attribute("dashAvailable").as_bool();
 	return true;
 }
 
@@ -183,7 +185,8 @@ bool Scene_Level1::SaveState(pugi::xml_node& data)
 
 	node.append_attribute("x") = METERS_TO_PIXELS(player->pbody->body->GetPosition().x);
 	node.append_attribute("y") = METERS_TO_PIXELS(player->pbody->body->GetPosition().y);
-
+	node.append_attribute("velocity_x") = player->pbody->body->GetLinearVelocity().x;
+	node.append_attribute("velocity_y") = player->pbody->body->GetLinearVelocity().y;
 	node.append_attribute("level") = player->level;
 
 	return true;
