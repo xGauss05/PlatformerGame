@@ -94,7 +94,7 @@ void App::AddModule(Module* module)
 bool App::Awake()
 {
 	timer = Timer();
-	maxFrameDuration = 32;
+	maxFrameDuration = 16;
 	bool ret = false;
 	ret = LoadConfig();
 
