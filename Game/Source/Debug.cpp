@@ -61,7 +61,7 @@ bool Debug::Update(float dt)
 				app->scene->player->TeleportTo(app->scene->player->spawn);
 			}
 		}
-		
+
 		// Next level
 		if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		{
@@ -75,7 +75,7 @@ bool Debug::Update(float dt)
 		}
 
 		// Reset level
-		if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) 
+		if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		{
 			app->entityManager->ReviveAllEntities();
 			app->entityManager->NeedsToSpawnAllEntities();
@@ -88,7 +88,7 @@ bool Debug::Update(float dt)
 
 		// Load request
 		if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadGameRequest();
-		
+
 		// Enable/Disable variables
 		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) variables = !variables;
 
@@ -96,7 +96,7 @@ bool Debug::Update(float dt)
 		if (app->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) debugCamera = !debugCamera;
 
 		// Enable/Disable hitboxes/paths
-		if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) 
+		if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		{
 			hitboxes = !hitboxes;
 			paths = !paths;
@@ -119,7 +119,7 @@ bool Debug::Update(float dt)
 
 		// Enable/Disable FPS limit
 		if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) limitFps = !limitFps;
-		
+
 		// Insta-win
 		if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 		{
@@ -128,13 +128,13 @@ bool Debug::Update(float dt)
 			app->scene->player->ResetGame();
 			app->ftb->SceneFadeToBlack(app->scene, app->scene_win, 0.0f);
 		}
-		
+
 		// Insta-kill
 		if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) app->scene->player->isDead = true;
 
 		// Enable/Disable preference matrix
 		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) preferenceMatrix = !preferenceMatrix;
-		
+
 	}
 	else
 	{
@@ -349,13 +349,14 @@ void Debug::DebugDraw()
 
 #pragma endregion
 
-	if (limitFps) 
-	{
-		if (targetFPS != 30) targetFPS = 30;
+	if (limitFps)
+	{   // 30 FPS
+		if (app->maxFrameDuration != 32) app->maxFrameDuration = 32;
 	}
-	else 
-	{
-		if (targetFPS != 60) targetFPS = 60;
+	else
+	{	// 60 FPS
+		
+		if (app->maxFrameDuration != 16) app->maxFrameDuration = 16;
 	}
 }
 

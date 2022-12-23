@@ -48,11 +48,6 @@ public:
 	bool preferenceMatrix = false;
 	int varBox = 130;
 
-	microseconds elapsedCycle;
-	microseconds elapsedFrame;
-	int targetFPS = 60;
-	double FPS;
-
 	DynArray<iPoint> playerPath;
 	DynArray<iPoint> mousePath;
 

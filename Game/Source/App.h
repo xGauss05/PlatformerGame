@@ -3,6 +3,8 @@
 
 #include "Module.h"
 #include "List.h"
+#include "PerfTimer.h"
+#include "Timer.h"
 
 #include "PugiXml/src/pugixml.hpp"
 
@@ -106,6 +108,8 @@ public:
 	FadeToBlack* ftb;
 	Fonts* font;
 	Debug* debug;
+	uint frames;
+	uint32 maxFrameDuration = 0;
 	
 private:
 
@@ -121,11 +125,27 @@ private:
 	pugi::xml_document configFile;
 	pugi::xml_node configNode;
 
-	uint frames;
 	float dt;
+
+	// required variables are provided:
+	Timer timer;
+	PerfTimer ptimer;
+
+	Timer startupTime;
+	Timer frameTime;
+	Timer lastSecFrameTime;
+
+	uint64 frameCount = 0;
+	uint32 framesPerSecond = 0;
+	uint32 lastSecFrameCount = 0;
+
+	float averageFps = 0.0f;
+	float secondsSinceStartup = 0.0f;
+
 
     bool saveGameRequested;
 	bool loadGameRequested;
+
 };
 
 extern App* app;
