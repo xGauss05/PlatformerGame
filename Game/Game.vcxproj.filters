@@ -82,6 +82,12 @@
     <ClCompile Include="Source\Timer.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GuiManager.cpp">
+      <Filter>Modules\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GuiButton.cpp">
+      <Filter>Modules\Core\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -192,6 +198,15 @@
     <ClInclude Include="Source\Timer.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GuiManager.h">
+      <Filter>Modules\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GuiButton.h">
+      <Filter>Modules\Core\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GuiControl.h">
+      <Filter>Modules\Core\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -220,6 +235,9 @@
     </Filter>
     <Filter Include="Application\Entities">
       <UniqueIdentifier>{c73aef02-9768-49aa-ae0d-aeeacf69af2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Core\GUI">
+      <UniqueIdentifier>{a0724c77-75ed-4a0b-9820-7d711fee2742}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
