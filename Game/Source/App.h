@@ -29,6 +29,7 @@ class PathFinding;
 class Physics;
 class FadeToBlack;
 class Fonts;
+class UserInterface;
 class Debug;
 
 class App
@@ -107,6 +108,7 @@ public:
 	PathFinding* pathfinding;
 	FadeToBlack* ftb;
 	Fonts* font;
+	UserInterface* ui;
 	Debug* debug;
 	uint frames;
 	uint32 maxFrameDuration = 0;

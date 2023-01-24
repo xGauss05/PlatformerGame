@@ -13,6 +13,7 @@
 #include "Fonts.h"
 #include "FadeToBlack.h"
 #include "Physics.h"
+#include "UserInterface.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -55,6 +56,7 @@ bool Scene_Win::PreUpdate()
 // Called each loop iteration
 bool Scene_Win::Update(float dt)
 {
+	if (app->ui->IsEnabled()) app->ui->Disable();
 	if (app->entityManager->IsEnabled()) 
 	{
 		app->entityManager->Disable();

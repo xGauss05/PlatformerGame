@@ -15,6 +15,7 @@
 #include "PathFinding.h"
 #include "Fonts.h"
 #include "FadeToBlack.h"
+#include "UserInterface.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -101,6 +102,8 @@ bool Scene_Level1::PreUpdate()
 bool Scene_Level1::Update(float dt)
 {
 	if (!app->entityManager->IsEnabled()) app->entityManager->Enable();
+
+	if (!app->ui->IsEnabled()) app->ui->Enable();
 
 	if (app->scene_die->IsEnabled()) app->scene_die->Disable();
 

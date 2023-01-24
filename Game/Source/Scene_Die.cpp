@@ -12,6 +12,7 @@
 #include "Fonts.h"
 #include "FadeToBlack.h"
 #include "Physics.h"
+#include "UserInterface.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -73,6 +74,7 @@ bool Scene_Die::Update(float dt)
 {
 
 	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
+	if (app->ui->IsEnabled()) app->ui->Disable();
 
 	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected)
 	{

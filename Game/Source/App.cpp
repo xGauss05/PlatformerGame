@@ -15,6 +15,7 @@
 #include "Physics.h"
 #include "FadeToBlack.h"
 #include "Fonts.h"
+#include "UserInterface.h"
 #include "Debug.h"
 
 #include "Defs.h"
@@ -44,6 +45,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	pathfinding = new PathFinding();
 	physics = new Physics();
 	ftb = new FadeToBlack();
+	ui = new UserInterface();
 	debug = new Debug();
 
 	// Ordered for awake / Start / Update
@@ -63,6 +65,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(entityManager);
 	AddModule(map);
 	AddModule(pathfinding);
+	AddModule(ui);
 	AddModule(ftb);
 
 	// Render last to swap buffer

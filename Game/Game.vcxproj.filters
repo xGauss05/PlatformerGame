@@ -88,6 +88,9 @@
     <ClCompile Include="Source\GuiButton.cpp">
       <Filter>Modules\Core\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\UserInterface.cpp">
+      <Filter>Modules\Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -206,6 +209,9 @@
     </ClInclude>
     <ClInclude Include="Source\GuiControl.h">
       <Filter>Modules\Core\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UserInterface.h">
+      <Filter>Modules\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
