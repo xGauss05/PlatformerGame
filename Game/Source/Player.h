@@ -61,6 +61,8 @@ public:
 	int dieFx, landingFx, jumpFx,
 		goalFx, dashFx;
 
+	int lives = 4;
+
 	high_resolution_clock::time_point start;
 	high_resolution_clock::time_point currentTime;
 	milliseconds dashCooldown;
@@ -90,8 +92,6 @@ private:
 	float idleDampenMultiplier = 3.0f;
 
 	float normal_x = 0.0f, normal_y = 0.0f;
-
-	int lives = 5;
 
 	int dashIndicator;
 	friend void Debug::DebugDraw();

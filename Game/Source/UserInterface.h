@@ -1,5 +1,6 @@
 #pragma once
 #include "Module.h"
+#include "SDL/include/SDL.h"
 
 class UserInterface : public Module
 {
@@ -18,5 +19,8 @@ public:
 	bool PostUpdate();
 
 	bool CleanUp();
+
+private:
+	SDL_Texture* lives_tex;
 };
 
