@@ -21,7 +21,7 @@ bool UserInterface::Awake(pugi::xml_node&)
 
 bool UserInterface::Start()
 {
-	lives_tex = app->tex->Load("Assets/Textures/lives2.png");
+	lives_tex = app->tex->Load("Assets/Textures/lives.png");
 	return true;
 }
 
@@ -37,8 +37,6 @@ bool UserInterface::Update(float dt)
 
 bool UserInterface::PostUpdate()
 {
-	app->font->BlitText(500, 100, 0, "Hola que tal this is UI");
-
 	for (int i = 0; i <= app->scene->player->lives; i++)
 	{
 		int xPos = 1000 + i * 50;
