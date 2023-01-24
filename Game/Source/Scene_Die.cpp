@@ -110,6 +110,7 @@ bool Scene_Die::Update(float dt)
 		{
 		case 0:
 			app->ftb->SceneFadeToBlack(this, app->scene, 0);
+			app->ui->StartTimer(30000);
 			break;
 		case 1:
 			app->scene_menu->hasSelected = false;

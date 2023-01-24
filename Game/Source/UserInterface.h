@@ -2,6 +2,9 @@
 #include "Module.h"
 #include "SDL/include/SDL.h"
 
+#include <chrono>
+using namespace std::chrono; //(testing)
+
 class UserInterface : public Module
 {
 public:
@@ -20,7 +23,15 @@ public:
 
 	bool CleanUp();
 
+	void StartTimer(int time);
+
 private:
+	bool timerOn;
+	milliseconds timerTest = milliseconds(30000);
+	milliseconds elapsed;
+	high_resolution_clock::time_point startTime;
+	high_resolution_clock::time_point currentTime;
+
 	SDL_Texture* lives_tex;
 };
 

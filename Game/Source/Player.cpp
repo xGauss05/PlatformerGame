@@ -15,6 +15,7 @@
 #include "List.h"
 #include "Debug.h"
 #include "FadeToBlack.h"
+#include "UserInterface.h"
 
 #include<iostream>
 
@@ -822,6 +823,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB)
 		level++;
 		app->audio->PlayFx(goalFx);
 		if (app->scene->player->level < 5) doorReached = true;
+		app->ui->StartTimer(30000);
 		
 		break;
 	}

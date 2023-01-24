@@ -6,6 +6,10 @@
 #include "Player.h"
 #include "Scene_Level1.h"
 
+#include <iostream>
+#include <string>
+using namespace std;
+
 UserInterface::UserInterface() : Module()
 {
 	name.Create("UI");
@@ -22,6 +26,7 @@ bool UserInterface::Awake(pugi::xml_node&)
 bool UserInterface::Start()
 {
 	lives_tex = app->tex->Load("Assets/Textures/lives.png");
+	timerOn = false;
 	return true;
 }
 
@@ -32,6 +37,28 @@ bool UserInterface::PreUpdate()
 
 bool UserInterface::Update(float dt)
 {
+	/*if (app->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
+	{
+		StartTimer(30000);
+	}*/
+
+	if (timerOn)
+	{
+		currentTime = high_resolution_clock::now();
+		elapsed = duration_cast<milliseconds>(currentTime - startTime);
+		milliseconds remaining = timerTest - elapsed;
+
+		string display = std::to_string(remaining.count() * 0.001f);
+		display.resize(5);
+
+		app->font->BlitText(1400, 40, 0, display.c_str());
+
+		if (remaining < milliseconds(0))
+		{
+			app->scene->player->isDead = true;
+		}
+	}
+
 	return true;
 }
 
@@ -49,4 +76,12 @@ bool UserInterface::CleanUp()
 {
 	app->tex->UnLoad(lives_tex);
 	return true;
+}
+
+void UserInterface::StartTimer(int time)
+{
+	timerOn = true;
+	timerTest = milliseconds(time);
+	startTime = high_resolution_clock::now();
+	currentTime = high_resolution_clock::now();
 }

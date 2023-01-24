@@ -126,6 +126,7 @@ bool Scene_Menu::Update(float dt)
 		case 0:
 			app->entityManager->ActivateEnemies();
 			app->ftb->SceneFadeToBlack(this, app->scene, 45.0f);
+			app->ui->StartTimer(30000);
 			break;
 		case 1:
 			return false;
