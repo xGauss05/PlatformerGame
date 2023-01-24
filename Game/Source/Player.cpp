@@ -7,6 +7,7 @@
 #include "Scene_Level1.h"
 #include "Scene_Win.h"
 #include "Scene_Die.h"
+#include "Scene_Menu.h"
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
@@ -766,7 +767,18 @@ bool Player::Update()
 		app->audio->PlayFx(dieFx);
 		app->entityManager->Disable();
 		TeleportTo(spawn);
-		app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 0);
+
+		if (lives > 0)
+		{
+			lives--;
+			app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 0);
+		}
+		else
+		{
+			lives = 5;
+			app->ftb->SceneFadeToBlack(app->scene, app->scene_menu, 0);
+		}
+		
 		isDead = false;
 	}
 

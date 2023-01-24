@@ -91,7 +91,7 @@ private:
 
 	float normal_x = 0.0f, normal_y = 0.0f;
 
-	
+	int lives = 5;
 
 	int dashIndicator;
 	friend void Debug::DebugDraw();
