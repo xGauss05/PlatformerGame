@@ -58,7 +58,11 @@ private:
 	Animation sawAnim;
 	int font = 0;
 
+	// Buttons
 	GuiButton* pauseBtn;
+	GuiButton* resumeBtn;
+	GuiButton* backToTitleBtn;
+	GuiButton* settingsBtn;
 };
 
 #endif __SCENE_LEVEL1_H__

@@ -93,8 +93,10 @@ bool Scene_Level1::Start()
 
 	uint w, h;
 	app->win->GetWindowSize(w, h);
-	pauseBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "PAUSE", { (int)w - 100,(int)20,50,20 }, this);
-
+	pauseBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "PAUSE", { (int)w - 100, (int)20,50,20 }, this);
+	resumeBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, "RESUME", { (int)w / 2 - 50,(int)h / 2 - 30,100,20 }, this);
+	settingsBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, "SETTINGS", { (int)w / 2 - 50,(int)h / 2 - 10,100,20 }, this);
+	backToTitleBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "MAIN MENU", { (int)w / 2 - 50,(int)h / 2 + 10,100,20 }, this);
 	return true;
 }
 
