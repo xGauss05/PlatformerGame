@@ -153,13 +153,22 @@ bool Scene_Level1::Update(float dt)
 	// Need to fix sudden movements KEK
 	if (pause)
 	{
-		if (app->physics->IsEnabled())  app->physics->Disable();
+		if (app->physics->IsEnabled())
+		{
+			app->physics->world->Step(0, 6, 2);
+			app->physics->Disable();
+		}
 
 		app->render->DrawTexture(pauseMenuTexture, 450, 200, NULL);
 	}
 	else
 	{
-		if (!app->physics->IsEnabled())  app->physics->Enable();
+		if (!app->physics->IsEnabled())
+		{
+			app->physics->Enable();
+			app->physics->world->Step(1.0f / 60.0f, 6, 2);
+		}
+
 	}
 
 	app->guiManager->Draw();

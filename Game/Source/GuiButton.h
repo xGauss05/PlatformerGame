@@ -6,6 +6,16 @@
 #include "Point.h"
 #include "SString.h"
 
+enum class ButtonType 
+{
+	PLAY,
+	CONTINUE,
+	SETTINGS,
+	CREDITS,
+	EXIT,
+	NONE
+};
+
 class GuiButton : public GuiControl
 {
 public:
@@ -21,6 +31,8 @@ public:
 
 	bool canClick = true;
 	bool drawBasic = false;
+
+	ButtonType btnType;
 
 	uint selectFx, hoverFx;
 };
