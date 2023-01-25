@@ -12,7 +12,8 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
 	canClick = true;
 	drawBasic = false;
 
-	audioFxId = app->audio->LoadFx("Assets/Audio/Fx/metal.wav");
+	selectFx = app->audio->LoadFx("Assets/Audio/Fx/metal.wav");
+	hoverFx = app->audio->LoadFx("Assets/Audio/Fx/hover.wav");
 }
 
 GuiButton::~GuiButton()
@@ -37,7 +38,7 @@ bool GuiButton::Update(float dt)
 			if (previousState != state)
 			{
 				LOG("Change state from %d to %d", previousState, state);
-				app->audio->PlayFx(audioFxId);
+				if (state == GuiControlState::FOCUSED) app->audio->PlayFx(hoverFx);
 			}
 
 			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
@@ -49,6 +50,7 @@ bool GuiButton::Update(float dt)
 			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP)
 			{
 				NotifyObserver();
+				app->audio->PlayFx(selectFx);
 			}
 		}
 		else

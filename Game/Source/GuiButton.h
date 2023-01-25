@@ -22,7 +22,7 @@ public:
 	bool canClick = true;
 	bool drawBasic = false;
 
-	uint audioFxId;
+	uint selectFx, hoverFx;
 };
 
 #endif // __GUIBUTTON_H__
