@@ -11,6 +11,7 @@
 #include "Scene_Win.h"
 #include "Scene_Die.h"
 #include "EntityManager.h"
+#include "GuiManager.h"
 #include "Map.h"
 #include "PathFinding.h"
 #include "Fonts.h"
@@ -76,9 +77,9 @@ bool Scene_Level1::Start()
 	sawTexture = app->tex->Load(saw_texturePath);
 
 	bool retLoad = app->map->Load();
-
+	pause = false;
 	// Create walkability map
-	if (retLoad) 
+	if (retLoad)
 	{
 		int w, h;
 		uchar* data = NULL;
@@ -89,6 +90,11 @@ bool Scene_Level1::Start()
 		RELEASE_ARRAY(data);
 
 	}
+
+	uint w, h;
+	app->win->GetWindowSize(w, h);
+	pauseBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "PAUSE", { (int)w - 100,(int)20,50,20 }, this);
+
 	return true;
 }
 
@@ -123,8 +129,8 @@ bool Scene_Level1::Update(float dt)
 
 	if (player->level == 1)
 	{
-		app->font->BlitText(app->render->camera.x + 130,  app->render->camera.y + 580, 0, "Use A and D to move");
-		app->font->BlitText(app->render->camera.x + 540,  app->render->camera.y + 630, 0, "Press SPACE to jump");
+		app->font->BlitText(app->render->camera.x + 130, app->render->camera.y + 580, 0, "Use A and D to move");
+		app->font->BlitText(app->render->camera.x + 540, app->render->camera.y + 630, 0, "Press SPACE to jump");
 		app->font->BlitText(app->render->camera.x + 1085, app->render->camera.y + 690, 0, "Avoid sharp objects");
 	}
 	if (player->level == 2)
@@ -132,7 +138,21 @@ bool Scene_Level1::Update(float dt)
 		app->font->BlitText((app->render->camera.x + 1600) + 405, app->render->camera.y + 610, 0, "Dash into enemies to kill them");
 		app->font->BlitText((app->render->camera.x + 1600) + 1150, app->render->camera.y + 650, 0, "Press SPACE while on");
 		app->font->BlitText((app->render->camera.x + 1600) + 1135, app->render->camera.y + 670, 0, "a wall to jump off of it");
-		app->font->BlitText((app->render->camera.x + 1600) + 820,  app->render->camera.y + 300, 0, "Press SPACE mid-air to do a double jump");
+		app->font->BlitText((app->render->camera.x + 1600) + 820, app->render->camera.y + 300, 0, "Press SPACE mid-air to do a double jump");
+	}
+
+	app->guiManager->Draw();
+
+	// Need to fix sudden movements KEK
+	if (pause) 
+	{
+		if (app->physics->IsEnabled())  app->physics->Disable();
+
+		
+	}
+	else 
+	{
+		if (!app->physics->IsEnabled())  app->physics->Enable();
 	}
 
 	return true;
@@ -168,6 +188,27 @@ bool Scene_Level1::CleanUp()
 	return true;
 }
 
+bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
+{
+	LOG("Event by %d ", control->id);
+
+	switch (control->id)
+	{
+	case 1: // Pause btn
+		
+		pause = true;
+
+		LOG("Pause button click. PAUSE ENABLED.");
+
+		break;
+	/*case 2:
+		LOG("Button 2 click");
+		break;*/
+	}
+
+	return true;
+}
+
 bool Scene_Level1::LoadState(pugi::xml_node& data)
 {
 	int x = data.child("player").attribute("x").as_int();
@@ -176,7 +217,7 @@ bool Scene_Level1::LoadState(pugi::xml_node& data)
 	player->pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y)), 0.0f);
 	player->level = data.child("player").attribute("level").as_int();
 	player->pbody->body->SetLinearVelocity(b2Vec2(data.child("player").attribute("velocity_x").as_float(),
-												 data.child("player").attribute("velocity_y").as_float()));
+		data.child("player").attribute("velocity_y").as_float()));
 	player->dashAvailable = data.child("player").attribute("dashAvailable").as_bool();
 	return true;
 }

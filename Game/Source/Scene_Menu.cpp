@@ -64,7 +64,6 @@ bool Scene_Menu::Start()
 	choice = 0;
 	
 	app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
-	app->win->SetTitle("Super Metal Boy");
 
 	return true;
 }

@@ -6,6 +6,7 @@
 #include "Enemy_Fly.h"
 #include "Enemy_Walk.h"
 #include "Animation.h"
+#include "GuiButton.h"
 
 struct SDL_Texture;
 
@@ -36,6 +37,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	bool OnGuiMouseClickEvent(GuiControl* control);
+
 	bool LoadState(pugi::xml_node& data);
 
 	bool SaveState(pugi::xml_node& data);
@@ -50,9 +53,12 @@ private:
 
 	SDL_Texture* sawTexture;
 	const char* saw_texturePath;
+	bool pause;
 
 	Animation sawAnim;
 	int font = 0;
+
+	GuiButton* pauseBtn;
 };
 
 #endif __SCENE_LEVEL1_H__

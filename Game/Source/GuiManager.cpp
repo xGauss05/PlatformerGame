@@ -19,8 +19,6 @@ bool GuiManager::Start()
 
 GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, const char* text, SDL_Rect bounds, Module* observer, SDL_Rect sliderBounds)
 {
-	// L15: DONE1: Create a GUI control and add it to the list of controls
-
 	GuiControl* guiControl = nullptr;
 
 	//Call the constructor according to the GuiControlType
@@ -29,10 +27,11 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, const char
 	case GuiControlType::BUTTON:
 		guiControl = new GuiButton(id, bounds, text);
 		break;
+	case GuiControlType::CHECKBOX:
+		guiControl = new GuiButton(id, bounds, text);
+		break;
 	/*
 	case GuiControlType::TOGGLE:
-		break;
-	case GuiControlType::CHECKBOX:
 		break;
 	case GuiControlType::SLIDER:
 		break;
@@ -109,9 +108,4 @@ bool GuiManager::CleanUp()
 	}
 
 	return true;
-
-	return false;
 }
-
-
-

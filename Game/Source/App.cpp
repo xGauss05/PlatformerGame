@@ -16,6 +16,7 @@
 #include "FadeToBlack.h"
 #include "Fonts.h"
 #include "UserInterface.h"
+#include "GuiManager.h"
 #include "Debug.h"
 
 #include "Defs.h"
@@ -47,6 +48,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	ftb = new FadeToBlack();
 	ui = new UserInterface();
 	debug = new Debug();
+	guiManager = new GuiManager();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -65,6 +67,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(entityManager);
 	AddModule(map);
 	AddModule(pathfinding);
+	AddModule(guiManager);
 	AddModule(ui);
 	AddModule(ftb);
 
@@ -228,6 +231,12 @@ void App::FinishUpdate()
 	}
 	LOG("Av.FPS: %.2f Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u ",
 		averageFps, framesPerSecond, dt, secondsSinceStartup, frameCount);
+
+	static char title[256];
+	sprintf_s(title, 256, "Super Metal Boy: Av.FPS: %.2f Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u ",
+		averageFps, framesPerSecond, dt, secondsSinceStartup, frameCount);
+
+	app->win->SetTitle(title);
 }
 
 // Call modules before each loop iteration

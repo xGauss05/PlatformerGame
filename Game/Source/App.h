@@ -30,6 +30,7 @@ class Physics;
 class FadeToBlack;
 class Fonts;
 class UserInterface;
+class GuiManager;
 class Debug;
 
 class App
@@ -109,7 +110,9 @@ public:
 	FadeToBlack* ftb;
 	Fonts* font;
 	UserInterface* ui;
+	GuiManager* guiManager;
 	Debug* debug;
+
 	uint frames;
 	uint32 maxFrameDuration = 0;
 	
