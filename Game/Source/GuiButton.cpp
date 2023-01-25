@@ -3,6 +3,7 @@
 #include "App.h"
 #include "Audio.h"
 #include "Log.h"
+#include "Textures.h"
 
 GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::BUTTON, id)
 {
@@ -14,6 +15,7 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
 
 	selectFx = app->audio->LoadFx("Assets/Audio/Fx/metal.wav");
 	hoverFx = app->audio->LoadFx("Assets/Audio/Fx/hover.wav");
+
 }
 
 GuiButton::~GuiButton()
@@ -64,25 +66,32 @@ bool GuiButton::Update(float dt)
 
 bool GuiButton::Draw(Render* render)
 {
-	switch (state)
+	if (texture == NULL)
 	{
-	case GuiControlState::DISABLED:
-		//render->DrawRectangle(bounds, 200, 200, 200, 255, true, false);
-		break;
-	case GuiControlState::NORMAL:
-		render->DrawRectangle(bounds, 170, 0, 0, 255, true, false);
-		break;
-	case GuiControlState::FOCUSED:
-		render->DrawRectangle(bounds, 255, 0, 0, 255, true, false);
-		break;
-	case GuiControlState::PRESSED:
-		render->DrawRectangle(bounds, 60, 0, 0, 255, true, false);
-		break;
+		switch (state)
+		{
+		case GuiControlState::DISABLED:
+			//render->DrawRectangle(bounds, 200, 200, 200, 255, true, false);
+			break;
+		case GuiControlState::NORMAL:
+			render->DrawRectangle(bounds, 170, 0, 0, 255, true, false);
+			break;
+		case GuiControlState::FOCUSED:
+			render->DrawRectangle(bounds, 255, 0, 0, 255, true, false);
+			break;
+		case GuiControlState::PRESSED:
+			render->DrawRectangle(bounds, 60, 0, 0, 255, true, false);
+			break;
+		}
+		if (state != GuiControlState::DISABLED)
+		{
+			app->render->DrawText(text.GetString(), bounds.x, bounds.y, bounds.w, bounds.h, { 255,255,255 });
+		}
 	}
-
-	if (state != GuiControlState::DISABLED) 
+	else
 	{
-		app->render->DrawText(text.GetString(), bounds.x, bounds.y, bounds.w, bounds.h, { 255,255,255 });
+		if (state != GuiControlState::DISABLED)
+			render->DrawTexture(texture, bounds.x, bounds.y);
 	}
 
 	return false;

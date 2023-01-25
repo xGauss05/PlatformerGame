@@ -13,6 +13,7 @@
 #include "FadeToBlack.h"
 #include "Physics.h"
 #include "UserInterface.h"
+#include "GuiManager.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -45,8 +46,6 @@ bool Scene_Menu::Awake(pugi::xml_node& config)
 	pointerArrow.speed = config.child("pointer").attribute("animspeed").as_float();
 	currentPointerAnim = &pointerArrow;
 
-	selectedFx = app->audio->LoadFx(config.child("select_fx").attribute("path").as_string());
-
 	background_texturePath = config.child("background").attribute("texturepath").as_string();
 	selector_texturePath = config.child("selector").attribute("texturepath").as_string();
 	pointer_texturePath = config.child("pointer").attribute("texturepath").as_string();
@@ -58,14 +57,27 @@ bool Scene_Menu::Awake(pugi::xml_node& config)
 bool Scene_Menu::Start()
 {
 	active = false;
+	exit = false;
 	background = app->tex->Load(background_texturePath);
 	pointer = app->tex->Load(pointer_texturePath);
 	selector = app->tex->Load(selector_texturePath);
-	choice = 0;
-	
+
 	app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
 
+	playBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Play", { 175, 455, 455, 175 }, this);
+	//continueBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, "Continue", { 175, 665, 455, 175 }, this);
+	//menuSettingsBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, "Settings", { 175, 665, 455, 175 }, this);
+	//creditsBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "Credits", { 175, 665, 455, 175 }, this);
+	menuExitBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "Exit", { 175, 665, 455, 175 }, this);
+
+	playBtn->SetTexture(selector);
+	//continueBtn->SetTexture(selector);
+	//menuSettingsBtn->SetTexture(selector);
+	//creditsBtn->SetTexture(selector);
+	menuExitBtn->SetTexture(selector);
+
 	return true;
+
 }
 
 // Called each loop iteration
@@ -77,71 +89,29 @@ bool Scene_Menu::PreUpdate()
 // Called each loop iteration
 bool Scene_Menu::Update(float dt)
 {
+
 	if (app->scene->player->level != 1) app->scene->player->level = 1;
 
 	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
 
-	if (app->scene->IsEnabled()) app->scene->Disable();
+	if (IsEnabled() && !app->scene->IsEnabled())
+	{
+		if (playBtn->state != GuiControlState::NORMAL) playBtn->state = GuiControlState::NORMAL;
+		//if (continueBtn->state != GuiControlState::NORMAL)continueBtn->state = GuiControlState::NORMAL;
+		//if (menuSettingsBtn->state != GuiControlState::NORMAL)menuSettingsBtn->state = GuiControlState::NORMAL;
+		//if (creditsBtn->state != GuiControlState::NORMAL)creditsBtn->state = GuiControlState::NORMAL;
+		if (menuExitBtn->state != GuiControlState::NORMAL) menuExitBtn->state = GuiControlState::NORMAL;
+	}
 
+	if (app->scene->IsEnabled()) app->scene->Disable();
+		
 	if (app->scene_die->IsEnabled()) app->scene_die->Disable();
 
 	if (app->ui->IsEnabled()) app->ui->Disable();
 
-	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN && !hasSelected)
-	{
-		if (choice == 1) {
-			choice = 0;
-		}
-		else
-		{
-			choice++;
-		}
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && !hasSelected)
-	{
-		if (choice == 0)
-		{
-			choice = 1;
-		}
-		else
-		{
-			choice--;
-		}
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN ||
-		app->input->GetMouseButtonDown(SDL_BUTTON_LEFT))
-	{
-
-		if (!hasSelected)
-		{
-			hasSelected = !hasSelected;
-			app->audio->PlayFx(selectedFx);
-		}
-
-		switch (choice)
-		{
-		case 0:
-			app->entityManager->ActivateEnemies();
-			app->ftb->SceneFadeToBlack(this, app->scene, 45.0f);
-			app->ui->StartTimer(30000);
-			break;
-		case 1:
-			return false;
-		default:
-			break;
-		}
-	}
-
-	int x, y;
-	app->input->GetMousePosition(x, y);
-
-	if (y >= 455 && y <= 665) choice = 0;
-
-	if (y > 665) choice = 1;
-
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) return false;
+
+	if (exit) return false;
 
 	return true;
 }
@@ -156,28 +126,13 @@ bool Scene_Menu::PostUpdate()
 
 	app->render->DrawTexture(background, app->render->camera.x * -1, app->render->camera.y, NULL);
 
-	int x = app->render->camera.x * -1 + 175;
-	int y;
-	switch (choice)
-	{
-	case 0:
-		y = 455;
-		break;
-	case 1:
-		y = 665;
-		break;
-	default:
-		break;
-	}
-
-	app->render->DrawTexture(selector, x, y);
 	int a, b;
 	app->input->GetMousePosition(a, b);
 
 	rect = currentPointerAnim->GetCurrentFrame();
 	currentPointerAnim->Update();
 	app->render->DrawTexture(pointer, a, b, &rect);
-
+	app->guiManager->Draw();
 	return ret;
 }
 
@@ -189,6 +144,53 @@ bool Scene_Menu::CleanUp()
 	delete pointer;
 	background = nullptr;
 	delete background;
+
+	return true;
+}
+
+bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
+{
+	LOG("Event by %d ", control->id);
+
+	switch (control->id)
+	{
+	case 1: // Play btn
+		LOG("Play button click.");
+		app->entityManager->ActivateEnemies();
+		app->ftb->SceneFadeToBlack(this, app->scene, 45.0f);
+		app->ui->StartTimer(30000);
+		playBtn->state = GuiControlState::DISABLED;
+		//continueBtn->state = GuiControlState::DISABLED;
+		//menuSettingsBtn->state = GuiControlState::DISABLED;
+		//creditsBtn->state = GuiControlState::DISABLED;
+		menuExitBtn->state = GuiControlState::DISABLED;
+
+		break;
+	case 2: // Continue btn
+
+		// do behavior
+		playBtn->state = GuiControlState::DISABLED;
+		//continueBtn->state = GuiControlState::DISABLED;
+		//menuSettingsBtn->state = GuiControlState::DISABLED;
+		//creditsBtn->state = GuiControlState::DISABLED;
+		//menuExitBtn->state = GuiControlState::DISABLED;
+		break;
+	case 3: // Settings btn
+		LOG("Settings button click.");
+		// do behavior
+
+		break;
+	case 4: // Credits btn
+		LOG("Main menu button click.");
+		// do behavior
+
+		break;
+	case 5: // Exit btn
+		LOG("Exit button.");
+		exit = true;
+
+		break;
+	}
 
 	return true;
 }

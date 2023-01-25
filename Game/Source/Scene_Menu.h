@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Animation.h"
+#include "GuiButton.h"
 
 struct SDL_Texture;
 
@@ -33,9 +34,10 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	bool OnGuiMouseClickEvent(GuiControl* control);
+
 public:
 
-	bool hasSelected = false;
 
 private:
 
@@ -47,13 +49,18 @@ private:
 
 	SDL_Texture* pointer;
 	const char* pointer_texturePath; 
-
-	int selectedFx;
-	int choice = 0;
 	
+	bool exit;
+
 	Animation pointerArrow;
 	Animation* currentPointerAnim = nullptr;
 
+	// Buttons
+	GuiButton* playBtn;
+	GuiButton* continueBtn;
+	GuiButton* menuSettingsBtn;
+	GuiButton* creditsBtn;
+	GuiButton* menuExitBtn;
 };
 
 #endif __SCENE_MENU_H__

@@ -113,7 +113,7 @@ bool Scene_Die::Update(float dt)
 			app->ui->StartTimer(30000);
 			break;
 		case 1:
-			app->scene_menu->hasSelected = false;
+			
 			app->scene->player->ResetGame();
 			app->ftb->SceneFadeToBlack(this, app->scene_menu, 45.0f);
 			break;

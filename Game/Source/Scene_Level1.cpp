@@ -103,7 +103,7 @@ bool Scene_Level1::Start()
 	settingsBtn->state = GuiControlState::DISABLED;
 	backToTitleBtn->state = GuiControlState::DISABLED;
 	exitBtn->state = GuiControlState::DISABLED;
-
+	pauseBtn->state = GuiControlState::DISABLED;
 	return true;
 }
 
@@ -122,7 +122,10 @@ bool Scene_Level1::Update(float dt)
 
 	if (app->scene_die->IsEnabled()) app->scene_die->Disable();
 
-	if (app->scene_menu->IsEnabled()) app->scene_menu->Disable();
+	if (app->scene_menu->IsEnabled()) {
+		app->scene_menu->Disable();
+		pauseBtn->state = GuiControlState::NORMAL;
+	}
 
 	// Draw map
 	app->map->Draw();
@@ -150,7 +153,6 @@ bool Scene_Level1::Update(float dt)
 		app->font->BlitText((app->render->camera.x + 1600) + 820, app->render->camera.y + 300, 0, "Press SPACE mid-air to do a double jump");
 	}
 
-	// Need to fix sudden movements KEK
 	if (pause)
 	{
 		if (app->physics->IsEnabled())
