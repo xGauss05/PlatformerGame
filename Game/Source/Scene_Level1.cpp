@@ -75,9 +75,9 @@ bool Scene_Level1::Start()
 	font = app->font->Load("Assets/Textures/font.png", " !ª#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[º]^_`abcdefghijklmnopqrstuvwxyz{|}~             ", 6);
 
 	sawTexture = app->tex->Load(saw_texturePath);
-
+	pauseMenuTexture = app->tex->Load("Assets/Textures/menu.png");
 	bool retLoad = app->map->Load();
-	pause = false;
+	pause = exit = false;
 	// Create walkability map
 	if (retLoad)
 	{
@@ -94,9 +94,16 @@ bool Scene_Level1::Start()
 	uint w, h;
 	app->win->GetWindowSize(w, h);
 	pauseBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "PAUSE", { (int)w - 100, (int)20,50,20 }, this);
-	resumeBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, "RESUME", { (int)w / 2 - 50,(int)h / 2 - 30,100,20 }, this);
-	settingsBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, "SETTINGS", { (int)w / 2 - 50,(int)h / 2 - 10,100,20 }, this);
-	backToTitleBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "MAIN MENU", { (int)w / 2 - 50,(int)h / 2 + 10,100,20 }, this);
+	resumeBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, "RESUME", { (int)w / 2 - 50,(int)h / 2 - 100,100,20 }, this);
+	settingsBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, "SETTINGS", { (int)w / 2 - 50,(int)h / 2 - 60,100,20 }, this);
+	backToTitleBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "MAIN MENU", { (int)w / 2 - 50,(int)h / 2 - 20,100,20 }, this);
+	exitBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "EXIT", { (int)w / 2 - 50,(int)h / 2 + 20,100,20 }, this);
+
+	resumeBtn->state = GuiControlState::DISABLED;
+	settingsBtn->state = GuiControlState::DISABLED;
+	backToTitleBtn->state = GuiControlState::DISABLED;
+	exitBtn->state = GuiControlState::DISABLED;
+
 	return true;
 }
 
@@ -143,19 +150,21 @@ bool Scene_Level1::Update(float dt)
 		app->font->BlitText((app->render->camera.x + 1600) + 820, app->render->camera.y + 300, 0, "Press SPACE mid-air to do a double jump");
 	}
 
-	app->guiManager->Draw();
-
 	// Need to fix sudden movements KEK
-	if (pause) 
+	if (pause)
 	{
 		if (app->physics->IsEnabled())  app->physics->Disable();
 
-		
+		app->render->DrawTexture(pauseMenuTexture, 450, 200, NULL);
 	}
-	else 
+	else
 	{
 		if (!app->physics->IsEnabled())  app->physics->Enable();
 	}
+
+	app->guiManager->Draw();
+
+	if (exit) return false;
 
 	return true;
 }
@@ -197,15 +206,43 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 	switch (control->id)
 	{
 	case 1: // Pause btn
-		
+		LOG("Pause button click. PAUSE ENABLED.");
+		resumeBtn->state = GuiControlState::NORMAL;
+		settingsBtn->state = GuiControlState::NORMAL;
+		backToTitleBtn->state = GuiControlState::NORMAL;
+		exitBtn->state = GuiControlState::NORMAL;
+
 		pause = true;
 
-		LOG("Pause button click. PAUSE ENABLED.");
+		break;
+	case 2: // Resume btn
+		LOG("Resume button click. PAUSE DISABLED.");
+		resumeBtn->state = GuiControlState::DISABLED;
+		settingsBtn->state = GuiControlState::DISABLED;
+		backToTitleBtn->state = GuiControlState::DISABLED;
+		exitBtn->state = GuiControlState::DISABLED;
+
+		pause = false;
 
 		break;
-	/*case 2:
-		LOG("Button 2 click");
-		break;*/
+	case 3: // Settings btn
+		LOG("Settings button click.");
+		// settings menu xd
+
+		break;
+	case 4: // Main menu btn
+		LOG("Main menu button click.");
+		app->entityManager->ReviveAllEntities();
+		app->entityManager->NeedsToSpawnAllEntities();
+		player->ResetGame();
+		app->ftb->SceneFadeToBlack(this, app->scene_menu, 20.0f);
+
+		break;
+	case 5: // Exit btn
+		LOG("Exit button click.");
+		exit = true;
+
+		break;
 	}
 
 	return true;

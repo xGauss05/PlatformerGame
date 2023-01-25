@@ -52,8 +52,9 @@ public:
 private:
 
 	SDL_Texture* sawTexture;
+	SDL_Texture* pauseMenuTexture;
 	const char* saw_texturePath;
-	bool pause;
+	bool pause, exit;
 
 	Animation sawAnim;
 	int font = 0;
@@ -63,6 +64,8 @@ private:
 	GuiButton* resumeBtn;
 	GuiButton* backToTitleBtn;
 	GuiButton* settingsBtn;
+	GuiButton* exitBtn;
+
 };
 
 #endif __SCENE_LEVEL1_H__

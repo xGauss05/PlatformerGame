@@ -24,7 +24,7 @@ bool GuiButton::Update(float dt)
 {
 	if (state != GuiControlState::DISABLED)
 	{
-		
+
 		app->input->GetMousePosition(mouseX, mouseY);
 
 		GuiControlState previousState = state;
@@ -32,26 +32,26 @@ bool GuiButton::Update(float dt)
 		// I'm inside the limits of the button
 		if (mouseX >= bounds.x && mouseX <= bounds.x + bounds.w &&
 			mouseY >= bounds.y && mouseY <= bounds.y + bounds.h) {
-			
+
 			state = GuiControlState::FOCUSED;
-			if (previousState != state) 
+			if (previousState != state)
 			{
-				LOG("Change state from %d to %d",previousState,state);
+				LOG("Change state from %d to %d", previousState, state);
 				app->audio->PlayFx(audioFxId);
 			}
 
-			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT) 
+			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
 			{
 				state = GuiControlState::PRESSED;
 			}
 
 			//
-			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP) 
+			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP)
 			{
 				NotifyObserver();
 			}
 		}
-		else 
+		else
 		{
 			state = GuiControlState::NORMAL;
 		}
@@ -65,7 +65,7 @@ bool GuiButton::Draw(Render* render)
 	switch (state)
 	{
 	case GuiControlState::DISABLED:
-		render->DrawRectangle(bounds, 200, 200, 200, 255, true, false);
+		//render->DrawRectangle(bounds, 200, 200, 200, 255, true, false);
 		break;
 	case GuiControlState::NORMAL:
 		render->DrawRectangle(bounds, 170, 0, 0, 255, true, false);
@@ -78,7 +78,10 @@ bool GuiButton::Draw(Render* render)
 		break;
 	}
 
-	app->render->DrawText(text.GetString(), bounds.x, bounds.y, bounds.w, bounds.h, {255,255,255});
+	if (state != GuiControlState::DISABLED) 
+	{
+		app->render->DrawText(text.GetString(), bounds.x, bounds.y, bounds.w, bounds.h, { 255,255,255 });
+	}
 
 	return false;
 }
