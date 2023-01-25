@@ -122,9 +122,23 @@ bool Scene_Level1::Update(float dt)
 
 	if (app->scene_die->IsEnabled()) app->scene_die->Disable();
 
-	if (app->scene_menu->IsEnabled()) {
+	if (app->scene_menu->IsEnabled()) 
+	{
 		app->scene_menu->Disable();
 		pauseBtn->state = GuiControlState::NORMAL;
+	}
+
+	if (IsEnabled() && !app->scene_menu->IsEnabled())
+	{
+		pauseBtn->state = GuiControlState::NORMAL;
+	}
+	else
+	{
+		if (pauseBtn->state != GuiControlState::DISABLED) pauseBtn->state = GuiControlState::DISABLED;
+		if (resumeBtn->state != GuiControlState::DISABLED)resumeBtn->state = GuiControlState::DISABLED;
+		if (settingsBtn->state != GuiControlState::DISABLED)settingsBtn->state = GuiControlState::DISABLED;
+		if (backToTitleBtn->state != GuiControlState::DISABLED)backToTitleBtn->state = GuiControlState::DISABLED;
+		if (exitBtn->state != GuiControlState::DISABLED) exitBtn->state = GuiControlState::DISABLED;
 	}
 
 	// Draw map
@@ -246,7 +260,7 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 		app->entityManager->ReviveAllEntities();
 		app->entityManager->NeedsToSpawnAllEntities();
 		player->ResetGame();
-		app->ftb->SceneFadeToBlack(this, app->scene_menu, 20.0f);
+		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0.0f);
 
 		break;
 	case 5: // Exit btn

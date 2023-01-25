@@ -102,6 +102,14 @@ bool Scene_Menu::Update(float dt)
 		//if (creditsBtn->state != GuiControlState::NORMAL)creditsBtn->state = GuiControlState::NORMAL;
 		if (menuExitBtn->state != GuiControlState::NORMAL) menuExitBtn->state = GuiControlState::NORMAL;
 	}
+	else 
+	{
+		if (playBtn->state != GuiControlState::DISABLED) playBtn->state = GuiControlState::DISABLED;
+		//if (continueBtn->state != GuiControlState::DISABLED)continueBtn->state = GuiControlState::DISABLED;
+		//if (menuSettingsBtn->state != GuiControlState::DISABLED)menuSettingsBtn->state = GuiControlState::DISABLED;
+		//if (creditsBtn->state != GuiControlState::DISABLED)creditsBtn->state = GuiControlState::DISABLED;
+		if (menuExitBtn->state != GuiControlState::DISABLED) menuExitBtn->state = GuiControlState::DISABLED;
+	}
 
 	if (app->scene->IsEnabled()) app->scene->Disable();
 		
@@ -157,7 +165,7 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 	case 1: // Play btn
 		LOG("Play button click.");
 		app->entityManager->ActivateEnemies();
-		app->ftb->SceneFadeToBlack(this, app->scene, 45.0f);
+		app->ftb->SceneFadeToBlack(this, app->scene, 0.0f);
 		app->ui->StartTimer(30000);
 		playBtn->state = GuiControlState::DISABLED;
 		//continueBtn->state = GuiControlState::DISABLED;
