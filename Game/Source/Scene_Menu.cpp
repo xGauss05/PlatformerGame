@@ -76,6 +76,8 @@ bool Scene_Menu::Start()
 	//creditsBtn->SetTexture(selector);
 	menuExitBtn->SetTexture(selector);
 
+	testCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 6, "Cbox", { 50, 50, 50, 50 }, this);
+
 	return true;
 
 }
@@ -197,6 +199,9 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 		LOG("Exit button.");
 		exit = true;
 
+		break;
+	case 6: // Test cbox
+		LOG("Testing checkbox.");
 		break;
 	}
 

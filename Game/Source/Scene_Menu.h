@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Animation.h"
 #include "GuiButton.h"
+#include "GuiCheckbox.h"
 
 struct SDL_Texture;
 
@@ -61,6 +62,9 @@ private:
 	GuiButton* menuSettingsBtn;
 	GuiButton* creditsBtn;
 	GuiButton* menuExitBtn;
+
+	// Checkboxes
+	GuiCheckbox* testCbox;
 };
 
 #endif __SCENE_MENU_H__
