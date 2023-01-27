@@ -85,7 +85,7 @@ bool Scene_Menu::Start()
 	options_normal = app->tex->Load("Assets/Textures/Buttons/Options_Normal.png");
 	options_pressed = app->tex->Load("Assets/Textures/Buttons/Options_Pressed.png");
 
-	
+
 	exitSettingsTexture = app->tex->Load("Assets/Textures/exit.png");
 	app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
 
@@ -99,7 +99,7 @@ bool Scene_Menu::Start()
 	creditsBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "Credits", { 600, 665, 513, 155 }, this);
 	menuExitBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "Exit", { 50, 670, 513, 155 }, this);
 	// -- Settings
-	returnBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Exit Settings", { (int)w-161, 5, 156, 153 }, this);
+	returnBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Exit Settings", { (int)w - 161, 5, 156, 153 }, this);
 
 	// Button textures
 	playBtn->SetTexture(play_normal);
@@ -154,7 +154,7 @@ bool Scene_Menu::Update(float dt)
 
 	if (this->IsEnabled() && !app->scene->IsEnabled())
 	{
-		if (!menuSettings && !credits) 
+		if (!menuSettings && !credits)
 		{
 			if (playBtn->state == GuiControlState::DISABLED) playBtn->state = GuiControlState::NORMAL;
 			if (continueBtn->state == GuiControlState::DISABLED) continueBtn->state = GuiControlState::NORMAL;
@@ -173,7 +173,7 @@ bool Scene_Menu::Update(float dt)
 		if (returnBtn->state != GuiControlState::DISABLED) playBtn->state = GuiControlState::DISABLED;
 		if (fullscreenCbox->state != GuiControlState::DISABLED) continueBtn->state = GuiControlState::DISABLED;
 		if (vsyncCbox->state != GuiControlState::DISABLED) continueBtn->state = GuiControlState::DISABLED;
-		
+
 	}
 
 	if (app->scene->IsEnabled()) app->scene->Disable();
@@ -261,6 +261,8 @@ bool Scene_Menu::CleanUp()
 	delete credits_normal;
 	credits_pressed = nullptr;
 	delete credits_pressed;
+	exitSettingsTexture = nullptr;
+	delete exitSettingsTexture;
 
 	return true;
 }
@@ -312,7 +314,7 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 		menuOptionsBtn->state = GuiControlState::DISABLED;
 		creditsBtn->state = GuiControlState::DISABLED;
 		menuExitBtn->state = GuiControlState::DISABLED;
-		
+
 		returnBtn->state = GuiControlState::NORMAL;
 		break;
 	case 5: // Exit btn
@@ -335,6 +337,14 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 		break;
 	case 7: // Fullscreen cbox
 		LOG("Fullscreen checkbox.");
+		if (fullscreenCbox->state == GuiControlState::SELECTED) {
+
+			SDL_SetWindowFullscreen(app->win->window, 0);
+		}
+		else
+		{
+			SDL_SetWindowFullscreen(app->win->window, 1);
+		}
 
 		break;
 
