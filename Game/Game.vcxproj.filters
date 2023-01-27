@@ -94,6 +94,9 @@
     <ClCompile Include="Source\GuiCheckbox.cpp">
       <Filter>Modules\Core\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GuiSlider.cpp">
+      <Filter>Modules\Core\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -217,6 +220,9 @@
       <Filter>Modules\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="Source\GuiCheckbox.h">
+      <Filter>Modules\Core\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GuiSlider.h">
       <Filter>Modules\Core\GUI</Filter>
     </ClInclude>
   </ItemGroup>

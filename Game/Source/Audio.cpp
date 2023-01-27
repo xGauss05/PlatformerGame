@@ -26,6 +26,9 @@ bool Audio::Awake(pugi::xml_node& config)
 	bool ret = true;
 	SDL_Init(0);
 
+	BGMVolume = config.child("music").attribute("volume").as_int();
+	SFXVolume = config.child("fx").attribute("volume").as_int();
+
 	if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
 	{
 		LOG("SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -52,22 +55,21 @@ bool Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
+	SetBGMVolume(BGMVolume);
+	SetSFXVolume(SFXVolume);
+
 	return ret;
 }
 
 // Called before quitting
 bool Audio::CleanUp()
 {
-	if (!active)
-		return true;
+	if (!active) return true;
 
 	LOG("Freeing sound FX, closing Mixer and Audio subsystem");
 
-	if (music != NULL)
-	{
-		Mix_FreeMusic(music);
-	}
-
+	if (music != NULL) Mix_FreeMusic(music);
+	
 	ListItem<Mix_Chunk*>* item;
 	for (item = fx.start; item != NULL; item = item->next)
 		Mix_FreeChunk(item->data);
@@ -86,10 +88,9 @@ bool Audio::PlayMusic(const char* path, float fadeTime)
 {
 	bool ret = true;
 
-	if (!active)
-		return false;
+	if (!active) return false;
 
-	Mix_VolumeMusic(MIX_MAX_VOLUME / 8);
+	//Mix_VolumeMusic(MIX_MAX_VOLUME / 8);
 
 	if (music != NULL)
 	{
@@ -174,4 +175,14 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 	}
 
 	return ret;
+}
+
+void Audio::SetBGMVolume(int value) 
+{
+	BGMVolume = Mix_Volume(-1, value);
+}
+
+void Audio::SetSFXVolume(int value) 
+{
+	SFXVolume = Mix_VolumeMusic(value);
 }

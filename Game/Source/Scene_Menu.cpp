@@ -131,9 +131,15 @@ bool Scene_Menu::Start()
 	fullscreenCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 7, "Fullscreen cbox", { 50, 50, 50, 50 }, this);
 	vsyncCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 8, "VSync cbox", { 155, 50, 50, 50 }, this);
 
+
+	// Sliders
+	// -- Settings
+	bgmSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 9, "BGM slider", { 200, 200, 22, 22 }, this);
+	//sfxSlider = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 7, "Fullscreen cbox", { 50, 50, 50, 50 }, this);
 	returnBtn->state = GuiControlState::DISABLED;
 	fullscreenCbox->state = GuiControlState::DISABLED;
 	vsyncCbox->state = GuiControlState::DISABLED;
+	bgmSlider->state = GuiControlState::DISABLED;
 
 	return true;
 }
@@ -304,6 +310,7 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 		fullscreenCbox->state = GuiControlState::NORMAL;
 		vsyncCbox->state = GuiControlState::NORMAL;
 		returnBtn->state = GuiControlState::NORMAL;
+		bgmSlider->state = GuiControlState::NORMAL;
 
 		break;
 	case 4: // Credits btn
@@ -334,11 +341,12 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 		fullscreenCbox->state = GuiControlState::DISABLED;
 		vsyncCbox->state = GuiControlState::DISABLED;
 		returnBtn->state = GuiControlState::DISABLED;
+		bgmSlider->state = GuiControlState::DISABLED;
 		break;
 	case 7: // Fullscreen cbox
 		LOG("Fullscreen checkbox.");
-		if (fullscreenCbox->state == GuiControlState::SELECTED) {
-
+		if (fullscreenCbox->state == GuiControlState::SELECTED)
+		{
 			SDL_SetWindowFullscreen(app->win->window, 0);
 		}
 		else
@@ -350,9 +358,23 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 
 	case 8: // VSync cbox
 		LOG("VSync checkbox.");
-
+	/*	SDL_DestroyRenderer(app->render->renderer);
+		Uint32 flags = SDL_RENDERER_ACCELERATED;
+		if (vsyncCbox->state == GuiControlState::SELECTED)
+		{
+			flags |= SDL_RENDERER_PRESENTVSYNC;
+		}
+		app->render->renderer = SDL_CreateRenderer(app->win->window, -1, flags);
+		app->render->camera.w = app->win->screenSurface->w;
+		app->render->camera.h = app->win->screenSurface->h;
+		app->render->camera.x = 0;
+		app->render->camera.y = 0;*/
+		break;
+	case 9: // BGM slider
+		LOG("BGM slider.");
 		break;
 	}
+
 
 	return true;
 }

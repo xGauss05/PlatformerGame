@@ -27,7 +27,7 @@ bool GuiButton::Update(float dt)
 {
 	if (state != GuiControlState::DISABLED)
 	{
-		// L15: DONE 3: Update the state of the GUiButton according to the mouse position
+
 		app->input->GetMousePosition(mouseX, mouseY);
 
 		GuiControlState previousState = state;
@@ -73,7 +73,6 @@ void GuiButton::SetPressedTexture(SDL_Texture* tex)
 {
 	pressedTexture = tex;
 }
-
 
 bool GuiButton::Draw(Render* render)
 {

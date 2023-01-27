@@ -5,6 +5,7 @@
 #include "Animation.h"
 #include "GuiButton.h"
 #include "GuiCheckbox.h"
+#include "GuiSlider.h"
 
 struct SDL_Texture;
 
@@ -96,6 +97,8 @@ private:
 
 	// Sliders
 	// -- Settings
+	GuiSlider* bgmSlider;
+	GuiSlider* sfxSlider;
 	
 	// Checkboxes
 	// -- Settings
