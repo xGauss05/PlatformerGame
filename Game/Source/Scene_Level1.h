@@ -48,6 +48,7 @@ public:
 	Player* player;
 	List<PhysBody*> boxes;
 	List<PhysBody*> saws;
+	List<PhysBody*> checkpoints;
 
 private:
 

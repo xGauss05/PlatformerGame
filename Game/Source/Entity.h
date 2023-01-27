@@ -10,6 +10,7 @@ enum class EntityType
 {
 	PLAYER,
 	SAW,
+	CHECKPOINT,
 	ENEMY_FLY,
 	ENEMY_WALK,
 	UNKNOWN

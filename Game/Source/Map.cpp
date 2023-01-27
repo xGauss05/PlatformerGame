@@ -475,6 +475,18 @@ bool Map::LoadColliders(pugi::xml_node mapFile)
                 app->scene->saws.Add(saw);
             }
         }
+        else if ((SString)parent.attribute("name").as_string() == "Checkpoints")
+        {
+            for (pugi::xml_node collider = parent.child("object"); collider && ret; collider = collider.next_sibling("object"))
+            {
+                PhysBody* check = app->physics->CreateRectangleSensor(collider.attribute("x").as_int() + collider.attribute("width").as_int() / 2,
+                    collider.attribute("y").as_int() + collider.attribute("height").as_int() / 2,
+                    collider.attribute("width").as_int(),
+                    collider.attribute("height").as_int(), STATIC);
+                check->ctype = ColliderType::CHECKPOINT;
+                app->scene->checkpoints.Add(check);
+            }
+        }
     }
 
     return ret;

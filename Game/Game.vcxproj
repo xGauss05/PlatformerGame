@@ -98,6 +98,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Checkpoint.cpp" />
     <ClCompile Include="Source\Debug.cpp" />
     <ClCompile Include="Source\Enemy_Fly.cpp" />
     <ClCompile Include="Source\Enemy_Walk.cpp" />
@@ -128,6 +129,7 @@
     <ClCompile Include="Source\UserInterface.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClInclude Include="Source\Animation.h" />
+    <ClInclude Include="Source\Checkpoint.h" />
     <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Source\Enemy_Fly.h" />
     <ClInclude Include="Source\Enemy_Walk.h" />

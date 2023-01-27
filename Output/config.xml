@@ -47,11 +47,13 @@
       <pushback x="0" y="0" width="64" height="64"/>
       <pushback x="64" y="0" width="64" height="64"/>
       <pushback x="128" y="0" width="64" height="64"/>
-    </saw>e
+    </saw>
     <!--Level 1--> 
     <enemy_walk x="800" y="700" level="1" texturepath="Assets/Textures/enemy_walk.png"/>
+    <checkpoint x="896" y="672" level="1" texturepath="Assets/Textures/checkpoint.png"/>
     <!--Level 2-->
     <enemy_fly x="3150" y="300" level="2" texturepath="Assets/Textures/enemy_fly.png"/>
+    <checkpoint x="3168" y="288,00" level="2" texturepath="Assets/Textures/checkpoint.png"/>
     <!--Level 3-->
     <enemy_fly x="4000" y="300" level="3" texturepath="Assets/Textures/enemy_fly.png"/>
     <!--Level 4-->

@@ -94,6 +94,9 @@
     <ClCompile Include="Source\GuiCheckbox.cpp">
       <Filter>Modules\Core\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Checkpoint.cpp">
+      <Filter>Application\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Defs.h">
@@ -218,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="Source\GuiCheckbox.h">
       <Filter>Modules\Core\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Checkpoint.h">
+      <Filter>Application\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
