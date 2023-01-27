@@ -135,12 +135,17 @@ bool Scene_Menu::Start()
 	// Sliders
 	// -- Settings
 	bgmSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 9, "BGM slider", { 200, 200, 22, 22 }, this);
-	//sfxSlider = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 7, "Fullscreen cbox", { 50, 50, 50, 50 }, this);
+	sfxSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 10, "SFX slider", { 200, 250, 22, 22 }, this);
+
+	// Initial states
 	returnBtn->state = GuiControlState::DISABLED;
 	fullscreenCbox->state = GuiControlState::DISABLED;
 	vsyncCbox->state = GuiControlState::DISABLED;
-	bgmSlider->state = GuiControlState::DISABLED;
+	bgmSlider->state = GuiControlState::DISABLED; 
+	sfxSlider->state = GuiControlState::DISABLED;
 
+	bgmSlider->SetValue(app->audio->GetBGMVolume());
+	sfxSlider->SetValue(app->audio->GetSFXVolume());
 	return true;
 }
 
@@ -311,6 +316,7 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 		vsyncCbox->state = GuiControlState::NORMAL;
 		returnBtn->state = GuiControlState::NORMAL;
 		bgmSlider->state = GuiControlState::NORMAL;
+		sfxSlider->state = GuiControlState::NORMAL;
 
 		break;
 	case 4: // Credits btn
@@ -342,6 +348,7 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 		vsyncCbox->state = GuiControlState::DISABLED;
 		returnBtn->state = GuiControlState::DISABLED;
 		bgmSlider->state = GuiControlState::DISABLED;
+		sfxSlider->state = GuiControlState::DISABLED;
 		break;
 	case 7: // Fullscreen cbox
 		LOG("Fullscreen checkbox.");
@@ -372,9 +379,15 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 		break;
 	case 9: // BGM slider
 		LOG("BGM slider.");
+		app->audio->SetBGMVolume(bgmSlider->value);
+		break;
+	case 10: // SFX slider
+		LOG("SFX slider.");
+		app->audio->SetSFXVolume(sfxSlider->value);
 		break;
 	}
 
 
 	return true;
 }
+

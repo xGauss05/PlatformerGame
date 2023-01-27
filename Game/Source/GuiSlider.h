@@ -17,7 +17,7 @@ public:
 	bool Draw(Render* render);
 	void SetValue(int value);
 
-	int mouseX, mouseY, mousePrevX, mousePrevY;
+	int mouseX, mouseY, mousePrevX;
 	
 	unsigned int click;
 
@@ -28,7 +28,7 @@ public:
 
 	int length, value;
 
-	SDL_Rect sliderLine,buttonBox;
+	SDL_Rect sliderLine, buttonBox;
 
 };
 

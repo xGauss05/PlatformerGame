@@ -34,6 +34,17 @@ public:
 
 	void SetBGMVolume(int value);
 	void SetSFXVolume(int value);
+
+	int GetBGMVolume() 
+	{
+		return BGMVolume;
+	}
+
+	int GetSFXVolume() 
+	{
+		return SFXVolume;
+	}
+
 private:
 
 	_Mix_Music* music;

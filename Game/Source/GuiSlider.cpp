@@ -16,7 +16,7 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
 	selectFx = app->audio->LoadFx("Assets/Audio/Fx/metal.wav");
 	hoverFx = app->audio->LoadFx("Assets/Audio/Fx/hover.wav");
 
-	length = 500;
+	length = 130;
 	buttonBox = bounds;
 	sliderLine = { bounds.x, (int)(bounds.y + bounds.h * 0.5f), length, 2 };
 	value = 0;
