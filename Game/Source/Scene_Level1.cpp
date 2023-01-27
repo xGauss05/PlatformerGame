@@ -270,6 +270,7 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 		backToTitleBtn->state = GuiControlState::DISABLED;
 		exitBtn->state = GuiControlState::DISABLED;
 		app->entityManager->Enable();
+		
 		pause = false;
 
 		break;

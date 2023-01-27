@@ -293,6 +293,10 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 		break;
 	case 2: // Continue btn
 		LOG("Continue button.");
+		app->entityManager->ActivateEnemies();
+		app->ftb->SceneFadeToBlack(this, app->scene, 0.0f);
+		app->ui->StartTimer(30000);
+		app->LoadGameRequest();
 		playBtn->state = GuiControlState::DISABLED;
 		continueBtn->state = GuiControlState::DISABLED;
 		menuOptionsBtn->state = GuiControlState::DISABLED;
