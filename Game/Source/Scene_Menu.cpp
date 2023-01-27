@@ -58,8 +58,12 @@ bool Scene_Menu::Start()
 	active = false;
 	exit = false;
 	menuSettings = false;
+	credits = false;
 
 	background = app->tex->Load(background_texturePath);
+	settingsBackground = app->tex->Load("Assets/Textures/settings.png");
+	creditsBackground = app->tex->Load("Assets/Textures/credits.png");
+
 	pointer = app->tex->Load(pointer_texturePath);
 	play_hover = app->tex->Load("Assets/Textures/Buttons/Play_Hover.png");
 	play_normal = app->tex->Load("Assets/Textures/Buttons/Play_Normal.png");
@@ -81,7 +85,7 @@ bool Scene_Menu::Start()
 	options_normal = app->tex->Load("Assets/Textures/Buttons/Options_Normal.png");
 	options_pressed = app->tex->Load("Assets/Textures/Buttons/Options_Pressed.png");
 
-	settingsBackground = app->tex->Load("Assets/Textures/settings.png");
+	
 	exitSettingsTexture = app->tex->Load("Assets/Textures/exit.png");
 	app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
 
@@ -95,8 +99,9 @@ bool Scene_Menu::Start()
 	creditsBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "Credits", { 600, 665, 513, 155 }, this);
 	menuExitBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "Exit", { 50, 670, 513, 155 }, this);
 	// -- Settings
-	optionsExitBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Exit Settings", { (int)w-100, 50, 50, 50 }, this);
+	returnBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Exit Settings", { (int)w-161, 5, 156, 153 }, this);
 
+	// Button textures
 	playBtn->SetTexture(play_normal);
 	playBtn->SetFocusedTexture(play_hover);
 	playBtn->SetPressedTexture(play_pressed);
@@ -117,11 +122,18 @@ bool Scene_Menu::Start()
 	menuExitBtn->SetFocusedTexture(exit_hover);
 	menuExitBtn->SetPressedTexture(exit_pressed);
 
-	optionsExitBtn->SetTexture(exitSettingsTexture);
+	returnBtn->SetTexture(exitSettingsTexture);
+	returnBtn->SetFocusedTexture(exitSettingsTexture);
+	returnBtn->SetPressedTexture(exitSettingsTexture);
 
-	testCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 7, "Cbox", { 50, 50, 50, 50 }, this);
-	optionsExitBtn->state = GuiControlState::DISABLED;
-	testCbox->state = GuiControlState::DISABLED;
+	// Checkboxes
+	// -- Settings
+	fullscreenCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 7, "Fullscreen cbox", { 50, 50, 50, 50 }, this);
+	vsyncCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 8, "VSync cbox", { 155, 50, 50, 50 }, this);
+
+	returnBtn->state = GuiControlState::DISABLED;
+	fullscreenCbox->state = GuiControlState::DISABLED;
+	vsyncCbox->state = GuiControlState::DISABLED;
 
 	return true;
 }
@@ -142,7 +154,7 @@ bool Scene_Menu::Update(float dt)
 
 	if (this->IsEnabled() && !app->scene->IsEnabled())
 	{
-		if (!menuSettings) 
+		if (!menuSettings && !credits) 
 		{
 			if (playBtn->state == GuiControlState::DISABLED) playBtn->state = GuiControlState::NORMAL;
 			if (continueBtn->state == GuiControlState::DISABLED) continueBtn->state = GuiControlState::NORMAL;
@@ -158,6 +170,10 @@ bool Scene_Menu::Update(float dt)
 		if (menuOptionsBtn->state != GuiControlState::DISABLED) menuOptionsBtn->state = GuiControlState::DISABLED;
 		if (creditsBtn->state != GuiControlState::DISABLED) creditsBtn->state = GuiControlState::DISABLED;
 		if (menuExitBtn->state != GuiControlState::DISABLED) menuExitBtn->state = GuiControlState::DISABLED;
+		if (returnBtn->state != GuiControlState::DISABLED) playBtn->state = GuiControlState::DISABLED;
+		if (fullscreenCbox->state != GuiControlState::DISABLED) continueBtn->state = GuiControlState::DISABLED;
+		if (vsyncCbox->state != GuiControlState::DISABLED) continueBtn->state = GuiControlState::DISABLED;
+		
 	}
 
 	if (app->scene->IsEnabled()) app->scene->Disable();
@@ -186,14 +202,20 @@ bool Scene_Menu::PostUpdate()
 	{
 		app->render->DrawTexture(settingsBackground, app->render->camera.x * -1, app->render->camera.y, NULL);
 	}
+
+	if (credits)
+	{
+		app->render->DrawTexture(creditsBackground, app->render->camera.x * -1, app->render->camera.y, NULL);
+	}
+
 	int a, b;
 	app->input->GetMousePosition(a, b);
 
 	rect = currentPointerAnim->GetCurrentFrame();
 	currentPointerAnim->Update();
-	app->render->DrawTexture(pointer, a, b, &rect);
 
 	app->guiManager->Draw();
+	app->render->DrawTexture(pointer, a, b, &rect);
 	return ret;
 }
 
@@ -216,7 +238,7 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 	switch (control->id)
 	{
 	case 1: // Play btn
-		LOG("Play button click.");
+		LOG("Play button.");
 		app->entityManager->ActivateEnemies();
 		app->ftb->SceneFadeToBlack(this, app->scene, 0.0f);
 		app->ui->StartTimer(30000);
@@ -228,8 +250,7 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 
 		break;
 	case 2: // Continue btn
-
-	
+		LOG("Continue button.");
 		playBtn->state = GuiControlState::DISABLED;
 		continueBtn->state = GuiControlState::DISABLED;
 		menuOptionsBtn->state = GuiControlState::DISABLED;
@@ -237,42 +258,56 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 		menuExitBtn->state = GuiControlState::DISABLED;
 		break;
 	case 3: // Settings btn
-		LOG("Settings button click.");
+		LOG("Settings button.");
 		menuSettings = true;
 		playBtn->state = GuiControlState::DISABLED;
 		continueBtn->state = GuiControlState::DISABLED;
 		menuOptionsBtn->state = GuiControlState::DISABLED;
 		creditsBtn->state = GuiControlState::DISABLED;
 		menuExitBtn->state = GuiControlState::DISABLED;
-		testCbox->state = GuiControlState::NORMAL;
-		optionsExitBtn->state = GuiControlState::NORMAL;
+		fullscreenCbox->state = GuiControlState::NORMAL;
+		vsyncCbox->state = GuiControlState::NORMAL;
+		returnBtn->state = GuiControlState::NORMAL;
 
 		break;
 	case 4: // Credits btn
-		LOG("Main menu button click.");
-		// do behavior
-
+		LOG("Credits button.");
+		credits = true;
+		playBtn->state = GuiControlState::DISABLED;
+		continueBtn->state = GuiControlState::DISABLED;
+		menuOptionsBtn->state = GuiControlState::DISABLED;
+		creditsBtn->state = GuiControlState::DISABLED;
+		menuExitBtn->state = GuiControlState::DISABLED;
+		
+		returnBtn->state = GuiControlState::NORMAL;
 		break;
 	case 5: // Exit btn
 		LOG("Exit button.");
 		exit = true;
 
 		break;
-	case 6: // Exit settings btn
-		LOG("Exit settings button.");
-		menuSettings = false;
+	case 6: // Return btn
+		LOG("Return button.");
+		if (menuSettings) menuSettings = false;
+		if (credits) credits = false;
 		playBtn->state = GuiControlState::NORMAL;
 		continueBtn->state = GuiControlState::NORMAL;
 		menuOptionsBtn->state = GuiControlState::NORMAL;
 		creditsBtn->state = GuiControlState::NORMAL;
 		menuExitBtn->state = GuiControlState::NORMAL;
-		testCbox->state = GuiControlState::DISABLED;
-		optionsExitBtn->state = GuiControlState::DISABLED;
+		fullscreenCbox->state = GuiControlState::DISABLED;
+		vsyncCbox->state = GuiControlState::DISABLED;
+		returnBtn->state = GuiControlState::DISABLED;
 		break;
-	case 7: // Test cbox
-		LOG("Testing checkbox.");
+	case 7: // Fullscreen cbox
+		LOG("Fullscreen checkbox.");
+
 		break;
 
+	case 8: // VSync cbox
+		LOG("VSync checkbox.");
+
+		break;
 	}
 
 	return true;

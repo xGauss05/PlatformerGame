@@ -44,6 +44,8 @@ private:
 
 	SDL_Texture* background;
 	const char* background_texturePath;
+	SDL_Texture* settingsBackground;
+	SDL_Texture* creditsBackground;
 
 	// Play textures
 	SDL_Texture* play_hover;
@@ -73,11 +75,11 @@ private:
 	SDL_Texture* pointer;
 	const char* pointer_texturePath; 
 
-	SDL_Texture* settingsBackground;
 	SDL_Texture* exitSettingsTexture;
 
 	bool exit;
 	bool menuSettings;
+	bool credits;
 
 	Animation pointerArrow;
 	Animation* currentPointerAnim = nullptr;
@@ -89,15 +91,16 @@ private:
 	GuiButton* menuOptionsBtn;
 	GuiButton* creditsBtn;
 	GuiButton* menuExitBtn;
-	// -- Settings
-	GuiButton* optionsExitBtn;
+	// -- Settings & credits
+	GuiButton* returnBtn;
 
 	// Sliders
 	// -- Settings
 	
 	// Checkboxes
 	// -- Settings
-	GuiCheckbox* testCbox;
+	GuiCheckbox* fullscreenCbox;
+	GuiCheckbox* vsyncCbox;
 };
 
 #endif __SCENE_MENU_H__
