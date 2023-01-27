@@ -94,13 +94,13 @@ bool Scene_Menu::Update(float dt)
 
 	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
 
-	if (IsEnabled() && !app->scene->IsEnabled())
+	if (this->IsEnabled() && !app->scene->IsEnabled())
 	{
-		if (playBtn->state != GuiControlState::NORMAL) playBtn->state = GuiControlState::NORMAL;
+		if (playBtn->state == GuiControlState::DISABLED) playBtn->state = GuiControlState::NORMAL;
 		//if (continueBtn->state != GuiControlState::NORMAL)continueBtn->state = GuiControlState::NORMAL;
 		//if (menuSettingsBtn->state != GuiControlState::NORMAL)menuSettingsBtn->state = GuiControlState::NORMAL;
 		//if (creditsBtn->state != GuiControlState::NORMAL)creditsBtn->state = GuiControlState::NORMAL;
-		if (menuExitBtn->state != GuiControlState::NORMAL) menuExitBtn->state = GuiControlState::NORMAL;
+		if (menuExitBtn->state == GuiControlState::DISABLED) menuExitBtn->state = GuiControlState::NORMAL;
 	}
 	else 
 	{

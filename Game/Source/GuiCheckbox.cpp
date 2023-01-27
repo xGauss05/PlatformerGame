@@ -1,11 +1,11 @@
-#include "GuiButton.h"
+#include "GuiCheckbox.h"
 #include "Render.h"
 #include "App.h"
 #include "Audio.h"
 #include "Log.h"
 #include "Textures.h"
 
-GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::BUTTON, id)
+GuiCheckbox::GuiCheckbox(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::CHECKBOX, id)
 {
 	this->bounds = bounds;
 	this->text = text;
@@ -15,44 +15,49 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
 
 	selectFx = app->audio->LoadFx("Assets/Audio/Fx/metal.wav");
 	hoverFx = app->audio->LoadFx("Assets/Audio/Fx/hover.wav");
-
+	
+	
 }
 
-GuiButton::~GuiButton()
+GuiCheckbox::~GuiCheckbox()
 {
 
 }
 
-bool GuiButton::Update(float dt)
+bool GuiCheckbox::Update(float dt)
 {
 	if (state != GuiControlState::DISABLED)
 	{
-		// L15: DONE 3: Update the state of the GUiButton according to the mouse position
+
 		app->input->GetMousePosition(mouseX, mouseY);
 
 		GuiControlState previousState = state;
 
-		// I'm inside the limitis of the button
+		// I'm inside the limits of the button
 		if (mouseX >= bounds.x && mouseX <= bounds.x + bounds.w &&
 			mouseY >= bounds.y && mouseY <= bounds.y + bounds.h) {
 
 			state = GuiControlState::FOCUSED;
-			if (previousState != state) {
+			if (previousState != state)
+			{
 				LOG("Change state from %d to %d", previousState, state);
 				if (state == GuiControlState::FOCUSED) app->audio->PlayFx(hoverFx);
 			}
 
-			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT) {
+			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
+			{
 				state = GuiControlState::PRESSED;
 			}
 
 			//
-			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP) {
+			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP)
+			{
 				NotifyObserver();
 				app->audio->PlayFx(selectFx);
 			}
 		}
-		else {
+		else
+		{
 			state = GuiControlState::NORMAL;
 		}
 	}
@@ -60,7 +65,7 @@ bool GuiButton::Update(float dt)
 	return false;
 }
 
-bool GuiButton::Draw(Render* render)
+bool GuiCheckbox::Draw(Render* render)
 {
 	if (texture == NULL)
 	{

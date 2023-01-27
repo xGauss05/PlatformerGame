@@ -125,20 +125,20 @@ bool Scene_Level1::Update(float dt)
 	if (app->scene_menu->IsEnabled())
 	{
 		app->scene_menu->Disable();
-		
+
 	}
 
 	if (IsEnabled() && !app->scene_menu->IsEnabled())
 	{
-		pauseBtn->state = GuiControlState::NORMAL;
+		if (pauseBtn->state == GuiControlState::DISABLED) pauseBtn->state = GuiControlState::NORMAL;
 	}
 	else
 	{
-		if (pauseBtn->state != GuiControlState::DISABLED) pauseBtn->state = GuiControlState::DISABLED;
-		if (resumeBtn->state != GuiControlState::DISABLED) resumeBtn->state = GuiControlState::DISABLED;
-		if (settingsBtn->state != GuiControlState::DISABLED) settingsBtn->state = GuiControlState::DISABLED;
-		if (backToTitleBtn->state != GuiControlState::DISABLED) backToTitleBtn->state = GuiControlState::DISABLED;
-		if (exitBtn->state != GuiControlState::DISABLED) exitBtn->state = GuiControlState::DISABLED;
+		if (pauseBtn->state == GuiControlState::NORMAL) pauseBtn->state = GuiControlState::DISABLED;
+		if (resumeBtn->state == GuiControlState::NORMAL) resumeBtn->state = GuiControlState::DISABLED;
+		if (settingsBtn->state == GuiControlState::NORMAL) settingsBtn->state = GuiControlState::DISABLED;
+		if (backToTitleBtn->state == GuiControlState::NORMAL) backToTitleBtn->state = GuiControlState::DISABLED;
+		if (exitBtn->state == GuiControlState::NORMAL) exitBtn->state = GuiControlState::DISABLED;
 	}
 
 	// Draw map
@@ -171,7 +171,7 @@ bool Scene_Level1::Update(float dt)
 	{
 		if (app->physics->IsEnabled())
 		{
-			app->physics->world->Step(0, 6, 2);
+			app->physics->world->Step(0, 0, 0);
 			app->physics->Disable();
 		}
 
@@ -191,6 +191,8 @@ bool Scene_Level1::Update(float dt)
 
 	if (exit) return false;
 
+	
+
 	return true;
 }
 
@@ -199,14 +201,23 @@ bool Scene_Level1::PostUpdate()
 {
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && pause == false) 
 	{
-		app->entityManager->ReviveAllEntities();
-		app->entityManager->NeedsToSpawnAllEntities();
-		player->ResetGame();
-		app->ftb->SceneFadeToBlack(this, app->scene_menu, 20.0f);
+		pause = true;
+		resumeBtn->state = GuiControlState::NORMAL;
+		settingsBtn->state = GuiControlState::NORMAL;
+		backToTitleBtn->state = GuiControlState::NORMAL;
+		exitBtn->state = GuiControlState::NORMAL;
 	}
-
+	else if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && pause == true) 
+	{
+		pause = false;
+		resumeBtn->state = GuiControlState::DISABLED;
+		settingsBtn->state = GuiControlState::DISABLED;
+		backToTitleBtn->state = GuiControlState::DISABLED;
+		exitBtn->state = GuiControlState::DISABLED;
+	}
+	
 	return ret;
 }
 

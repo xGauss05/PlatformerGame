@@ -1,17 +1,17 @@
-#ifndef __GUIBUTTON_H__
-#define __GUIBUTTON_H__
+#ifndef __GUICHECKBOX_H__
+#define __GUICHECKBOX_H__
 
 #include "GuiControl.h"
 
 #include "Point.h"
 #include "SString.h"
 
-class GuiButton : public GuiControl 
+class GuiCheckbox : public GuiControl
 {
 public:
 
-	GuiButton(uint32 id, SDL_Rect bounds, const char* text);
-	virtual ~GuiButton();
+	GuiCheckbox(uint32 id, SDL_Rect bounds, const char* text);
+	virtual ~GuiCheckbox();
 
 	bool Update(float dt);
 	bool Draw(Render* render);
@@ -25,4 +25,4 @@ public:
 	uint selectFx, hoverFx;
 };
 
-#endif // __GUIBUTTON_H__
+#endif // __GUICHECKBOX_H__
