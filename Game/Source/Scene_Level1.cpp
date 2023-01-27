@@ -82,8 +82,10 @@ bool Scene_Level1::Start()
 
 	sawTexture = app->tex->Load(saw_texturePath);
 	pauseMenuTexture = app->tex->Load("Assets/Textures/menu.png");
+	settingsBackground = app->tex->Load("Assets/Textures/settings.png");
+	
 	bool retLoad = app->map->Load();
-	pause = exit = false;
+	pause = exit = gameplaySettings = false;
 	// Create walkability map
 	if (retLoad)
 	{
@@ -99,17 +101,39 @@ bool Scene_Level1::Start()
 
 	uint w, h;
 	app->win->GetWindowSize(w, h);
+	// Buttons
+	// -- Gameplay screen
 	pauseBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "PAUSE", { (int)w - 100, (int)20,50,20 }, this);
+	// -- Pause screen
 	resumeBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, "RESUME", { (int)w / 2 - 50,(int)h / 2 - 100,100,20 }, this);
 	settingsBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, "SETTINGS", { (int)w / 2 - 50,(int)h / 2 - 60,100,20 }, this);
 	backToTitleBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "MAIN MENU", { (int)w / 2 - 50,(int)h / 2 - 20,100,20 }, this);
 	exitBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "EXIT", { (int)w / 2 - 50,(int)h / 2 + 20,100,20 }, this);
+	// -- Settings screen
+	gameReturnBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "X", { (int) w - 55, 5, 50, 50 }, this);
 
+	// Sliders
+	// -- Settings screen
+	bgmGameSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 7, "BGM slider", { 500, 415, 35, 35 }, this);
+	sfxGameSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 8, "SFX slider", { 500, 535, 35, 35 }, this);
+
+	// Checkboxes
+	// -- Settings screen
+	fullscreenGameCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 9, "Fullscreen cbox", { 550, 755, 50, 50 }, this);
+	vsyncGameCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 10, "VSync cbox", { 550, 640, 50, 50 }, this);
+
+	// Initial GUI states
 	resumeBtn->state = GuiControlState::DISABLED;
 	settingsBtn->state = GuiControlState::DISABLED;
 	backToTitleBtn->state = GuiControlState::DISABLED;
 	exitBtn->state = GuiControlState::DISABLED;
 	pauseBtn->state = GuiControlState::DISABLED;
+	gameReturnBtn->state = GuiControlState::DISABLED;
+	bgmGameSlider->state = GuiControlState::DISABLED;
+	sfxGameSlider->state = GuiControlState::DISABLED;
+	fullscreenGameCbox->state = GuiControlState::DISABLED;
+	vsyncGameCbox->state = GuiControlState::DISABLED;
+
 	return true;
 }
 
@@ -131,12 +155,14 @@ bool Scene_Level1::Update(float dt)
 	if (app->scene_menu->IsEnabled())
 	{
 		app->scene_menu->Disable();
-
 	}
 
 	if (IsEnabled() && !app->scene_menu->IsEnabled())
 	{
-		if (pauseBtn->state == GuiControlState::DISABLED) pauseBtn->state = GuiControlState::NORMAL;
+		if (!gameplaySettings) 
+		{
+			if (pauseBtn->state == GuiControlState::DISABLED) pauseBtn->state = GuiControlState::NORMAL;
+		}
 	}
 	else
 	{
@@ -175,29 +201,32 @@ bool Scene_Level1::Update(float dt)
 
 	if (pause)
 	{
+		player->pbody->body->SetActive(false);
 		if (app->physics->IsEnabled())
 		{
-			app->physics->world->Step(0, 0, 0);
 			app->physics->Disable();
 		}
 
-		app->render->DrawTexture(pauseMenuTexture, 450, 200, NULL);
+		app->render->DrawTexture(pauseMenuTexture, app->render->camera.x * -1 + 450, 200, NULL);
 	}
 	else
 	{
+		player->pbody->body->SetActive(true);
 		if (!app->physics->IsEnabled())
 		{
 			app->physics->Enable();
-			app->physics->world->Step(1.0f / 60.0f, 6, 2);
 		}
 
+	}
+
+	if (gameplaySettings)
+	{
+		app->render->DrawTexture(settingsBackground, app->render->camera.x * -1, 0, NULL);
 	}
 
 	app->guiManager->Draw();
 
 	if (exit) return false;
-
-	
 
 	return true;
 }
@@ -207,23 +236,6 @@ bool Scene_Level1::PostUpdate()
 {
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && pause == false) 
-	{
-		pause = true;
-		resumeBtn->state = GuiControlState::NORMAL;
-		settingsBtn->state = GuiControlState::NORMAL;
-		backToTitleBtn->state = GuiControlState::NORMAL;
-		exitBtn->state = GuiControlState::NORMAL;
-	}
-	else if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && pause == true) 
-	{
-		pause = false;
-		resumeBtn->state = GuiControlState::DISABLED;
-		settingsBtn->state = GuiControlState::DISABLED;
-		backToTitleBtn->state = GuiControlState::DISABLED;
-		exitBtn->state = GuiControlState::DISABLED;
-	}
-	
 	return ret;
 }
 
@@ -254,7 +266,7 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 		settingsBtn->state = GuiControlState::NORMAL;
 		backToTitleBtn->state = GuiControlState::NORMAL;
 		exitBtn->state = GuiControlState::NORMAL;
-
+		app->entityManager->Disable();
 		pause = true;
 
 		break;
@@ -264,13 +276,27 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 		settingsBtn->state = GuiControlState::DISABLED;
 		backToTitleBtn->state = GuiControlState::DISABLED;
 		exitBtn->state = GuiControlState::DISABLED;
-
+		app->entityManager->Enable();
+		
 		pause = false;
 
 		break;
 	case 3: // Settings btn
 		LOG("Settings button click.");
-		// settings menu xd
+		bgmGameSlider->SetValue(app->audio->GetBGMVolume());
+		sfxGameSlider->SetValue(app->audio->GetSFXVolume());
+		gameplaySettings = true;
+		pauseBtn->state = GuiControlState::DISABLED;
+		resumeBtn->state = GuiControlState::DISABLED;
+		settingsBtn->state = GuiControlState::DISABLED;
+		backToTitleBtn->state = GuiControlState::DISABLED;
+		exitBtn->state = GuiControlState::DISABLED;
+
+		gameReturnBtn->state = GuiControlState::NORMAL;
+		bgmGameSlider->state = GuiControlState::NORMAL;
+		sfxGameSlider->state = GuiControlState::NORMAL;
+		vsyncGameCbox->state = GuiControlState::NORMAL;
+		fullscreenGameCbox->state = GuiControlState::NORMAL;
 
 		break;
 	case 4: // Main menu btn
@@ -290,6 +316,43 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 	case 5: // Exit btn
 		LOG("Exit button click.");
 		exit = true;
+		break;
+	case 6: // Return 
+		pauseBtn->state = GuiControlState::NORMAL;
+		resumeBtn->state = GuiControlState::NORMAL;
+		settingsBtn->state = GuiControlState::NORMAL;
+		backToTitleBtn->state = GuiControlState::NORMAL;
+		exitBtn->state = GuiControlState::NORMAL;
+
+		gameReturnBtn->state = GuiControlState::DISABLED;
+		bgmGameSlider->state = GuiControlState::DISABLED;
+		sfxGameSlider->state = GuiControlState::DISABLED;
+		vsyncGameCbox->state = GuiControlState::DISABLED;
+		fullscreenGameCbox->state = GuiControlState::DISABLED;
+
+		gameplaySettings = false;
+		break;
+	case 7: // BGM slider
+		LOG("BGM slider.");
+		app->audio->SetBGMVolume(bgmGameSlider->value);
+		break;
+	case 8: // SFX slider
+		LOG("SFX slider.");
+		app->audio->SetSFXVolume(sfxGameSlider->value);
+		break;
+	case 9: // Fullscreen checkbox
+		LOG("Fullscreen checkbox.");
+		if (fullscreenGameCbox->state == GuiControlState::SELECTED)
+		{
+			SDL_SetWindowFullscreen(app->win->window, 0);
+		}
+		else
+		{
+			SDL_SetWindowFullscreen(app->win->window, 1);
+		}
+		break;
+	case 10: // VSync checkbox
+
 
 		break;
 	}

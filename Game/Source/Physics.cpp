@@ -4,6 +4,7 @@
 #include "Physics.h"
 #include "math.h"
 #include "EntityManager.h"
+#include "Scene_Level1.h"
 #include "Box2D/Box2D/Box2D.h"
 
 #include "Defs.h"
@@ -36,33 +37,28 @@ bool Physics::Awake(pugi::xml_node& config) {
 
 bool Physics::Start()
 {
-
 	LOG("Creating Physics 2D environment");
 
 	world = new b2World(b2Vec2(GRAVITY_X, -GRAVITY_Y));
 	world->SetContactListener(this);
-
-	//// needed to create joints like mouse joint
-	//b2BodyDef bd;
-	//ground = world->CreateBody(&bd);
 
 	return true;
 }
 
 bool Physics::PreUpdate()
 {
-	//this->active = true;
+	if (!app->scene->pause) {
+		world->Step(1.0f / 60.0f, 6, 2);
 
-	world->Step(1.0f / 60.0f, 6, 2);
-
-	for (b2Contact* c = world->GetContactList(); c; c = c->GetNext())
-	{
-		if (c->GetFixtureA()->IsSensor() && c->IsTouching())
+		for (b2Contact* c = world->GetContactList(); c; c = c->GetNext())
 		{
- 			PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
-			PhysBody* pb2 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
-			if (pb1 && pb2 && pb1->listener)
-				pb1->listener->OnCollision(pb1, pb2);
+			if (c->GetFixtureA()->IsSensor() && c->IsTouching())
+			{
+				PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
+				PhysBody* pb2 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
+				if (pb1 && pb2 && pb1->listener)
+					pb1->listener->OnCollision(pb1, pb2);
+			}
 		}
 	}
 
@@ -286,7 +282,7 @@ void Physics::BeginContact(b2Contact* contact)
 
 	if (physB && physB->listener != NULL)
 		physB->listener->OnCollision(physB, physA);
-	
+
 }
 
 b2RevoluteJoint* Physics::CreateRevoluteJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, float angle, bool collideConnected, bool enableLimit)

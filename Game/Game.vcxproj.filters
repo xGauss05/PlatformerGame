@@ -94,6 +94,15 @@
     <ClCompile Include="Source\GuiCheckbox.cpp">
       <Filter>Modules\Core\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GuiSlider.cpp">
+      <Filter>Modules\Core\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ExtraLife.cpp">
+      <Filter>Application\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\KeyCard.cpp">
+      <Filter>Application\Entities</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Checkpoint.cpp">
       <Filter>Application\Entities</Filter>
     </ClCompile>
@@ -221,6 +230,15 @@
     </ClInclude>
     <ClInclude Include="Source\GuiCheckbox.h">
       <Filter>Modules\Core\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GuiSlider.h">
+      <Filter>Modules\Core\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ExtraLife.h">
+      <Filter>Application\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\KeyCard.h">
+      <Filter>Application\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Checkpoint.h">
       <Filter>Application\Entities</Filter>

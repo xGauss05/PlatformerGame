@@ -27,37 +27,51 @@ bool GuiButton::Update(float dt)
 {
 	if (state != GuiControlState::DISABLED)
 	{
-		// L15: DONE 3: Update the state of the GUiButton according to the mouse position
+
 		app->input->GetMousePosition(mouseX, mouseY);
 
 		GuiControlState previousState = state;
 
 		// I'm inside the limitis of the button
 		if (mouseX >= bounds.x && mouseX <= bounds.x + bounds.w &&
-			mouseY >= bounds.y && mouseY <= bounds.y + bounds.h) {
+			mouseY >= bounds.y && mouseY <= bounds.y + bounds.h) 
+		{
 
 			state = GuiControlState::FOCUSED;
-			if (previousState != state) {
+			if (previousState != state) 
+			{
 				LOG("Change state from %d to %d", previousState, state);
 				if (state == GuiControlState::FOCUSED) app->audio->PlayFx(hoverFx);
 			}
 
-			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT) {
+			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT) 
+			{
 				state = GuiControlState::PRESSED;
 			}
 
-			//
-			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP) {
+			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP) 
+			{
 				NotifyObserver();
 				app->audio->PlayFx(selectFx);
 			}
 		}
-		else {
+		else 
+		{
 			state = GuiControlState::NORMAL;
 		}
 	}
 
 	return false;
+}
+
+void GuiButton::SetFocusedTexture(SDL_Texture* tex)
+{
+	focusedTexture = tex;
+}
+
+void GuiButton::SetPressedTexture(SDL_Texture* tex)
+{
+	pressedTexture = tex;
 }
 
 bool GuiButton::Draw(Render* render)
@@ -66,9 +80,6 @@ bool GuiButton::Draw(Render* render)
 	{
 		switch (state)
 		{
-		case GuiControlState::DISABLED:
-			//render->DrawRectangle(bounds, 200, 200, 200, 255, true, false);
-			break;
 		case GuiControlState::NORMAL:
 			render->DrawRectangle(bounds, 170, 0, 0, 255, true, false);
 			break;
@@ -86,8 +97,18 @@ bool GuiButton::Draw(Render* render)
 	}
 	else
 	{
-		if (state != GuiControlState::DISABLED)
+		switch (state)
+		{
+		case GuiControlState::NORMAL:
 			render->DrawTexture(texture, bounds.x, bounds.y);
+			break;
+		case GuiControlState::FOCUSED:
+			if (focusedTexture != NULL) render->DrawTexture(focusedTexture, bounds.x, bounds.y);
+			break;
+		case GuiControlState::PRESSED:
+			if (pressedTexture != NULL) render->DrawTexture(pressedTexture, bounds.x, bounds.y);
+			break;
+		}
 	}
 
 	return false;

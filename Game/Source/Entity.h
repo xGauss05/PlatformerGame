@@ -13,6 +13,8 @@ enum class EntityType
 	CHECKPOINT,
 	ENEMY_FLY,
 	ENEMY_WALK,
+	EXTRALIFE,
+	KEYCARD,
 	UNKNOWN
 };
 

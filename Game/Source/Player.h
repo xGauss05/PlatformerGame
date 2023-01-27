@@ -56,6 +56,7 @@ public:
 	bool doorReached = false;
 	bool dashing = false;
 	bool dashAvailable = true;
+	bool hasKeyCard = false;
 
 	// SFX indexes
 	int dieFx, landingFx, jumpFx,

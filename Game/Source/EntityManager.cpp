@@ -1,6 +1,8 @@
 #include "EntityManager.h"
 #include "Player.h"
 #include "Saw.h"
+#include "ExtraLife.h"
+#include "KeyCard.h"
 #include "Checkpoint.h"
 #include "App.h"
 #include "Textures.h"
@@ -105,6 +107,12 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	case EntityType::CHECKPOINT:
 		entity = new Checkpoint();
 		break;
+
+	case EntityType::EXTRALIFE:
+		entity = new ExtraLife();
+
+	case EntityType::KEYCARD:
+		entity = new KeyCard();
 
 	default: break;
 	}

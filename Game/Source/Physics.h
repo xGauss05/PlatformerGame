@@ -35,6 +35,8 @@ enum class ColliderType {
 	SAW,
 	GOAL,
 	ENEMY,
+	KEYCARD,
+	EXTRALIFE,
 	CHECKPOINT,
 	UNKNOWN
 
