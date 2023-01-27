@@ -77,7 +77,7 @@ bool Scene_Level1::Start()
 	sawTexture = app->tex->Load(saw_texturePath);
 	pauseMenuTexture = app->tex->Load("Assets/Textures/menu.png");
 	settingsBackground = app->tex->Load("Assets/Textures/settings.png");
-	exitGameSettingsTexture = app->tex->Load("Assets/Textures/exit.png");
+	
 	bool retLoad = app->map->Load();
 	pause = exit = gameplaySettings = false;
 	// Create walkability map
@@ -127,8 +127,6 @@ bool Scene_Level1::Start()
 	sfxGameSlider->state = GuiControlState::DISABLED;
 	fullscreenGameCbox->state = GuiControlState::DISABLED;
 	vsyncGameCbox->state = GuiControlState::DISABLED;
-
-
 
 	return true;
 }
@@ -224,8 +222,6 @@ bool Scene_Level1::Update(float dt)
 
 	if (exit) return false;
 
-
-
 	return true;
 }
 
@@ -312,6 +308,7 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 	case 5: // Exit btn
 		LOG("Exit button click.");
 		exit = true;
+		break;
 	case 6: // Return 
 		pauseBtn->state = GuiControlState::NORMAL;
 		resumeBtn->state = GuiControlState::NORMAL;
