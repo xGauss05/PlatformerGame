@@ -12,6 +12,8 @@ enum class EntityType
 	SAW,
 	ENEMY_FLY,
 	ENEMY_WALK,
+	EXTRALIFE,
+	KEYCARD,
 	UNKNOWN
 };
 
