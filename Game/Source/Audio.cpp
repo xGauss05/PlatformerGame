@@ -90,8 +90,6 @@ bool Audio::PlayMusic(const char* path, float fadeTime)
 
 	if (!active) return false;
 
-	//Mix_VolumeMusic(MIX_MAX_VOLUME / 8);
-
 	if (music != NULL)
 	{
 		if (fadeTime > 0.0f)
@@ -177,12 +175,12 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 	return ret;
 }
 
-void Audio::SetBGMVolume(int value) 
+void Audio::SetSFXVolume(int value) 
 {
 	BGMVolume = Mix_Volume(-1, value);
 }
 
-void Audio::SetSFXVolume(int value) 
+void Audio::SetBGMVolume(int value) 
 {
 	SFXVolume = Mix_VolumeMusic(value);
 }

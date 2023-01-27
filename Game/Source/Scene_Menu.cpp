@@ -128,14 +128,14 @@ bool Scene_Menu::Start()
 
 	// Checkboxes
 	// -- Settings
-	fullscreenCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 7, "Fullscreen cbox", { 50, 50, 50, 50 }, this);
-	vsyncCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 8, "VSync cbox", { 155, 50, 50, 50 }, this);
+	fullscreenCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 7, "Fullscreen cbox", { 550, 755, 50, 50 }, this);
+	vsyncCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 8, "VSync cbox", { 550, 640, 50, 50 }, this);
 
 
 	// Sliders
 	// -- Settings
-	bgmSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 9, "BGM slider", { 200, 200, 22, 22 }, this);
-	sfxSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 10, "SFX slider", { 200, 250, 22, 22 }, this);
+	bgmSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 9, "BGM slider", { 500, 415, 35, 35 }, this);
+	sfxSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 10, "SFX slider", { 500, 535, 35, 35 }, this);
 
 	// Initial states
 	returnBtn->state = GuiControlState::DISABLED;
