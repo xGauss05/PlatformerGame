@@ -45,13 +45,35 @@ private:
 	SDL_Texture* background;
 	const char* background_texturePath;
 
-	SDL_Texture* selector;
-	const char* selector_texturePath;
+	// Play textures
+	SDL_Texture* play_hover;
+	SDL_Texture* play_normal;
+	SDL_Texture* play_pressed;
+	
+	// Continue textures
+	SDL_Texture* continue_hover;
+	SDL_Texture* continue_normal;
+	SDL_Texture* continue_pressed;
+
+	// Options textures
+	SDL_Texture* options_hover;
+	SDL_Texture* options_normal;
+	SDL_Texture* options_pressed;
+
+	// Exit textures
+	SDL_Texture* exit_hover;
+	SDL_Texture* exit_normal;
+	SDL_Texture* exit_pressed;
+
+	// Credits textures
+	SDL_Texture* credits_hover;
+	SDL_Texture* credits_normal;
+	SDL_Texture* credits_pressed;
 
 	SDL_Texture* pointer;
 	const char* pointer_texturePath; 
 
-	SDL_Texture* settings;
+	SDL_Texture* settingsBackground;
 	SDL_Texture* exitSettingsTexture;
 
 	bool exit;
@@ -64,11 +86,11 @@ private:
 	// -- Main menu
 	GuiButton* playBtn;
 	GuiButton* continueBtn;
-	GuiButton* menuSettingsBtn;
+	GuiButton* menuOptionsBtn;
 	GuiButton* creditsBtn;
 	GuiButton* menuExitBtn;
 	// -- Settings
-	GuiButton* settingsExitBtn;
+	GuiButton* optionsExitBtn;
 
 	// Sliders
 	// -- Settings
