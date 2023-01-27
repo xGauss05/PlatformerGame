@@ -158,7 +158,7 @@ bool Scene_Menu::PreUpdate()
 // Called each loop iteration
 bool Scene_Menu::Update(float dt)
 {
-
+	
 	if (app->scene->player->level != 1) app->scene->player->level = 1;
 
 	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
@@ -307,6 +307,8 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 	case 3: // Settings btn
 		LOG("Settings button.");
 		menuSettings = true;
+		bgmSlider->SetValue(app->audio->GetBGMVolume());
+		sfxSlider->SetValue(app->audio->GetSFXVolume());
 		playBtn->state = GuiControlState::DISABLED;
 		continueBtn->state = GuiControlState::DISABLED;
 		menuOptionsBtn->state = GuiControlState::DISABLED;

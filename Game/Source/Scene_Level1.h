@@ -7,6 +7,8 @@
 #include "Enemy_Walk.h"
 #include "Animation.h"
 #include "GuiButton.h"
+#include "GuiCheckbox.h"
+#include "GuiSlider.h"
 
 struct SDL_Texture;
 
@@ -49,23 +51,40 @@ public:
 	List<PhysBody*> boxes;
 	List<PhysBody*> saws;
 
+	bool pause;
+
 private:
 
 	SDL_Texture* sawTexture;
 	SDL_Texture* pauseMenuTexture;
+	SDL_Texture* settingsBackground;
 	const char* saw_texturePath;
-	bool pause, exit;
+	bool exit;
 
 	Animation sawAnim;
 	int font = 0;
 
+	bool gameplaySettings;
+
 	// Buttons
+	// -- Gameplay menu
 	GuiButton* pauseBtn;
 	GuiButton* resumeBtn;
 	GuiButton* backToTitleBtn;
 	GuiButton* settingsBtn;
 	GuiButton* exitBtn;
+	// -- Settings
+	GuiButton* gameReturnBtn;
 
+	// Sliders
+	// -- Settings
+	GuiSlider* bgmGameSlider;
+	GuiSlider* sfxGameSlider;
+
+	// Checkboxes
+	// -- Settings
+	GuiCheckbox* fullscreenGameCbox;
+	GuiCheckbox* vsyncGameCbox;
 };
 
 #endif __SCENE_LEVEL1_H__

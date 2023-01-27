@@ -177,10 +177,10 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 
 void Audio::SetSFXVolume(int value) 
 {
-	BGMVolume = Mix_Volume(-1, value);
+	SFXVolume = Mix_Volume(-1, value);
 }
 
 void Audio::SetBGMVolume(int value) 
 {
-	SFXVolume = Mix_VolumeMusic(value);
+	BGMVolume = Mix_VolumeMusic(value);
 }

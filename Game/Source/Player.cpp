@@ -469,7 +469,7 @@ void Player::AnimationLogic()
 
 void Player::MovementLogic()
 {
-	if (!app->debug->godMode)
+	if (!app->debug->godMode || !app->scene->pause)
 	{
 		//Jump
 		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && currentJumps > 0)
