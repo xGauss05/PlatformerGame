@@ -133,6 +133,7 @@ bool Scene_Menu::Start()
 	sfxSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 10, "SFX slider", { 500, 535, 35, 35 }, this);
 
 	// Initial GUI states
+	continueBtn->state = GuiControlState::DISABLED;
 	returnBtn->state = GuiControlState::DISABLED;
 	fullscreenCbox->state = GuiControlState::DISABLED;
 	vsyncCbox->state = GuiControlState::DISABLED;
@@ -153,17 +154,7 @@ bool Scene_Menu::PreUpdate()
 // Called each loop iteration
 bool Scene_Menu::Update(float dt)
 {
-	pugi::xml_document gameStateFile;
-	pugi::xml_parse_result result = gameStateFile.load_file("save_game.xml");
-
-	if (result)
-	{
-		continueBtn->state = GuiControlState::NORMAL;
-	}
-	else
-	{
-		continueBtn->state = GuiControlState::DISABLED;
-	}
+	
 	if (app->scene->player->level != 1) app->scene->player->level = 1;
 
 	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
@@ -173,7 +164,12 @@ bool Scene_Menu::Update(float dt)
 		if (!menuSettings && !credits)
 		{
 			if (playBtn->state == GuiControlState::DISABLED) playBtn->state = GuiControlState::NORMAL;
-			if (result) {
+			pugi::xml_document gameStateFile;
+			pugi::xml_parse_result result = gameStateFile.load_file("save_game.xml");
+
+			
+			if (result) 
+			{
 				if (continueBtn->state == GuiControlState::DISABLED) continueBtn->state = GuiControlState::NORMAL;
 			}
 			if (menuOptionsBtn->state == GuiControlState::DISABLED) menuOptionsBtn->state = GuiControlState::NORMAL;
