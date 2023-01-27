@@ -77,6 +77,7 @@ bool Scene_Level1::Start()
 	sawTexture = app->tex->Load(saw_texturePath);
 	pauseMenuTexture = app->tex->Load("Assets/Textures/menu.png");
 	settingsBackground = app->tex->Load("Assets/Textures/settings.png");
+	exitGameSettingsTexture = app->tex->Load("Assets/Textures/exit.png");
 	bool retLoad = app->map->Load();
 	pause = exit = gameplaySettings = false;
 	// Create walkability map
@@ -103,7 +104,7 @@ bool Scene_Level1::Start()
 	backToTitleBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "MAIN MENU", { (int)w / 2 - 50,(int)h / 2 - 20,100,20 }, this);
 	exitBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "EXIT", { (int)w / 2 - 50,(int)h / 2 + 20,100,20 }, this);
 	// -- Settings screen
-	gameReturnBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Exit Settings", { (int)w - 161, 5, 156, 153 }, this);
+	gameReturnBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "X", { (int) w - 55, 5, 50, 50 }, this);
 
 	// Sliders
 	// -- Settings screen
@@ -115,6 +116,7 @@ bool Scene_Level1::Start()
 	fullscreenGameCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 9, "Fullscreen cbox", { 550, 755, 50, 50 }, this);
 	vsyncGameCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 10, "VSync cbox", { 550, 640, 50, 50 }, this);
 
+	// Initial GUI states
 	resumeBtn->state = GuiControlState::DISABLED;
 	settingsBtn->state = GuiControlState::DISABLED;
 	backToTitleBtn->state = GuiControlState::DISABLED;
@@ -125,6 +127,7 @@ bool Scene_Level1::Start()
 	sfxGameSlider->state = GuiControlState::DISABLED;
 	fullscreenGameCbox->state = GuiControlState::DISABLED;
 	vsyncGameCbox->state = GuiControlState::DISABLED;
+
 
 
 	return true;
@@ -139,8 +142,6 @@ bool Scene_Level1::PreUpdate()
 // Called each loop iteration
 bool Scene_Level1::Update(float dt)
 {
-	
-
 	if (!app->entityManager->IsEnabled()) app->entityManager->Enable();
 
 	if (!app->ui->IsEnabled()) app->ui->Enable();
@@ -154,7 +155,10 @@ bool Scene_Level1::Update(float dt)
 
 	if (IsEnabled() && !app->scene_menu->IsEnabled())
 	{
-		if (pauseBtn->state == GuiControlState::DISABLED) pauseBtn->state = GuiControlState::NORMAL;
+		if (!gameplaySettings) 
+		{
+			if (pauseBtn->state == GuiControlState::DISABLED) pauseBtn->state = GuiControlState::NORMAL;
+		}
 	}
 	else
 	{
@@ -278,15 +282,17 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 		bgmGameSlider->SetValue(app->audio->GetBGMVolume());
 		sfxGameSlider->SetValue(app->audio->GetSFXVolume());
 		gameplaySettings = true;
+		pauseBtn->state = GuiControlState::DISABLED;
 		resumeBtn->state = GuiControlState::DISABLED;
 		settingsBtn->state = GuiControlState::DISABLED;
 		backToTitleBtn->state = GuiControlState::DISABLED;
 		exitBtn->state = GuiControlState::DISABLED;
-		fullscreenGameCbox->state = GuiControlState::NORMAL;
-		vsyncGameCbox->state = GuiControlState::NORMAL;
+
 		gameReturnBtn->state = GuiControlState::NORMAL;
 		bgmGameSlider->state = GuiControlState::NORMAL;
 		sfxGameSlider->state = GuiControlState::NORMAL;
+		vsyncGameCbox->state = GuiControlState::NORMAL;
+		fullscreenGameCbox->state = GuiControlState::NORMAL;
 
 		break;
 	case 4: // Main menu btn
@@ -312,12 +318,13 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 		settingsBtn->state = GuiControlState::NORMAL;
 		backToTitleBtn->state = GuiControlState::NORMAL;
 		exitBtn->state = GuiControlState::NORMAL;
-		fullscreenGameCbox->state = GuiControlState::DISABLED;
-		vsyncGameCbox->state = GuiControlState::DISABLED;
+
 		gameReturnBtn->state = GuiControlState::DISABLED;
 		bgmGameSlider->state = GuiControlState::DISABLED;
 		sfxGameSlider->state = GuiControlState::DISABLED;
-		gameReturnBtn->state = GuiControlState::DISABLED;
+		vsyncGameCbox->state = GuiControlState::DISABLED;
+		fullscreenGameCbox->state = GuiControlState::DISABLED;
+
 		gameplaySettings = false;
 		break;
 	case 7: // BGM slider
@@ -341,7 +348,7 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 		break;
 	case 10: // VSync checkbox
 
-		
+
 		break;
 	}
 

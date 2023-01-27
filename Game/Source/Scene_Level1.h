@@ -58,6 +58,7 @@ private:
 	SDL_Texture* sawTexture;
 	SDL_Texture* pauseMenuTexture;
 	SDL_Texture* settingsBackground;
+	SDL_Texture* exitGameSettingsTexture;
 	const char* saw_texturePath;
 	bool exit;
 

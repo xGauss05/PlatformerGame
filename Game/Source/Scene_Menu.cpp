@@ -85,7 +85,6 @@ bool Scene_Menu::Start()
 	options_normal = app->tex->Load("Assets/Textures/Buttons/Options_Normal.png");
 	options_pressed = app->tex->Load("Assets/Textures/Buttons/Options_Pressed.png");
 
-
 	exitSettingsTexture = app->tex->Load("Assets/Textures/exit.png");
 	app->audio->PlayMusic("Assets/Audio/Music/bgm.ogg");
 
@@ -99,7 +98,7 @@ bool Scene_Menu::Start()
 	creditsBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "Credits", { 600, 665, 513, 155 }, this);
 	menuExitBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "Exit", { 50, 670, 513, 155 }, this);
 	// -- Settings
-	returnBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Exit Settings", { (int)w - 161, 5, 156, 153 }, this);
+	returnBtn = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "X", { (int)w - 55, 5, 50, 50 }, this);
 
 	// Button textures
 	playBtn->SetTexture(play_normal);
@@ -122,10 +121,6 @@ bool Scene_Menu::Start()
 	menuExitBtn->SetFocusedTexture(exit_hover);
 	menuExitBtn->SetPressedTexture(exit_pressed);
 
-	returnBtn->SetTexture(exitSettingsTexture);
-	returnBtn->SetFocusedTexture(exitSettingsTexture);
-	returnBtn->SetPressedTexture(exitSettingsTexture);
-
 	// Checkboxes
 	// -- Settings
 	fullscreenCbox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 7, "Fullscreen cbox", { 550, 755, 50, 50 }, this);
@@ -137,7 +132,7 @@ bool Scene_Menu::Start()
 	bgmSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 9, "BGM slider", { 500, 415, 35, 35 }, this);
 	sfxSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 10, "SFX slider", { 500, 535, 35, 35 }, this);
 
-	// Initial states
+	// Initial GUI states
 	returnBtn->state = GuiControlState::DISABLED;
 	fullscreenCbox->state = GuiControlState::DISABLED;
 	vsyncCbox->state = GuiControlState::DISABLED;
@@ -163,7 +158,7 @@ bool Scene_Menu::Update(float dt)
 
 	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
 
-	if (this->IsEnabled() && !app->scene->IsEnabled())
+	if (IsEnabled() && !app->scene->IsEnabled())
 	{
 		if (!menuSettings && !credits)
 		{
@@ -367,17 +362,7 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 
 	case 8: // VSync cbox
 		LOG("VSync checkbox.");
-	/*	SDL_DestroyRenderer(app->render->renderer);
-		Uint32 flags = SDL_RENDERER_ACCELERATED;
-		if (vsyncCbox->state == GuiControlState::SELECTED)
-		{
-			flags |= SDL_RENDERER_PRESENTVSYNC;
-		}
-		app->render->renderer = SDL_CreateRenderer(app->win->window, -1, flags);
-		app->render->camera.w = app->win->screenSurface->w;
-		app->render->camera.h = app->win->screenSurface->h;
-		app->render->camera.x = 0;
-		app->render->camera.y = 0;*/
+
 		break;
 	case 9: // BGM slider
 		LOG("BGM slider.");
