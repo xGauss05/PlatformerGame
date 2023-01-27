@@ -1,6 +1,5 @@
 #include "EntityManager.h"
 #include "Player.h"
-#include "Saw.h"
 #include "ExtraLife.h"
 #include "KeyCard.h"
 #include "Checkpoint.h"
@@ -91,10 +90,6 @@ Entity* EntityManager::CreateEntity(EntityType type)
 
 	case EntityType::PLAYER:
 		entity = new Player();
-		break;
-
-	case EntityType::SAW:
-		entity = new Saw();
 		break;
 
 	case EntityType::ENEMY_FLY:

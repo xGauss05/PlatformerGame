@@ -58,9 +58,6 @@
     <ClCompile Include="Source\Scene_Die.cpp">
       <Filter>Modules\Gameplay\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Saw.cpp">
-      <Filter>Application\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scene_Win.cpp">
       <Filter>Modules\Gameplay\Scenes</Filter>
     </ClCompile>
@@ -188,9 +185,6 @@
     </ClInclude>
     <ClInclude Include="Source\Scene_Die.h">
       <Filter>Modules\Gameplay\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Saw.h">
-      <Filter>Application\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene_Win.h">
       <Filter>Modules\Gameplay\Scenes</Filter>
