@@ -747,7 +747,7 @@ bool Player::Update()
 	else {
 		dashAvailable = true;
 	}
-	
+
 	SDL_Rect rect({ 1450,780,filling,100 });
 	app->render->DrawRectangle(rect, 10, 10, 10, 150, true, false);
 	app->render->DrawTexture(dashSkill, -app->render->camera.x + 1450, -app->render->camera.y + 780, NULL);
@@ -779,7 +779,7 @@ bool Player::Update()
 			lives = 5;
 			app->ftb->SceneFadeToBlack(app->scene, app->scene_menu, 0);
 		}
-		
+
 		isDead = false;
 	}
 
@@ -820,11 +820,18 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB)
 		break;
 	case ColliderType::GOAL:
 		LOG("Collision GOAL");
-		level++;
-		app->audio->PlayFx(goalFx);
-		if (app->scene->player->level < 5) doorReached = true;
-		app->ui->StartTimer(30000);
-		
+		if (hasKeyCard) 
+		{
+			level++;
+			app->audio->PlayFx(goalFx);
+			if (app->scene->player->level < 5) doorReached = true;
+			app->ui->StartTimer(30000);
+		}
+	case ColliderType::EXTRALIFE:
+		if (lives < 4) lives++;
+		break;
+	case ColliderType::KEYCARD:
+		hasKeyCard = true;
 		break;
 	}
 }
