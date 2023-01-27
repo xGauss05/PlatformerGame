@@ -16,6 +16,9 @@ public:
 	bool Update(float dt);
 	bool Draw(Render* render);
 
+	void SetPressedTexture(SDL_Texture* tex);
+	void SetFocusedTexture(SDL_Texture* tex);
+
 	int mouseX, mouseY;
 	unsigned int click;
 
@@ -23,6 +26,10 @@ public:
 	bool drawBasic = false;
 
 	uint selectFx, hoverFx;
+	
+	SDL_Texture* pressedTexture;
+	SDL_Texture* focusedTexture;
+
 };
 
 #endif // __GUIBUTTON_H__
