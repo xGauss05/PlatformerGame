@@ -50,20 +50,31 @@ private:
 
 	SDL_Texture* pointer;
 	const char* pointer_texturePath; 
-	
+
+	SDL_Texture* settings;
+	SDL_Texture* exitSettingsTexture;
+
 	bool exit;
+	bool menuSettings;
 
 	Animation pointerArrow;
 	Animation* currentPointerAnim = nullptr;
 
 	// Buttons
+	// -- Main menu
 	GuiButton* playBtn;
 	GuiButton* continueBtn;
 	GuiButton* menuSettingsBtn;
 	GuiButton* creditsBtn;
 	GuiButton* menuExitBtn;
+	// -- Settings
+	GuiButton* settingsExitBtn;
 
+	// Sliders
+	// -- Settings
+	
 	// Checkboxes
+	// -- Settings
 	GuiCheckbox* testCbox;
 };
 
