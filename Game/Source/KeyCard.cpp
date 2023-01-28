@@ -26,8 +26,8 @@ bool KeyCard::Start()
 	//initilize textures
 	//texture = app->tex->Load("Assets/Textures/??.png");
 	//pbody = app->physics->CreateCircle(position.x, position.y, 10, STATIC);
-	pbody->listener = this;
-	pbody->ctype = ColliderType::KEYCARD;
+	//pbody->listener = this;
+	//pbody->ctype = ColliderType::KEYCARD;
 	return true;
 }
 

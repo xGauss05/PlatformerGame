@@ -105,9 +105,11 @@ Entity* EntityManager::CreateEntity(EntityType type)
 
 	case EntityType::EXTRALIFE:
 		entity = new ExtraLife();
+		break;
 
 	case EntityType::KEYCARD:
 		entity = new KeyCard();
+		break;
 
 	default: break;
 	}
@@ -164,7 +166,7 @@ void EntityManager::ActivateEnemies() {
 	for (item = entities.start; item != NULL && ret == true; item = item->next)
 	{
 		pEntity = item->data;
-		if (pEntity != app->scene->player && pEntity->type != EntityType::CHECKPOINT) 
+		if (pEntity != app->scene->player && pEntity->type != EntityType::CHECKPOINT && pEntity->type != EntityType::EXTRALIFE)
 		{
 			if (pEntity->level != app->scene->player->level)
 			{ // check if they're on the same level
@@ -205,7 +207,8 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 		pEntity = item->data;
 		if (pEntity != app->scene->player &&
 			pEntity->level == app->scene->player->level &&
-			pEntity->type != EntityType::CHECKPOINT) 
+			pEntity->type != EntityType::CHECKPOINT &&
+			pEntity->type != EntityType::EXTRALIFE)
 		{
 			bool isActiveInfo = node.attribute("active").as_bool();
 			if (pEntity->active) // entity is active
@@ -255,7 +258,8 @@ bool EntityManager::SaveState(pugi::xml_node& data)
 		pEntity = item->data;
 		if (pEntity != app->scene->player &&
 			pEntity->level == app->scene->player->level &&
-			pEntity->type != EntityType::CHECKPOINT) 
+			pEntity->type != EntityType::CHECKPOINT && 
+			pEntity->type != EntityType::EXTRALIFE) 
 		{
 			node = data.append_child("enemy");
 			if (!pEntity->isDead) 
