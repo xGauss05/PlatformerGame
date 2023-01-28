@@ -36,6 +36,7 @@ private:
 	SDL_Texture* checkpointTexture;
 	PhysBody* pbody;
 	bool reached;
+	int checkpointSfx;
 };
 
 #endif // __CHECKPOINT_H__

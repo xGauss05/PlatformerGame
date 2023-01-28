@@ -3,6 +3,7 @@
 #include "Physics.h"
 #include "App.h"
 #include "Scene_Level1.h"
+#include "Audio.h"
 #include "Point.h"
 #include "Input.h"
 
@@ -30,7 +31,7 @@ bool Checkpoint::Start()
 	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 32, 32, 64, STATIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::CHECKPOINT;
-
+	checkpointSfx = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.wav");
 	reached = false;
 
 	return true;
@@ -71,10 +72,15 @@ void Checkpoint::OnCollision(PhysBody* physA, PhysBody* physB)
 {
 	if (physB->ctype == ColliderType::PLAYER)
 	{
+		if (!app->scene->player->checkpointReached) 
+		{
+			app->audio->PlayFx(checkpointSfx);
+		}
 		reached = true;
 		app->scene->player->checkpointReached = true;
 		SaveProgress();
 		app->scene->player->ReadSpawn();
+		
 	}
 }
 
