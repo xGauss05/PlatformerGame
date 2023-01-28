@@ -867,9 +867,22 @@ bool Player::Update()
 			TeleportTo(zero);
 
 			lives = 5;
-			app->ftb->SceneFadeToBlack(app->scene, app->scene_menu, 0);
+		
 			app->entityManager->ResetCheckpoints();
 			checkpointReached = false;
+
+
+			LOG("Main menu button click.");
+			app->entityManager->ReviveAllEntities();
+			app->entityManager->NeedsToSpawnAllEntities();
+			ResetGame();
+			app->scene->pause = false;
+			app->ftb->SceneFadeToBlack(app->scene, app->scene_menu, 0.0f);
+			app->scene->pauseBtn->state = GuiControlState::DISABLED;
+			app->scene->resumeBtn->state = GuiControlState::DISABLED;
+			app->scene->settingsBtn->state = GuiControlState::DISABLED;
+			app->scene->backToTitleBtn->state = GuiControlState::DISABLED;
+			app->scene->exitBtn->state = GuiControlState::DISABLED;
 		}
 
 		isDead = false;

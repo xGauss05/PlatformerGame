@@ -51,16 +51,16 @@
     </saw>
     <!--Level 1--> 
     <enemy_walk x="800" y="700" level="1" texturepath="Assets/Textures/enemy_walk.png"/>
-    <keycard x ="900" y="700" level="1" texturepath="Assets/Textures/keycard.png"/>
+    <keycard x ="1345" y="525" level="1" texturepath="Assets/Textures/keycard.png"/>
     <!--Level 2-->
     <enemy_fly x="2870" y="150" level="2" texturepath="Assets/Textures/enemy_fly.png"/>
-    <keycard x ="2870" y="700" level="2" texturepath="Assets/Textures/keycard.png"/>
+    <keycard x ="2300" y="300" level="2" texturepath="Assets/Textures/keycard.png"/>
     <!--Level 3-->
     <enemy_fly x="4000" y="300" level="3" texturepath="Assets/Textures/enemy_fly.png"/>
-    <keycard x ="4000" y="700" level="3" texturepath="Assets/Textures/keycard.png"/>
+    <keycard x ="4045" y="740" level="3" texturepath="Assets/Textures/keycard.png"/>
     <!--Level 4-->
     <enemy_walk x="5810" y="380" level="4" texturepath="Assets/Textures/enemy_walk.png"/>
-    <keycard x ="5900" y="800" level="4" texturepath="Assets/Textures/keycard.png"/>
+    <keycard x ="5030" y="810" level="4" texturepath="Assets/Textures/keycard.png"/>
     
     <player x="100" y="450" texturepath="Assets/Textures/Spritesheet.png"
             maxJumps="1" dieFxpath="Assets/Audio/Fx/hurt.wav" landingFxpath="Assets/Audio/Fx/landing.wav"

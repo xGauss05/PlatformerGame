@@ -191,9 +191,11 @@ bool Scene_Level1::Update(float dt)
 
 	if (player->level == 1)
 	{
+
 		app->font->BlitText(app->render->camera.x + 130, app->render->camera.y + 580, 0, "Use A and D to move");
 		app->font->BlitText(app->render->camera.x + 540, app->render->camera.y + 630, 0, "Press SPACE to jump");
 		app->font->BlitText(app->render->camera.x + 1085, app->render->camera.y + 690, 0, "Avoid sharp objects");
+		app->font->BlitText(app->render->camera.x + 1300, app->render->camera.y + 500, 0, "Pick-up the KEYCARD");
 	}
 	if (player->level == 2)
 	{
@@ -311,6 +313,7 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 		app->entityManager->ReviveAllEntities();
 		app->entityManager->NeedsToSpawnAllEntities();
 		player->ResetGame();
+		app->entityManager->ResetCheckpoints();
 		pause = false;
 		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0.0f);
 		pauseBtn->state = GuiControlState::DISABLED;
