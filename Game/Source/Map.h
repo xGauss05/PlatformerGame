@@ -110,6 +110,8 @@ public:
 
 	bool LoadCheckpoints();
 
+	bool LoadExtraLives();
+
 private:
 
 	bool LoadMap(pugi::xml_node mapFile);

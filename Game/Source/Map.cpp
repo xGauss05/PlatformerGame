@@ -6,6 +6,8 @@
 #include "Physics.h"
 #include "EntityManager.h"
 #include "Checkpoint.h"
+#include "ExtraLife.h"
+#include "KeyCard.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -505,6 +507,35 @@ bool Map::LoadCheckpoints()
                 checkpoint->position.x = collider.attribute("x").as_int();
                 checkpoint->position.y = collider.attribute("y").as_int();
                 checkpoint->level = collider.child("properties").child("property").attribute("value").as_int();
+            }
+        }
+    }
+    return ret;
+}
+
+bool Map::LoadExtraLives()
+{
+    bool ret = true;
+
+    pugi::xml_document mapFileXML;
+    pugi::xml_parse_result result = mapFileXML.load_file("Assets/Maps/Map.tmx");
+
+    if (result == NULL)
+    {
+        LOG("Could not load map xml file %s. pugi error: %s", mapFileName, result.description());
+        ret = false;
+    }
+
+    for (pugi::xml_node parent = mapFileXML.child("map").child("objectgroup"); parent && ret; parent = parent.next_sibling("objectgroup"))
+    {
+        if ((SString)parent.attribute("name").as_string() == "ExtraLives")
+        {
+            for (pugi::xml_node collider = parent.child("object"); collider && ret; collider = collider.next_sibling("object"))
+            {
+                ExtraLife* life = (ExtraLife*)app->entityManager->CreateEntity(EntityType::EXTRALIFE);
+                life->position.x = collider.attribute("x").as_int();
+                life->position.y = collider.attribute("y").as_int();
+                life->level = collider.child("properties").child("property").attribute("value").as_int();
             }
         }
     }

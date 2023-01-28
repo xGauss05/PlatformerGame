@@ -18,14 +18,16 @@ ExtraLife::~ExtraLife()
 
 bool ExtraLife::Awake()
 {
+	spawn.x = position.x;
+	spawn.y = position.y;
+
 	return true;
 }
 
 bool ExtraLife::Start()
 {
-	//initilize textures
-	//texture = app->tex->Load("Assets/Textures/??.png");
-	//pbody = app->physics->CreateCircle(position.x, position.y, 10, STATIC);
+	texture = app->tex->Load("Assets/Textures/lives.png");
+	pbody = app->physics->CreateCircle(position.x, position.y, 16, STATIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::EXTRALIFE;
 	return true;
@@ -44,7 +46,11 @@ bool ExtraLife::CleanUp()
 
 void ExtraLife::OnCollision(PhysBody* physA, PhysBody* physB)
 {
-
+	if (physB->ctype == ColliderType::PLAYER)
+	{
+		app->scene->player->lives++;
+		isDead = true;
+	}
 }
 
 void ExtraLife::DeathAnimation()

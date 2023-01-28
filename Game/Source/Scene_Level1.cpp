@@ -55,6 +55,7 @@ bool Scene_Level1::Awake(pugi::xml_node& config)
 	}
 	
 	app->map->LoadCheckpoints();
+	app->map->LoadExtraLives();
 
 	this->active = false;
 
