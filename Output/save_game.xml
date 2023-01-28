@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <save_state>
-	<level value="1" />
-	<spawnPos x="912" y="704" />
+	<level value="4" />
+	<spawnPos x="5424" y="743" />
+	<keycard value="true" />
 </save_state>

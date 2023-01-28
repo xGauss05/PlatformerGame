@@ -686,6 +686,43 @@ void Player::ReadSpawn()
 	}
 }
 
+void Player::ReadKeycard()
+{
+	pugi::xml_document gameSaveFile;
+	pugi::xml_parse_result result = gameSaveFile.load_file("save_game.xml");
+
+	if (result == NULL)
+	{
+		LOG("Could not load xml file savegame.xml. pugi error: %s", result.description());
+	}
+	else
+	{
+		bool keycard;
+
+		keycard = gameSaveFile.child("save_state").child("keycard").attribute("value").as_bool();
+
+		hasKeyCard = keycard;
+	}
+}
+
+void Player::SaveProgress()
+{
+	pugi::xml_document* saveDoc = new pugi::xml_document();
+	pugi::xml_node saveStateNode = saveDoc->append_child("save_state");
+
+	pugi::xml_node levelNode = saveStateNode.append_child("level");
+	levelNode.append_attribute("value") = this->level;
+
+	pugi::xml_node spawnNode = saveStateNode.append_child("spawnPos");
+	spawnNode.append_attribute("x") = spawn.x;
+	spawnNode.append_attribute("y") = spawn.y;
+
+	pugi::xml_node keycardNode = saveStateNode.append_child("keycard");
+	keycardNode.append_attribute("value") = app->scene->player->hasKeyCard;
+
+	saveDoc->save_file("save_game.xml");
+}
+
 void Player::TeleportTo(iPoint position) {
 	pbody->body->SetLinearVelocity(b2Vec2(0, 0));
 	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0.0f);
@@ -806,10 +843,12 @@ bool Player::Update()
 		app->entityManager->ActivateEnemies();
 		TeleportTo(spawn);
 		doorReached = false;
+		SaveProgress();
 	}
 
 	if (isDead) {
 		dashAvailable = true;
+		ReadKeycard();
 		app->entityManager->ReviveAllEntities();
 		app->entityManager->NeedsToSpawnAllEntities();
 		app->entityManager->ActivateEnemies();
