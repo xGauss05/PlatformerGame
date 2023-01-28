@@ -32,7 +32,6 @@ public:
 private:
 
 	SDL_Texture* checkpointTexture;
-	const char* texturePath;
 	PhysBody* pbody;
 
 };

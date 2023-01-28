@@ -108,6 +108,8 @@ public:
 
 	iPoint Map::ScreenToMap(int x, int y);
 
+	bool LoadCheckpoints();
+
 private:
 
 	bool LoadMap(pugi::xml_node mapFile);
