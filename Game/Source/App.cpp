@@ -197,45 +197,57 @@ void App::FinishUpdate()
 	if (loadGameRequested == true) LoadFromFile();
 	if (saveGameRequested == true) SaveToFile();
 
-	// L13: TODO 4: Now calculate:
-	// Amount of frames since startup
 	frameCount++;
-	// Amount of time since game start (use a low resolution timer)
+	
 	secondsSinceStartup = startupTime.ReadSec();
-	// Amount of ms took the last update
+	
 	dt = frameTime.ReadMSec();
-	// Amount of frames during the last second
+	
 	lastSecFrameCount++;
 
-	if (lastSecFrameTime.ReadMSec() > 1000) {
+	if (lastSecFrameTime.ReadMSec() > 1000) 
+	{
 		lastSecFrameTime.Start();
 		framesPerSecond = lastSecFrameCount;
 		lastSecFrameCount = 0;
-		// Average FPS for the whole game life
+		
 		averageFps = (averageFps + framesPerSecond) / 2;
 	}
-
-	// L14: TODO 2: Use SDL_Delay to make sure you get your capped framerate
-	// L14: TODO 3: Measure accurately the amount of time SDL_Delay() actually waits compared to what was expected
 
 	float delay = float(maxFrameDuration) - dt;
 
 	PerfTimer delayTimer = PerfTimer();
 	delayTimer.Start();
-	if (maxFrameDuration > 0 && delay > 0) {
+	if (maxFrameDuration > 0 && delay > 0) 
+	{
 		SDL_Delay(delay);
 		LOG("We waited for %f milliseconds and the real delay is % f", delay, delayTimer.ReadMs());
 		dt = maxFrameDuration;
 	}
-	else {
-		//LOG("No wait
+	else 
+	{
+		dt = lastSecFrameTime.ReadSec();
 	}
-	LOG("Av.FPS: %.2f Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u ",
-		averageFps, framesPerSecond, dt, secondsSinceStartup, frameCount);
+	/*LOG("Av.FPS: %.2f Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u ",
+		averageFps, framesPerSecond, dt, secondsSinceStartup, frameCount);*/
 
 	static char title[256];
-	sprintf_s(title, 256, "Super Metal Boy: Av.FPS: %.2f Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u ",
-		averageFps, framesPerSecond, dt, secondsSinceStartup, frameCount);
+	if (vsync) 
+	{
+		if (frameTime.ReadSec() < dt) 
+		{
+			SDL_Delay(dt - frameTime.ReadSec());
+		}
+
+		sprintf_s(title, 256, "Super Metal Boy: Av.FPS: %.2f Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u VSYNC: ON",
+			averageFps, framesPerSecond, dt, secondsSinceStartup, frameCount);
+	}
+	else 
+	{
+		sprintf_s(title, 256, "Super Metal Boy: Av.FPS: %.2f Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u VSYNC: OFF",
+			averageFps, framesPerSecond, dt, secondsSinceStartup, frameCount);
+	}
+	
 
 	app->win->SetTitle(title);
 }

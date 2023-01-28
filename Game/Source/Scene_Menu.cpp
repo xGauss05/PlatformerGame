@@ -154,7 +154,7 @@ bool Scene_Menu::PreUpdate()
 // Called each loop iteration
 bool Scene_Menu::Update(float dt)
 {
-	
+
 	if (app->scene->player->level != 1) app->scene->player->level = 1;
 
 	if (app->entityManager->IsEnabled()) app->entityManager->Disable();
@@ -167,8 +167,8 @@ bool Scene_Menu::Update(float dt)
 			pugi::xml_document gameStateFile;
 			pugi::xml_parse_result result = gameStateFile.load_file("save_game.xml");
 
-			
-			if (result) 
+
+			if (result)
 			{
 				if (continueBtn->state == GuiControlState::DISABLED) continueBtn->state = GuiControlState::NORMAL;
 			}
@@ -284,7 +284,7 @@ bool Scene_Menu::CleanUp()
 bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 {
 	LOG("Event by %d ", control->id);
-
+	int flags = SDL_GetWindowFlags(app->win->window);
 	switch (control->id)
 	{
 	case 1: // Play btn
@@ -321,8 +321,13 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 		menuOptionsBtn->state = GuiControlState::DISABLED;
 		creditsBtn->state = GuiControlState::DISABLED;
 		menuExitBtn->state = GuiControlState::DISABLED;
-		fullscreenCbox->state = GuiControlState::NORMAL;
-		vsyncCbox->state = GuiControlState::NORMAL;
+		
+		(flags & SDL_WINDOW_FULLSCREEN) ? fullscreenCbox->state = GuiControlState::SELECTED
+										: fullscreenCbox->state = GuiControlState::NORMAL;
+		
+		(app->vsync) ? vsyncCbox->state = GuiControlState::SELECTED
+					 : vsyncCbox->state = GuiControlState::NORMAL;
+
 		returnBtn->state = GuiControlState::NORMAL;
 		bgmSlider->state = GuiControlState::NORMAL;
 		sfxSlider->state = GuiControlState::NORMAL;
@@ -361,20 +366,14 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 		break;
 	case 7: // Fullscreen cbox
 		LOG("Fullscreen checkbox.");
-		if (fullscreenCbox->state == GuiControlState::SELECTED)
-		{
-			SDL_SetWindowFullscreen(app->win->window, 0);
-		}
-		else
-		{
-			SDL_SetWindowFullscreen(app->win->window, 1);
-		}
-
+		(fullscreenCbox->state == GuiControlState::SELECTED) ? SDL_SetWindowFullscreen(app->win->window, 0)
+															 : SDL_SetWindowFullscreen(app->win->window, 1);
+		
 		break;
 
 	case 8: // VSync cbox
 		LOG("VSync checkbox.");
-
+		app->vsync = !app->vsync;
 		break;
 	case 9: // BGM slider
 		LOG("BGM slider.");
