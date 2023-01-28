@@ -15,6 +15,7 @@ public:
 
 	bool Update(float dt);
 	bool Draw(Render* render);
+	void DebugDraw(Render* render);
 
 	void SetPressedTexture(SDL_Texture* tex);
 	void SetFocusedTexture(SDL_Texture* tex);

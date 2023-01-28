@@ -46,6 +46,7 @@ public:
 	bool limitFps = false;
 	bool paths = false;
 	bool preferenceMatrix = false;
+	bool guiBounds = false;
 	int varBox = 130;
 
 	DynArray<iPoint> playerPath;

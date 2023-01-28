@@ -46,6 +46,7 @@ bool Debug::Start()
 
 bool Debug::Update(float dt)
 {
+	// Toggle debug mode
 	if (app->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) debug = !debug;
 
 	if (debug)
@@ -89,11 +90,12 @@ bool Debug::Update(float dt)
 		// Load request
 		if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadGameRequest();
 
-		// Enable/Disable variables
-		if (app->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN) variables = !variables;
+		// Move between checkpoints
+		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {}// to do
 
-		// Enable/Disable debug camera
-		if (app->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN) debugCamera = !debugCamera;
+		// Enable/Disable GUI bounds
+			if (app->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) guiBounds = !guiBounds;
+			
 
 		// Enable/Disable hitboxes/paths
 		if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
@@ -134,6 +136,12 @@ bool Debug::Update(float dt)
 
 		// Enable/Disable preference matrix
 		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) preferenceMatrix = !preferenceMatrix;
+
+		// Enable/Disable variables
+		if (app->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN) variables = !variables;
+
+		// Enable/Disable debug camera
+		if (app->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN) debugCamera = !debugCamera;
 
 	}
 	else
@@ -182,20 +190,20 @@ bool Debug::PostUpdate()
 		app->font->BlitText(10, 100, 0, "Press F10 to activate GOD MODE");
 		app->font->BlitText(10, 110, 0, "Press F11 to Enable/Disable FPS cap to");
 		app->font->BlitText(10, 120, 0, "frcap(Config)");
-			
+
 		app->font->BlitText(320, 10, 0, "Press I to instantly WIN");
 		app->font->BlitText(320, 20, 0, "Press O to KILL the player");
 		app->font->BlitText(320, 30, 0, "Press M to show preference map");
 		app->font->BlitText(320, 40, 0, "Press C to move the CAMERA freely");
 		app->font->BlitText(320, 50, 0, "Press V to show game VARIABLES");
 	}
-	else 
+	else
 	{
 		app->font->BlitText(10, 10, 0, "Press F4 to ENABLE debug mode");
 	}
 
 	if (hitboxes) DrawHitboxes();
-	
+
 	return true;
 }
 
