@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Enemy_Fly.h"
 #include "Enemy_Walk.h"
+#include "KeyCard.h"
 #include "Animation.h"
 #include "GuiButton.h"
 #include "GuiCheckbox.h"
@@ -53,20 +54,6 @@ public:
 
 	bool pause;
 
-private:
-
-	SDL_Texture* sawTexture;
-	SDL_Texture* pauseMenuTexture;
-	SDL_Texture* settingsBackground;
-	
-	const char* saw_texturePath;
-	bool exit;
-
-	Animation sawAnim;
-	int font = 0;
-
-	bool gameplaySettings;
-
 	// Buttons
 	// -- Gameplay menu
 	GuiButton* pauseBtn;
@@ -86,6 +73,22 @@ private:
 	// -- Settings
 	GuiCheckbox* fullscreenGameCbox;
 	GuiCheckbox* vsyncGameCbox;
+
+private:
+
+	SDL_Texture* sawTexture;
+	SDL_Texture* pauseMenuTexture;
+	SDL_Texture* settingsBackground;
+	
+	const char* saw_texturePath;
+	bool exit;
+
+	Animation sawAnim;
+	int font = 0;
+
+	bool gameplaySettings;
+
+	
 };
 
 #endif __SCENE_LEVEL1_H__

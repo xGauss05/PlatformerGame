@@ -33,5 +33,6 @@ private:
 	high_resolution_clock::time_point currentTime;
 
 	SDL_Texture* lives_tex;
+	SDL_Texture* keycard_tex;
 };
 
