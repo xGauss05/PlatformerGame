@@ -27,13 +27,15 @@ public:
 
 	void DeathAnimation();
 
+	void SaveProgress();
+
 public:
 
 private:
 
 	SDL_Texture* checkpointTexture;
 	PhysBody* pbody;
-
+	bool reached;
 };
 
 #endif // __CHECKPOINT_H__

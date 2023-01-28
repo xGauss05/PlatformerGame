@@ -170,8 +170,8 @@ bool Player::Start()
 	texture = app->tex->Load(texturePath);
 	dashSkill = app->tex->Load(dashTexturePath);
 	currentJumps = maxJumps;
-	spawn.x = 100;
-	spawn.y = 450;
+	spawn.x = 190;
+	spawn.y = 680;
 	pbody = app->physics->CreateRectangle(0, 0, 40, height, DYNAMIC);
 	pbody->listener = this;
 	pbody->body->SetFixedRotation(true);
@@ -661,6 +661,29 @@ void Player::SetSpawn(iPoint position, iPoint cameraPosition)
 	}
 }
 
+void Player::ReadSpawn()
+{
+	pugi::xml_document gameSaveFile;
+	pugi::xml_parse_result result = gameSaveFile.load_file("save_game.xml");
+
+	if (result == NULL)
+	{
+		LOG("Could not load xml file savegame.xml. pugi error: %s", result.description());
+	}
+	else
+	{
+		iPoint newSpawn;
+		newSpawn.x = gameSaveFile.child("save_state").child("spawnPos").attribute("x").as_int();
+		newSpawn.y = gameSaveFile.child("save_state").child("spawnPos").attribute("y").as_int();
+
+		iPoint cam;
+		cam.x = app->render->camera.x;
+		cam.y = app->render->camera.y;
+
+		SetSpawn(newSpawn, cam);
+	}
+}
+
 void Player::TeleportTo(iPoint position) {
 	pbody->body->SetLinearVelocity(b2Vec2(0, 0));
 	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0.0f);
@@ -675,35 +698,56 @@ void Player::LevelSelector()
 	{
 
 	case 1:
-		newSpawnPoint.x = 190;
-		newSpawnPoint.y = 680;
+		
 		newCameraPosition.x = 0;
 		newCameraPosition.y = 0;
-		SetSpawn(newSpawnPoint, newCameraPosition);
+		if (!checkpointReached)
+		{
+			newSpawnPoint.x = 190;
+			newSpawnPoint.y = 680;
+			SetSpawn(newSpawnPoint, newCameraPosition);
+		}
+		else { SetSpawn(spawn, newCameraPosition); }
 
 		break;
 	case 2:
-		newSpawnPoint.x = 1790;
-		newSpawnPoint.y = 680;
+		
 		newCameraPosition.x = -(1600 + 32);
 		newCameraPosition.y = 0;
-		SetSpawn(newSpawnPoint, newCameraPosition);
+		if (!checkpointReached)
+		{
+			newSpawnPoint.x = 1790;
+			newSpawnPoint.y = 680;
+			SetSpawn(newSpawnPoint, newCameraPosition);
+		}
+		else { SetSpawn(spawn, newCameraPosition); }
+		
 
 		break;
 	case 3:
-		newSpawnPoint.x = 3300;
-		newSpawnPoint.y = 680;
+		
 		newCameraPosition.x = -(3200 + 64);
 		newCameraPosition.y = 0;
-		SetSpawn(newSpawnPoint, newCameraPosition);
+		if (!checkpointReached)
+		{
+			newSpawnPoint.x = 3300;
+			newSpawnPoint.y = 680;
+			SetSpawn(newSpawnPoint, newCameraPosition);
+		}
+		else { SetSpawn(spawn, newCameraPosition); }
 
 		break;
 	case 4:
-		newSpawnPoint.x = 4930;
-		newSpawnPoint.y = 70;
+		
 		newCameraPosition.x = -(4800 + 96);
 		newCameraPosition.y = 0;
-		SetSpawn(newSpawnPoint, newCameraPosition);
+		if (!checkpointReached)
+		{
+			newSpawnPoint.x = 4930;
+			newSpawnPoint.y = 70;
+			SetSpawn(newSpawnPoint, newCameraPosition);
+		}
+		else { SetSpawn(spawn, newCameraPosition); }
 
 		break;
 	case 5:
@@ -772,7 +816,7 @@ bool Player::Update()
 		if (lives > 0)
 		{
 			lives--;
-			app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 0);
+			//app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 0);
 		}
 		else
 		{
@@ -825,6 +869,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB)
 			level++;
 			app->audio->PlayFx(goalFx);
 			if (app->scene->player->level < 5) doorReached = true;
+			checkpointReached = false;
 			app->ui->StartTimer(30000);
 		}
 	case ColliderType::EXTRALIFE:

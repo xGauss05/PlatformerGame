@@ -34,6 +34,8 @@ public:
 	
 	void SetSpawn(iPoint position, iPoint cameraPosition);
 
+	void ReadSpawn();
+
 	void TeleportTo(iPoint position);
 
 	void LevelSelector();
@@ -56,7 +58,8 @@ public:
 	bool doorReached = false;
 	bool dashing = false;
 	bool dashAvailable = true;
-	bool hasKeyCard = false;
+	bool hasKeyCard = true;
+	bool checkpointReached = false;
 
 	// SFX indexes
 	int dieFx, landingFx, jumpFx,

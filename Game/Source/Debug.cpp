@@ -57,6 +57,7 @@ bool Debug::Update(float dt)
 			if (app->scene->player->level > 1)
 			{
 				app->scene->player->level--;
+				app->scene->player->checkpointReached = false;
 				app->scene->player->LevelSelector();
 				app->entityManager->ActivateEnemies();
 				app->scene->player->TeleportTo(app->scene->player->spawn);
@@ -69,6 +70,7 @@ bool Debug::Update(float dt)
 			if (app->scene->player->level < 4)
 			{
 				app->scene->player->level++;
+				app->scene->player->checkpointReached = false;
 				app->scene->player->LevelSelector();
 				app->entityManager->ActivateEnemies();
 				app->scene->player->TeleportTo(app->scene->player->spawn);

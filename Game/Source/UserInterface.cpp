@@ -67,7 +67,7 @@ bool UserInterface::PostUpdate()
 	for (int i = 0; i <= app->scene->player->lives; i++)
 	{
 		int xPos = 1000 + i * 50;
-		app->render->DrawTexture(lives_tex, xPos, 20);
+		app->render->DrawTexture(lives_tex, -app->render->camera.x + xPos, 20);
 	}
 	return true;
 }
