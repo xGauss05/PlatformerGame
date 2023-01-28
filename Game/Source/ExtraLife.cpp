@@ -2,6 +2,7 @@
 #include "Textures.h"
 #include "Physics.h"
 #include "App.h"
+#include "Audio.h"
 #include "Scene_Level1.h"
 #include "Point.h"
 #include "Input.h"
@@ -27,6 +28,7 @@ bool ExtraLife::Awake()
 bool ExtraLife::Start()
 {
 	texture = app->tex->Load("Assets/Textures/lives.png");
+	pickUpFx = app->audio->LoadFx("Assets/Audio/Fx/life.wav");
 	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 32, 32, STATIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::EXTRALIFE;
@@ -64,6 +66,7 @@ void ExtraLife::OnCollision(PhysBody* physA, PhysBody* physB)
 	if (physB->ctype == ColliderType::PLAYER)
 	{
 		app->scene->player->lives++;
+		app->audio->PlayFx(pickUpFx);
 		pendingToDelete = true;
 	}
 }

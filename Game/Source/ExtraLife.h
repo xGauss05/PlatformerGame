@@ -33,6 +33,7 @@ private:
 
 	SDL_Texture* texture;
 	PhysBody* pbody;
+	int pickUpFx;
 
 };
 

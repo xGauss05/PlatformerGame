@@ -34,7 +34,7 @@ private:
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
-
+	int pickUpFx;
 };
 
 #endif // __KEYCARD_H__
