@@ -36,6 +36,10 @@ public:
 
 	void ReadSpawn();
 
+	void ReadKeycard();
+
+	void SaveProgress();
+
 	void TeleportTo(iPoint position);
 
 	void LevelSelector();

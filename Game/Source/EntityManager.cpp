@@ -149,6 +149,7 @@ void EntityManager::ReviveAllEntities()
 	{
 		pEntity = item->data;
 		pEntity->isDead = false;
+		
 	}
 }
 
@@ -158,7 +159,10 @@ void EntityManager::NeedsToSpawnAllEntities() {
 	for (item = entities.start; item != NULL; item = item->next)
 	{
 		pEntity = item->data;
-		if (pEntity != app->scene->player) pEntity->needsToSpawn = true;
+		if (pEntity != app->scene->player)
+		{
+			pEntity->needsToSpawn = true;
+		}
 	}
 }
 
@@ -172,13 +176,30 @@ void EntityManager::ActivateEnemies() {
 		pEntity = item->data;
 		if (pEntity != app->scene->player && pEntity->type != EntityType::CHECKPOINT && pEntity->type != EntityType::EXTRALIFE)
 		{
-			if (pEntity->level != app->scene->player->level)
-			{ // check if they're on the same level
-				if (pEntity->active != false) pEntity->Disable(); // if they are active, disable them
+			if (pEntity->type != EntityType::KEYCARD)
+			{
+				if (pEntity->level != app->scene->player->level)
+				{ // check if they're on the same level
+					if (pEntity->active != false) pEntity->Disable(); // if they are active, disable them
+				}
+				else
+				{ // if they are on the same level
+					if (pEntity->active != true) pEntity->Enable(); // if they are not active, enable them
+				}
 			}
 			else
-			{ // if they are on the same level
-				if (pEntity->active != true) pEntity->Enable(); // if they are not active, enable them
+			{
+				if (app->scene->player->hasKeyCard == false)
+				{
+					if (pEntity->level != app->scene->player->level)
+					{ // check if they're on the same level
+						if (pEntity->active != false) pEntity->Disable(); // if they are active, disable them
+					}
+					else
+					{ // if they are on the same level
+						if (pEntity->active != true) pEntity->Enable(); // if they are not active, enable them
+					}
+				}
 			}
 		}
 	}

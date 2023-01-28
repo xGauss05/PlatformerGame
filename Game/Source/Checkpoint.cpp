@@ -101,5 +101,8 @@ void Checkpoint::SaveProgress()
 	spawnNode.append_attribute("x") = METERS_TO_PIXELS(this->pbody->body->GetPosition().x);
 	spawnNode.append_attribute("y") = METERS_TO_PIXELS(this->pbody->body->GetPosition().y);
 
+	pugi::xml_node keycardNode = saveStateNode.append_child("keycard");
+	keycardNode.append_attribute("value") = app->scene->player->hasKeyCard;
+
 	saveDoc->save_file("save_game.xml");
 }
