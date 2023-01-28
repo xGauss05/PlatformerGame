@@ -12,6 +12,8 @@
 #include "Log.h"
 #include "Log.h"
 
+#include <cstdio>
+
 EntityManager::EntityManager() : Module()
 {
 	name.Create("entitymanager");
@@ -179,6 +181,33 @@ void EntityManager::ActivateEnemies() {
 				if (pEntity->active != true) pEntity->Enable(); // if they are not active, enable them
 			}
 		}
+	}
+}
+
+void EntityManager::ResetCheckpoints() {
+	ListItem<Entity*>* item;
+	Entity* pEntity = NULL;
+	for (item = entities.start; item != NULL; item = item->next)
+	{
+		pEntity = item->data;
+
+		if (pEntity != app->scene->player && pEntity->type == EntityType::CHECKPOINT)
+		{
+			Checkpoint* check = (Checkpoint*)pEntity;
+			check->reached = false;
+		}
+	}
+
+	
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file("save_game.xml");
+	if (result) {
+		if (std::remove("save_game.xml") != 0) {
+			LOG("Could not find save game to remove");
+		}
+	}
+	else {
+		LOG("Could not find save game to remove");
 	}
 }
 
