@@ -73,7 +73,7 @@ bool UserInterface::PostUpdate()
 
 	if (app->scene->player->hasKeyCard) 
 	{ 
-		app->render->DrawTexture(keycard_tex, -app->render->camera.x + 20, 140);
+		app->render->DrawTexture(keycard_tex, -app->render->camera.x + 950, 23);
 	}
 	return true;
 }
