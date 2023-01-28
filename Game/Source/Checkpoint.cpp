@@ -76,11 +76,11 @@ void Checkpoint::OnCollision(PhysBody* physA, PhysBody* physB)
 		{
 			app->audio->PlayFx(checkpointSfx);
 		}
+
 		reached = true;
 		app->scene->player->checkpointReached = true;
 		SaveProgress();
 		app->scene->player->ReadSpawn();
-		
 	}
 }
 

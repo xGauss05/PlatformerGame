@@ -811,17 +811,22 @@ bool Player::Update()
 		app->entityManager->ActivateEnemies();
 		app->audio->PlayFx(dieFx);
 		app->entityManager->Disable();
-		TeleportTo(spawn);
 
 		if (lives > 0)
 		{
 			lives--;
+			TeleportTo(spawn);
 			//app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 0);
 		}
 		else
 		{
+			iPoint zero; zero.x = 0; zero.y = 0;
+			TeleportTo(zero);
+
 			lives = 5;
 			app->ftb->SceneFadeToBlack(app->scene, app->scene_menu, 0);
+			app->entityManager->ResetCheckpoints();
+			checkpointReached = false;
 		}
 
 		isDead = false;

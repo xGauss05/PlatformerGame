@@ -31,11 +31,12 @@ public:
 
 public:
 
+	bool reached;
+
 private:
 
 	SDL_Texture* checkpointTexture;
 	PhysBody* pbody;
-	bool reached;
 	int checkpointSfx;
 };
 
