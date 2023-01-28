@@ -881,7 +881,8 @@ bool Player::Update()
 		{
 			lives--;
 			TeleportTo(spawn);
-			//app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 0);
+			app->ui->StartTimer(30000);
+			app->ftb->SceneFadeToBlack(app->scene, app->scene_die, 0);
 		}
 		else
 		{
@@ -906,7 +907,6 @@ bool Player::Update()
 			app->scene->backToTitleBtn->state = GuiControlState::DISABLED;
 			app->scene->exitBtn->state = GuiControlState::DISABLED;
 		}
-
 		isDead = false;
 	}
 

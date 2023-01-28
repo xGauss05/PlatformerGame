@@ -57,6 +57,7 @@ bool UserInterface::Update(float dt)
 		if (remaining < milliseconds(0))
 		{
 			app->scene->player->isDead = true;
+			StartTimer(30000);
 		}
 	}
 

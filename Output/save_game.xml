@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <save_state>
-	<level value="2" />
-	<spawnPos x="3184" y="320" />
-	<keycard value="true" />
-	<lives value="2" />
+	<level value="4" />
+	<spawnPos x="4930" y="70" />
+	<keycard value="false" />
+	<lives value="4" />
 </save_state>
