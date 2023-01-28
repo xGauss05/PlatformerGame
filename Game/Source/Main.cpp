@@ -11,6 +11,8 @@ using namespace std::chrono;
 #include <stdlib.h>
 #include <thread>
 
+#include "Optick/include/optick.h"
+
 enum MainState
 {
 	CREATE = 1,
@@ -78,11 +80,12 @@ int main(int argc, char* args[])
 
 			// Loop all modules until we are asked to leave ---------------------
 		case LOOP:
-			if (app->Update() == false)
-				state = CLEAN;
+		{
+			OPTICK_FRAME("LOOP");
+			if (app->Update() == false) state = CLEAN;
 			break;
-
-			// Cleanup allocated memory -----------------------------------------
+		}
+		// Cleanup allocated memory -----------------------------------------
 		case CLEAN:
 			LOG("CLEANUP PHASE ===============================");
 			if (app->CleanUp() == true)
@@ -104,8 +107,8 @@ int main(int argc, char* args[])
 		}
 	}
 
-		RELEASE(app);
-		LOG("... Bye! :)\n");
+	RELEASE(app);
+	LOG("... Bye! :)\n");
 
-		return result;
+	return result;
 }
