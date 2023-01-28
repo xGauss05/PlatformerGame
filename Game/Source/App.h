@@ -116,7 +116,8 @@ public:
 	uint frames;
 	uint32 maxFrameDuration = 0;
 	int frcap;
-	
+	bool vsync;
+
 private:
 
 	int argc;

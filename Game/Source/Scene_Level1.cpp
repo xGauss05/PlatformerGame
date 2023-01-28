@@ -254,7 +254,7 @@ bool Scene_Level1::CleanUp()
 bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 {
 	LOG("Event by %d ", control->id);
-
+	int flags = SDL_GetWindowFlags(app->win->window);
 	switch (control->id)
 	{
 	case 1: // Pause btn
@@ -292,8 +292,12 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 		gameReturnBtn->state = GuiControlState::NORMAL;
 		bgmGameSlider->state = GuiControlState::NORMAL;
 		sfxGameSlider->state = GuiControlState::NORMAL;
-		vsyncGameCbox->state = GuiControlState::NORMAL;
-		fullscreenGameCbox->state = GuiControlState::NORMAL;
+
+		(flags & SDL_WINDOW_FULLSCREEN) ? fullscreenGameCbox->state = GuiControlState::SELECTED
+										: fullscreenGameCbox->state = GuiControlState::NORMAL;
+
+		(app->vsync) ? vsyncGameCbox->state = GuiControlState::SELECTED
+					 : vsyncGameCbox->state = GuiControlState::NORMAL;
 
 		break;
 	case 4: // Main menu btn
@@ -339,18 +343,11 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 		break;
 	case 9: // Fullscreen checkbox
 		LOG("Fullscreen checkbox.");
-		if (fullscreenGameCbox->state == GuiControlState::SELECTED)
-		{
-			SDL_SetWindowFullscreen(app->win->window, 0);
-		}
-		else
-		{
-			SDL_SetWindowFullscreen(app->win->window, 1);
-		}
+		(fullscreenGameCbox->state == GuiControlState::SELECTED) ? SDL_SetWindowFullscreen(app->win->window, 0)
+																 : SDL_SetWindowFullscreen(app->win->window, 1);
 		break;
 	case 10: // VSync checkbox
-
-
+		app->vsync = !app->vsync;
 		break;
 	}
 
