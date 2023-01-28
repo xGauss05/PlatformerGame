@@ -23815,7 +23815,15 @@
   </object>
  </objectgroup>
  <objectgroup id="13" name="Checkpoints">
-  <object id="563" x="896" y="672" width="32" height="64"/>
-  <object id="565" x="3168" y="288" width="32" height="64"/>
+  <object id="563" x="896" y="672" width="32" height="64">
+   <properties>
+    <property name="level" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="565" x="3168" y="288" width="32" height="64">
+   <properties>
+    <property name="level" type="int" value="2"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

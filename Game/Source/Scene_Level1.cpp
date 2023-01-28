@@ -53,11 +53,9 @@ bool Scene_Level1::Awake(pugi::xml_node& config)
 		Enemy_Walk* enemy = (Enemy_Walk*)app->entityManager->CreateEntity(EntityType::ENEMY_WALK);
 		enemy->parameters = enemyNode;
 	}
-	for (pugi::xml_node checkpointsNode = config.child("checkpoint"); checkpointsNode; checkpointsNode = checkpointsNode.next_sibling("checkpoint"))
-	{
-		Checkpoint* checkpoint = (Checkpoint*)app->entityManager->CreateEntity(EntityType::CHECKPOINT);
-		checkpoint->parameters = checkpointsNode;
-	}
+	
+	app->map->LoadCheckpoints();
+
 	this->active = false;
 
 
@@ -247,7 +245,6 @@ bool Scene_Level1::CleanUp()
 	player = nullptr;
 	boxes.Clear();
 	saws.Clear();
-	checkpoints.Clear();
 
 	app->font->UnLoad(font);
 

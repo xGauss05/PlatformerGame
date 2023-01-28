@@ -50,7 +50,6 @@ public:
 	Player* player;
 	List<PhysBody*> boxes;
 	List<PhysBody*> saws;
-	List<PhysBody*> checkpoints;
 
 	bool pause;
 

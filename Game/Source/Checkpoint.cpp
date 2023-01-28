@@ -18,19 +18,15 @@ Checkpoint::~Checkpoint()
 
 bool Checkpoint::Awake()
 {
-	position.x = parameters.attribute("x").as_int();
-	position.y = parameters.attribute("y").as_int();
 	spawn.x = position.x;
 	spawn.y = position.y;
-	texturePath = parameters.attribute("texturepath").as_string();
-	level = parameters.attribute("level").as_int();
 
 	return true;
 }
 
 bool Checkpoint::Start()
 {
-	checkpointTexture = app->tex->Load(texturePath);
+	checkpointTexture = app->tex->Load("Assets/Textures/checkpoint.png");
 	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 32, 32, 64, STATIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::CHECKPOINT;
