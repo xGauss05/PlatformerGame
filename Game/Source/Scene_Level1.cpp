@@ -53,6 +53,11 @@ bool Scene_Level1::Awake(pugi::xml_node& config)
 		Enemy_Walk* enemy = (Enemy_Walk*)app->entityManager->CreateEntity(EntityType::ENEMY_WALK);
 		enemy->parameters = enemyNode;
 	}
+	for (pugi::xml_node keycardNode = config.child("keycard"); keycardNode; keycardNode = keycardNode.next_sibling("keycard"))
+	{
+		KeyCard* keycard = (KeyCard*)app->entityManager->CreateEntity(EntityType::KEYCARD);
+		keycard->parameters = keycardNode;
+	}
 	
 	app->map->LoadCheckpoints();
 	app->map->LoadExtraLives();

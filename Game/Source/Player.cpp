@@ -870,6 +870,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB)
 			app->audio->PlayFx(goalFx);
 			if (app->scene->player->level < 5) doorReached = true;
 			checkpointReached = false;
+			hasKeyCard = false;
 			app->ui->StartTimer(30000);
 		}
 	case ColliderType::EXTRALIFE:

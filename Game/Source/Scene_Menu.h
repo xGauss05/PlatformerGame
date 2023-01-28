@@ -40,7 +40,25 @@ public:
 
 public:
 
+	// Buttons
+	// -- Main menu
+	GuiButton* playBtn;
+	GuiButton* continueBtn;
+	GuiButton* menuOptionsBtn;
+	GuiButton* creditsBtn;
+	GuiButton* menuExitBtn;
+	// -- Settings & credits
+	GuiButton* returnBtn;
 
+	// Sliders
+	// -- Settings
+	GuiSlider* bgmSlider;
+	GuiSlider* sfxSlider;
+
+	// Checkboxes
+	// -- Settings
+	GuiCheckbox* fullscreenCbox;
+	GuiCheckbox* vsyncCbox;
 private:
 
 	SDL_Texture* background;
@@ -85,25 +103,7 @@ private:
 	Animation pointerArrow;
 	Animation* currentPointerAnim = nullptr;
 
-	// Buttons
-	// -- Main menu
-	GuiButton* playBtn;
-	GuiButton* continueBtn;
-	GuiButton* menuOptionsBtn;
-	GuiButton* creditsBtn;
-	GuiButton* menuExitBtn;
-	// -- Settings & credits
-	GuiButton* returnBtn;
-
-	// Sliders
-	// -- Settings
-	GuiSlider* bgmSlider;
-	GuiSlider* sfxSlider;
 	
-	// Checkboxes
-	// -- Settings
-	GuiCheckbox* fullscreenCbox;
-	GuiCheckbox* vsyncCbox;
 };
 
 #endif __SCENE_MENU_H__

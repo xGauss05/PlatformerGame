@@ -1,17 +1,16 @@
 #include "App.h"
-
 #include "Defs.h"
 #include "Log.h"
 #include "Debug.h"
 
 #include "SDL/include/SDL.h"
+#include "Optick/include/optick.h"
 
 #include <chrono>
-using namespace std::chrono;
 #include <stdlib.h>
 #include <thread>
 
-#include "Optick/include/optick.h"
+using namespace std::chrono;
 
 enum MainState
 {

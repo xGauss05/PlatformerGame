@@ -58,7 +58,7 @@ public:
 	bool doorReached = false;
 	bool dashing = false;
 	bool dashAvailable = true;
-	bool hasKeyCard = true;
+	bool hasKeyCard = false;
 	bool checkpointReached = false;
 
 	// SFX indexes

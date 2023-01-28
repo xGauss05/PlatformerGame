@@ -26,6 +26,7 @@ bool UserInterface::Awake(pugi::xml_node&)
 bool UserInterface::Start()
 {
 	lives_tex = app->tex->Load("Assets/Textures/lives.png");
+	keycard_tex = app->tex->Load("Assets/Textures/keycard.png");
 	timerOn = false;
 	return true;
 }
@@ -68,6 +69,11 @@ bool UserInterface::PostUpdate()
 	{
 		int xPos = 1000 + i * 50;
 		app->render->DrawTexture(lives_tex, -app->render->camera.x + xPos, 20);
+	}
+
+	if (app->scene->player->hasKeyCard) 
+	{ 
+		app->render->DrawTexture(keycard_tex, -app->render->camera.x + 20, 140);
 	}
 	return true;
 }

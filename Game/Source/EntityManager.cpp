@@ -10,6 +10,7 @@
 
 #include "Defs.h"
 #include "Log.h"
+#include "Log.h"
 
 EntityManager::EntityManager() : Module()
 {
@@ -43,7 +44,7 @@ bool EntityManager::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-bool EntityManager::Start() 
+bool EntityManager::Start()
 {
 
 	bool ret = true;
@@ -138,7 +139,8 @@ void EntityManager::DestroyEntity(Entity* entity)
 	}
 }
 
-void EntityManager::ReviveAllEntities() {
+void EntityManager::ReviveAllEntities() 
+{
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
 	for (item = entities.start; item != NULL; item = item->next)
@@ -151,7 +153,7 @@ void EntityManager::ReviveAllEntities() {
 void EntityManager::NeedsToSpawnAllEntities() {
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
-	for (item = entities.start; item != NULL; item = item->next) 
+	for (item = entities.start; item != NULL; item = item->next)
 	{
 		pEntity = item->data;
 		if (pEntity != app->scene->player) pEntity->needsToSpawn = true;
@@ -172,7 +174,7 @@ void EntityManager::ActivateEnemies() {
 			{ // check if they're on the same level
 				if (pEntity->active != false) pEntity->Disable(); // if they are active, disable them
 			}
-			else 
+			else
 			{ // if they are on the same level
 				if (pEntity->active != true) pEntity->Enable(); // if they are not active, enable them
 			}
@@ -202,7 +204,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
 	pugi::xml_node node = data.child("enemy");
-	for (item = entities.start; item != NULL; item = item->next) 
+	for (item = entities.start; item != NULL; item = item->next)
 	{
 		pEntity = item->data;
 		if (pEntity != app->scene->player &&
@@ -216,10 +218,10 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 				if (isActiveInfo)
 				{ // information says is active
 					pEntity->pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(node.attribute("x").as_int()),
-															  PIXEL_TO_METERS(node.attribute("y").as_int())),
-															  0.0f);
+						PIXEL_TO_METERS(node.attribute("y").as_int())),
+						0.0f);
 					pEntity->pbody->body->SetLinearVelocity(b2Vec2(node.attribute("x_velocity").as_float(),
-																   node.attribute("y_velocity").as_float()));
+						node.attribute("y_velocity").as_float()));
 				}
 				else
 				{ // information says is not active
@@ -237,7 +239,7 @@ bool EntityManager::LoadState(pugi::xml_node& data)
 					position.y = node.attribute("y").as_int();
 					pEntity->TeleportTo(position);
 					pEntity->pbody->body->SetLinearVelocity(b2Vec2(node.attribute("x_velocity").as_float(),
-																   node.attribute("y_velocity").as_float()));
+						node.attribute("y_velocity").as_float()));
 					pEntity->isDead = node.attribute("isDead").as_bool();
 				}
 			}
@@ -258,11 +260,11 @@ bool EntityManager::SaveState(pugi::xml_node& data)
 		pEntity = item->data;
 		if (pEntity != app->scene->player &&
 			pEntity->level == app->scene->player->level &&
-			pEntity->type != EntityType::CHECKPOINT && 
-			pEntity->type != EntityType::EXTRALIFE) 
+			pEntity->type != EntityType::CHECKPOINT &&
+			pEntity->type != EntityType::EXTRALIFE)
 		{
 			node = data.append_child("enemy");
-			if (!pEntity->isDead) 
+			if (!pEntity->isDead)
 			{
 				node.append_attribute("x") = METERS_TO_PIXELS(pEntity->pbody->body->GetPosition().x);
 				node.append_attribute("y") = METERS_TO_PIXELS(pEntity->pbody->body->GetPosition().y);
