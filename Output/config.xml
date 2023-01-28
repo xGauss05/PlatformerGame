@@ -2,6 +2,7 @@
   <app>
     <title>Game Development Testbed</title>
     <organization>UPC</organization>
+    <frcap value="32"/>
   </app>
 
   <renderer>
@@ -17,8 +18,8 @@
   </window>
 
   <audio>
-    <music volume="128"/>
-    <fx volume="128"/>
+    <music volume="64"/>
+    <fx volume="64"/>
   </audio>
   <scene_intro>
     <background texturepath="Assets/Textures/background_Logo.png"/>

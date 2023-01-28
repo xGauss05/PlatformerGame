@@ -90,10 +90,10 @@ bool Debug::Update(float dt)
 		if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadGameRequest();
 
 		// Enable/Disable variables
-		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) variables = !variables;
+		if (app->input->GetKey(SDL_SCANCODE_V) == KEY_DOWN) variables = !variables;
 
 		// Enable/Disable debug camera
-		if (app->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) debugCamera = !debugCamera;
+		if (app->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN) debugCamera = !debugCamera;
 
 		// Enable/Disable hitboxes/paths
 		if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
@@ -165,9 +165,9 @@ bool Debug::PostUpdate()
 	{
 		DebugDraw();
 
-		SDL_Rect rect({ 5,5,310,120 });
+		SDL_Rect rect({ 5,5,310,130 });
 		app->render->DrawRectangle(rect, 10, 10, 10, 150, true, false);
-		rect = SDL_Rect({ 315,5,230,40 });
+		rect = SDL_Rect({ 315,5,238,60 });
 		app->render->DrawRectangle(rect, 10, 10, 10, 150, true, false);
 
 		app->font->BlitText(10, 10, 0, "Press F1 to GO BACK to the previous level");
@@ -176,25 +176,26 @@ bool Debug::PostUpdate()
 		app->font->BlitText(10, 40, 0, "Press F4 to DISABLE debug mode");
 		app->font->BlitText(10, 50, 0, "Press F5 to SAVE the current game state");
 		app->font->BlitText(10, 60, 0, "Press F6 to LOAD the current game state");
-		app->font->BlitText(10, 70, 0, "Press F7 to show game VARIABLES");
-		app->font->BlitText(10, 80, 0, "Press F8 to move the CAMERA freely");
+		app->font->BlitText(10, 70, 0, "Press F7 to Move to different checkpoints");
+		app->font->BlitText(10, 80, 0, "Press F8 to debug GUI bounds and states");
 		app->font->BlitText(10, 90, 0, "Press F9 to view COLLIDERS, LOGIC and PATHS");
 		app->font->BlitText(10, 100, 0, "Press F10 to activate GOD MODE");
-		app->font->BlitText(10, 110, 0, "Press F11 to Enable/Disable FPS cap to 30");
-
+		app->font->BlitText(10, 110, 0, "Press F11 to Enable/Disable FPS cap to");
+		app->font->BlitText(10, 120, 0, "frcap(Config)");
+			
 		app->font->BlitText(320, 10, 0, "Press I to instantly WIN");
 		app->font->BlitText(320, 20, 0, "Press O to KILL the player");
 		app->font->BlitText(320, 30, 0, "Press M to show preference map");
+		app->font->BlitText(320, 40, 0, "Press C to move the CAMERA freely");
+		app->font->BlitText(320, 50, 0, "Press V to show game VARIABLES");
 	}
-	else {
+	else 
+	{
 		app->font->BlitText(10, 10, 0, "Press F4 to ENABLE debug mode");
 	}
 
-	if (hitboxes)
-	{
-		DrawHitboxes();
-	}
-
+	if (hitboxes) DrawHitboxes();
+	
 	return true;
 }
 
@@ -351,11 +352,10 @@ void Debug::DebugDraw()
 
 	if (limitFps)
 	{   // 30 FPS
-		if (app->maxFrameDuration != 32) app->maxFrameDuration = 32;
+		if (app->maxFrameDuration != app->frcap) app->maxFrameDuration = app->frcap;
 	}
 	else
 	{	// 60 FPS
-		
 		if (app->maxFrameDuration != 16) app->maxFrameDuration = 16;
 	}
 }

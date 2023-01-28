@@ -100,6 +100,7 @@ void App::AddModule(Module* module)
 bool App::Awake()
 {
 	timer = Timer();
+	
 	maxFrameDuration = 16;
 	bool ret = false;
 	ret = LoadConfig();
@@ -107,7 +108,7 @@ bool App::Awake()
 	if (ret == true)
 	{
 		title = configNode.child("app").child("title").child_value();
-
+		frcap = configNode.child("app").child("frcap").attribute("value").as_int();
 		ListItem<Module*>* item;
 		item = modules.start;
 

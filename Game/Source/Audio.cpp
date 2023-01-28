@@ -14,7 +14,7 @@ Audio::Audio() : Module()
 }
 
 // Destructor
-Audio::~Audio() 
+Audio::~Audio()
 {
 
 }
@@ -69,7 +69,7 @@ bool Audio::CleanUp()
 	LOG("Freeing sound FX, closing Mixer and Audio subsystem");
 
 	if (music != NULL) Mix_FreeMusic(music);
-	
+
 	ListItem<Mix_Chunk*>* item;
 	for (item = fx.start; item != NULL; item = item->next)
 		Mix_FreeChunk(item->data);
@@ -175,12 +175,14 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 	return ret;
 }
 
-void Audio::SetSFXVolume(int value) 
+void Audio::SetSFXVolume(int value)
 {
-	SFXVolume = Mix_Volume(-1, value);
+	SFXVolume = value;
+	Mix_Volume(-1, value);
 }
 
-void Audio::SetBGMVolume(int value) 
+void Audio::SetBGMVolume(int value)
 {
-	BGMVolume = Mix_VolumeMusic(value);
+	BGMVolume = value;
+	Mix_VolumeMusic(value);
 }
