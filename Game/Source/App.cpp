@@ -360,7 +360,7 @@ bool App::LoadFromFile()
 	bool ret = true;
 
 	pugi::xml_document gameStateFile;
-	pugi::xml_parse_result result = gameStateFile.load_file("save_game.xml");
+	pugi::xml_parse_result result = gameStateFile.load_file("save_game_debug.xml");
 
 	if (result == NULL)
 	{
@@ -400,7 +400,7 @@ bool App::SaveToFile()
 		item = item->next;
 	}
 
-	ret = saveDoc->save_file("save_game.xml");
+	ret = saveDoc->save_file("save_game_debug.xml");
 
 	saveGameRequested = false;
 

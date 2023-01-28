@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<save_state>
+	<window />
+	<input />
+	<textures />
+	<audio />
+	<debug />
+	<fonts />
+	<physics />
+	<scene_intro />
+	<scene_menu />
+	<scene_level1>
+		<player x="-858993472" y="-858971008" velocity_x="-0.469771385" velocity_y="63.0334091" level="1" />
+	</scene_level1>
+	<scene_win />
+	<scene_die />
+	<entitymanager>
+		<enemy x="802" y="726" x_velocity="0" y_velocity="0" isDead="false" active="true" />
+	</entitymanager>
+	<map />
+	<pathfinding />
+	<guiManager />
+	<UI />
+	<fadetoblack />
+	<renderer>
+		<camera x="0" y="0" />
+	</renderer>
+</save_state>
