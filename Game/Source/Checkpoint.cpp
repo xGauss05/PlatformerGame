@@ -104,5 +104,8 @@ void Checkpoint::SaveProgress()
 	pugi::xml_node keycardNode = saveStateNode.append_child("keycard");
 	keycardNode.append_attribute("value") = app->scene->player->hasKeyCard;
 
+	pugi::xml_node livesNode = saveStateNode.append_child("lives");
+	livesNode.append_attribute("value") = app->scene->player->lives;
+
 	saveDoc->save_file("save_game.xml");
 }

@@ -304,6 +304,8 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 	case 2: // Continue btn
 		LOG("Continue button.");
 		app->scene->player->ReadSpawn();
+		app->scene->player->ReadKeycard();
+		app->scene->player->ReadLives();
 		app->scene->player->TeleportTo(app->scene->player->spawn);
 		app->entityManager->ActivateEnemies();
 		app->ftb->SceneFadeToBlack(this, app->scene, 0.0f);

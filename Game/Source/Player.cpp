@@ -705,6 +705,25 @@ void Player::ReadKeycard()
 	}
 }
 
+void Player::ReadLives()
+{
+	pugi::xml_document gameSaveFile;
+	pugi::xml_parse_result result = gameSaveFile.load_file("save_game.xml");
+
+	if (result == NULL)
+	{
+		LOG("Could not load xml file savegame.xml. pugi error: %s", result.description());
+	}
+	else
+	{
+		int save_lives;
+
+		save_lives = gameSaveFile.child("save_state").child("lives").attribute("value").as_int();
+
+		lives = save_lives;
+	}
+}
+
 void Player::SaveProgress()
 {
 	pugi::xml_document* saveDoc = new pugi::xml_document();
@@ -718,7 +737,10 @@ void Player::SaveProgress()
 	spawnNode.append_attribute("y") = spawn.y;
 
 	pugi::xml_node keycardNode = saveStateNode.append_child("keycard");
-	keycardNode.append_attribute("value") = app->scene->player->hasKeyCard;
+	keycardNode.append_attribute("value") = hasKeyCard;
+
+	pugi::xml_node livesNode = saveStateNode.append_child("lives");
+	livesNode.append_attribute("value") = lives;
 
 	saveDoc->save_file("save_game.xml");
 }

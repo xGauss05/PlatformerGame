@@ -313,7 +313,6 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 		app->entityManager->ReviveAllEntities();
 		app->entityManager->NeedsToSpawnAllEntities();
 		player->ResetGame();
-		app->entityManager->ResetCheckpoints();
 		pause = false;
 		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0.0f);
 		pauseBtn->state = GuiControlState::DISABLED;

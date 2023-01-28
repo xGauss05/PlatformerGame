@@ -38,6 +38,8 @@ public:
 
 	void ReadKeycard();
 
+	void ReadLives();
+
 	void SaveProgress();
 
 	void TeleportTo(iPoint position);
