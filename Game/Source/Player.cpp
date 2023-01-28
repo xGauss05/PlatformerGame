@@ -672,6 +672,8 @@ void Player::ReadSpawn()
 	}
 	else
 	{
+		level = gameSaveFile.child("save_state").child("level").attribute("value").as_int();
+
 		iPoint newSpawn;
 		newSpawn.x = gameSaveFile.child("save_state").child("spawnPos").attribute("x").as_int();
 		newSpawn.y = gameSaveFile.child("save_state").child("spawnPos").attribute("y").as_int();
@@ -759,6 +761,8 @@ void Player::LevelSelector()
 }
 
 void Player::ResetGame() {
+	spawn.x = 190;
+	spawn.y = 680;
 	level = 1;
 	LevelSelector();
 	TeleportTo(spawn);

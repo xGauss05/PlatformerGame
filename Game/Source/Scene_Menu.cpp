@@ -289,6 +289,8 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	case 1: // Play btn
 		LOG("Play button.");
+		app->scene->player->ResetGame();
+		app->entityManager->ResetCheckpoints();
 		app->entityManager->ActivateEnemies();
 		app->ftb->SceneFadeToBlack(this, app->scene, 0.0f);
 		app->ui->StartTimer(30000);
@@ -301,10 +303,11 @@ bool Scene_Menu::OnGuiMouseClickEvent(GuiControl* control)
 		break;
 	case 2: // Continue btn
 		LOG("Continue button.");
+		app->scene->player->ReadSpawn();
+		app->scene->player->TeleportTo(app->scene->player->spawn);
 		app->entityManager->ActivateEnemies();
 		app->ftb->SceneFadeToBlack(this, app->scene, 0.0f);
 		app->ui->StartTimer(30000);
-		app->LoadGameRequest();
 		playBtn->state = GuiControlState::DISABLED;
 		continueBtn->state = GuiControlState::DISABLED;
 		menuOptionsBtn->state = GuiControlState::DISABLED;
