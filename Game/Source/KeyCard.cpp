@@ -1,6 +1,7 @@
 #include "KeyCard.h"
 #include "Textures.h"
 #include "Physics.h"
+#include "Audio.h"
 #include "App.h"
 #include "Scene_Level1.h"
 #include "Point.h"
@@ -29,6 +30,7 @@ bool KeyCard::Awake()
 
 bool KeyCard::Start()
 {
+	pickUpFx = app->audio->LoadFx("Assets/Audio/Fx/keycard.wav");
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateRectangleSensor(position.x+15, position.y+15, 40, 35, STATIC);
 	pbody->listener = this;
@@ -64,6 +66,7 @@ void KeyCard::OnCollision(PhysBody* physA, PhysBody* physB)
 	if (physB->ctype == ColliderType::PLAYER)
 	{
 		app->scene->player->hasKeyCard = true;
+		app->audio->PlayFx(pickUpFx);
 		pendingToDelete = true;
 	}
 }
