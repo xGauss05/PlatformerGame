@@ -507,6 +507,7 @@ bool Map::LoadCheckpoints()
                 checkpoint->position.x = collider.attribute("x").as_int();
                 checkpoint->position.y = collider.attribute("y").as_int();
                 checkpoint->level = collider.child("properties").child("property").attribute("value").as_int();
+                app->scene->checkpoints.Add(checkpoint);
             }
         }
     }

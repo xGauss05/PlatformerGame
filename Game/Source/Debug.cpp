@@ -14,6 +14,7 @@
 #include "Scene_Level1.h"
 #include "Scene_Win.h"
 #include "FadeToBlack.h"
+#include "UserInterface.h"
 
 #include "Defs.h"
 
@@ -93,7 +94,29 @@ bool Debug::Update(float dt)
 		if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadGameRequest();
 
 		// Move between checkpoints
-		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {}// to do
+		if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
+		{
+			if (app->scene->player->level != 4)
+			{
+				iPoint nextCP = app->scene->checkpoints.At(app->scene->player->level)->data->position;
+				app->scene->player->level++;
+
+				app->scene->player->dashAvailable = true;
+				app->entityManager->ActivateEnemies();
+				app->scene->player->TeleportTo(nextCP);
+				app->ui->StartTimer(30000);
+			}
+			else
+			{
+				iPoint nextCP = app->scene->checkpoints.At(0)->data->position;
+				app->scene->player->level = 1;
+
+				app->scene->player->dashAvailable = true;
+				app->entityManager->ActivateEnemies();
+				app->scene->player->TeleportTo(nextCP);
+				app->ui->StartTimer(30000);
+			}
+		}
 
 		// Enable/Disable GUI bounds
 			if (app->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) guiBounds = !guiBounds;

@@ -6,6 +6,7 @@
 #include "Enemy_Fly.h"
 #include "Enemy_Walk.h"
 #include "KeyCard.h"
+#include "Checkpoint.h"
 #include "Animation.h"
 #include "GuiButton.h"
 #include "GuiCheckbox.h"
@@ -51,6 +52,7 @@ public:
 	Player* player;
 	List<PhysBody*> boxes;
 	List<PhysBody*> saws;
+	List<Checkpoint*> checkpoints;
 
 	bool pause;
 

@@ -17,7 +17,6 @@
 #include "Fonts.h"
 #include "FadeToBlack.h"
 #include "UserInterface.h"
-#include "Checkpoint.h"
 
 #include "Defs.h"
 #include "Log.h"
