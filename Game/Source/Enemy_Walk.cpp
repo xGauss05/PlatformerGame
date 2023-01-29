@@ -99,6 +99,8 @@ bool Enemy_Walk::Update()
 	currentAnim->Update();
 	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
 
+	if (app->scene->pause) { return true; }
+
 	if (needsToSpawn) 
 	{
 		TeleportTo(spawn);

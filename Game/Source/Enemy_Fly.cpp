@@ -93,6 +93,8 @@ bool Enemy_Fly::Update()
 	currentAnim->Update();
 	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
 
+	if (app->scene->pause) { return true; }
+
 	// Pathfinding
 
 	iPoint entityTile = app->map->ScreenToMap(METERS_TO_PIXELS(this->pbody->body->GetPosition().x),

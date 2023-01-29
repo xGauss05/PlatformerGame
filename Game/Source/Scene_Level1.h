@@ -32,6 +32,8 @@ public:
 	// Called before all Updates
 	bool PreUpdate();
 
+	void PressPause();
+
 	// Called each loop iteration
 	bool Update(float dt);
 

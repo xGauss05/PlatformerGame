@@ -146,6 +146,18 @@ bool Scene_Level1::PreUpdate()
 	return true;
 }
 
+void Scene_Level1::PressPause()
+{
+	app->ui->timerOn = false;
+	app->ui->startPause = high_resolution_clock::now();
+	resumeBtn->state = GuiControlState::NORMAL;
+	settingsBtn->state = GuiControlState::NORMAL;
+	backToTitleBtn->state = GuiControlState::NORMAL;
+	exitBtn->state = GuiControlState::NORMAL;
+	app->entityManager->Disable();
+	pause = true;
+}
+
 // Called each loop iteration
 bool Scene_Level1::Update(float dt)
 {
@@ -231,6 +243,11 @@ bool Scene_Level1::Update(float dt)
 
 	app->guiManager->Draw();
 
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	{
+		PressPause();
+	}
+
 	if (exit) return false;
 
 	return true;
@@ -266,14 +283,7 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	case 1: // Pause btn
 		LOG("Pause button click. PAUSE ENABLED.");
-		app->ui->timerOn = false;
-		app->ui->startPause = high_resolution_clock::now();
-		resumeBtn->state = GuiControlState::NORMAL;
-		settingsBtn->state = GuiControlState::NORMAL;
-		backToTitleBtn->state = GuiControlState::NORMAL;
-		exitBtn->state = GuiControlState::NORMAL;
-		app->entityManager->Disable();
-		pause = true;
+		PressPause();
 
 		break;
 	case 2: // Resume btn
@@ -318,7 +328,7 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 		app->entityManager->NeedsToSpawnAllEntities();
 		player->ResetGame();
 		pause = false;
-		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0.0f);
+		app->ftb->SceneFadeToBlack(this, app->scene_menu, 30.0f);
 		pauseBtn->state = GuiControlState::DISABLED;
 		resumeBtn->state = GuiControlState::DISABLED;
 		settingsBtn->state = GuiControlState::DISABLED;

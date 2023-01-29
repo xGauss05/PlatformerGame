@@ -829,13 +829,15 @@ void Player::ResetGame() {
 
 bool Player::Update()
 {
+	currentAnim->Update();
+	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
+
+	if (app->scene->pause) { return true; }
+
 	AnimationLogic(); //This call must go before decreasing currentJumps in order for jump animations to trigger properly
 	MovementLogic();
 	NormalsCheck();
 	LevelSelector();
-
-	currentAnim->Update();
-	app->render->DrawTexture(texture, position.x, position.y, &(currentAnim->GetCurrentFrame()));
 
 	currentTime = high_resolution_clock::now();
 	dashDuration = dashCooldown = duration_cast<milliseconds>(currentTime - start);
