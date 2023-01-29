@@ -114,8 +114,16 @@ bool Scene_Die::Update(float dt)
 			break;
 		case 1:
 			
+			app->entityManager->ReviveAllEntities();
+			app->entityManager->NeedsToSpawnAllEntities();
 			app->scene->player->ResetGame();
+			app->scene->pause = false;
 			app->ftb->SceneFadeToBlack(this, app->scene_menu, 45.0f);
+			app->scene->pauseBtn->state = GuiControlState::DISABLED;
+			app->scene->resumeBtn->state = GuiControlState::DISABLED;
+			app->scene->settingsBtn->state = GuiControlState::DISABLED;
+			app->scene->backToTitleBtn->state = GuiControlState::DISABLED;
+			app->scene->exitBtn->state = GuiControlState::DISABLED;
 			break;
 		case 2:
 			return false;
