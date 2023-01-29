@@ -47,7 +47,7 @@ bool UserInterface::Update(float dt)
 	{
 		currentTime = high_resolution_clock::now();
 		elapsed = duration_cast<milliseconds>(currentTime - startTime);
-		milliseconds remaining = timerTest - elapsed;
+		milliseconds remaining = totalTime - elapsed;
 
 		string display = std::to_string(remaining.count() * 0.001f);
 		display.resize(5);
@@ -88,7 +88,7 @@ bool UserInterface::CleanUp()
 void UserInterface::StartTimer(int time)
 {
 	timerOn = true;
-	timerTest = milliseconds(time);
+	totalTime = milliseconds(time);
 	startTime = high_resolution_clock::now();
 	currentTime = high_resolution_clock::now();
 }

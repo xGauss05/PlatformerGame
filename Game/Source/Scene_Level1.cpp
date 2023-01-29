@@ -267,6 +267,8 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	case 1: // Pause btn
 		LOG("Pause button click. PAUSE ENABLED.");
+		app->ui->timerOn = false;
+		app->ui->startPause = high_resolution_clock::now();
 		resumeBtn->state = GuiControlState::NORMAL;
 		settingsBtn->state = GuiControlState::NORMAL;
 		backToTitleBtn->state = GuiControlState::NORMAL;
@@ -277,6 +279,9 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 		break;
 	case 2: // Resume btn
 		LOG("Resume button click. PAUSE DISABLED.");
+		app->ui->endPause = high_resolution_clock::now();
+		app->ui->totalTime += duration_cast<milliseconds>(app->ui->endPause - app->ui->startPause);
+		app->ui->timerOn = true;
 		resumeBtn->state = GuiControlState::DISABLED;
 		settingsBtn->state = GuiControlState::DISABLED;
 		backToTitleBtn->state = GuiControlState::DISABLED;

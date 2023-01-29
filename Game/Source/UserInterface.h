@@ -25,9 +25,13 @@ public:
 
 	void StartTimer(int time);
 
-private:
 	bool timerOn;
-	milliseconds timerTest = milliseconds(30000);
+	high_resolution_clock::time_point startPause;
+	high_resolution_clock::time_point endPause;
+	milliseconds totalTime = milliseconds(30000);
+
+private:
+	
 	milliseconds elapsed;
 	high_resolution_clock::time_point startTime;
 	high_resolution_clock::time_point currentTime;
