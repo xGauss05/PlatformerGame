@@ -142,8 +142,16 @@ bool Scene_Die::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 	{
+		app->entityManager->ReviveAllEntities();
+		app->entityManager->NeedsToSpawnAllEntities();
 		app->scene->player->ResetGame();
-		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0);
+		app->scene->pause = false;
+		app->ftb->SceneFadeToBlack(this, app->scene_menu, 45.0f);
+		app->scene->pauseBtn->state = GuiControlState::DISABLED;
+		app->scene->resumeBtn->state = GuiControlState::DISABLED;
+		app->scene->settingsBtn->state = GuiControlState::DISABLED;
+		app->scene->backToTitleBtn->state = GuiControlState::DISABLED;
+		app->scene->exitBtn->state = GuiControlState::DISABLED;
 	}
 
 	return true;
