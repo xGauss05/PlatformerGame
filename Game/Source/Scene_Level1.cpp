@@ -328,7 +328,7 @@ bool Scene_Level1::OnGuiMouseClickEvent(GuiControl* control)
 		app->entityManager->NeedsToSpawnAllEntities();
 		player->ResetGame();
 		pause = false;
-		app->ftb->SceneFadeToBlack(this, app->scene_menu, 30.0f);
+		app->ftb->SceneFadeToBlack(this, app->scene_menu, 0);
 		pauseBtn->state = GuiControlState::DISABLED;
 		resumeBtn->state = GuiControlState::DISABLED;
 		settingsBtn->state = GuiControlState::DISABLED;
